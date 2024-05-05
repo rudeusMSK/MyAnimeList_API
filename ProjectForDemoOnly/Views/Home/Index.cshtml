@@ -1,0 +1,43 @@
+﻿@model ProjectForDemoOnly.Models.Root
+<header>
+    Đây là API của MyAnimeList free trên sàn giao dịch rapidapi.com
+    <hr style="width: auto; height: 10px; color:#808080 " >
+    <br />
+    phần thông tin chỉ show ra bạn có thể sắp xếp lại chúng !
+    <br />
+    ngoài ra bạn có thể truy cập đường dẫn: <p><b>https://rapidapi.com/felixeschmittfes/api/myanimelist</b> này !</p> 
+    để lấy thêm các API khác của MyAnimeList chúng hoàn toàn free.
+
+    <h1>Anime Recommendations</h1>
+
+</header>
+<hr>
+    @foreach (var recommendation in Model.recommendations)
+    {
+        <li>
+            <p>Description: @recommendation.description</p>
+            <p>Recommended by: <a href="@recommendation.author.url">@recommendation.author.name</a></p>
+            <p>Recommendation Age: @recommendation.recommendation_age</p>
+
+            @if (recommendation.liked != null)
+            {
+                <div>
+                    <h3>Liked Anime: @recommendation.liked.title</h3>
+                    <img style="width:100px; height:auto;" src="@recommendation.liked.picture_url" alt="Liked Anime Image" />
+                    <p>MyAnimeList URL: <a href="@recommendation.liked.myanimelist_url">@recommendation.liked.myanimelist_url</a></p>
+                </div>
+            }
+
+            @if (recommendation.recommendation2 != null)
+            {
+                <div>
+                    <h3>Recommendation2 Anime: @recommendation.recommendation2.title</h3>
+                    <img style="width:100px; height:auto;" src="@recommendation.recommendation2.picture_url" alt="Recommendation Anime Image" />
+                    <p>MyAnimeList URL: <a href="@recommendation.recommendation2.myanimelist_url">@recommendation.recommendation2.myanimelist_url</a></p>
+                </div>
+            }
+        </li>
+
+        <div> Next recommendation </div>
+    }
+
