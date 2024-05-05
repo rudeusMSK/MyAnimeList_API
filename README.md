@@ -6,7 +6,7 @@
 <br/>
 hoặc từ nhà cung cấp dịch vụ của API.
 ---
-dùng <b>gợi ý: https://json2csharp.com/<b/> để tạo model nhanh nếu bạn đã biết và muốn rút ngắn thời gian của mình !
+dùng <b>(gợi ý: https://json2csharp.com/ )<b/> để tạo model nhanh nếu bạn đã biết và muốn rút ngắn thời gian của mình !
 <br/>
 ---
 ![image](https://github.com/rudeusMSK/MyAnimeList_API/assets/160387470/e6052822-41cf-4260-8d1f-d26dc9807bec)
