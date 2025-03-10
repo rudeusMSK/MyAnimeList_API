@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectForDemoOnly", "ProjectForDemoOnly\ProjectForDemoOnly.csproj", "{7E9EC050-F249-4786-8BAC-420FB9A4774C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rapidapi_MyAnimeList", "ProjectForDemoOnly\Rapidapi_MyAnimeList.csproj", "{7E9EC050-F249-4786-8BAC-420FB9A4774C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
