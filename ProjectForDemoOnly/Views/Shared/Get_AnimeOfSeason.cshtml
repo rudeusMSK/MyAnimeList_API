@@ -1,0 +1,28 @@
+﻿@model ProjectForDemoOnly.Models.MAL_GetSeasonalAnime
+
+@if (Model != null && Model.TVNew != null)
+{
+    foreach (var item in Model.TVNew)
+    {
+
+        @item.title
+        <br>
+        foreach (var genres in @item.genres)
+        {
+            @genres
+        }
+    
+        <br>
+        @item.producers
+        <br>
+        @item.members
+        <br>
+        @item.picture
+        <br>
+    }
+
+}
+else
+{
+    <h1>null</h1>
+}
