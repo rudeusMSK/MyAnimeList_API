@@ -151,39 +151,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ErrorViewModel.cs" />
-    <Compile Include="Models\Services\MAL_API.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\AlternativeTitles.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\Author.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\Demographics.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\Liked.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\Movie.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\ONA.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\OVA.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\Properties.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\Recommendation.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\Recommendation2.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\Review.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\Seasonal.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\Special.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\Studios.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\Theme.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\Themes.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\TVContinuing.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\TVNew.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\User.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\Date.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\Demographic.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\Genre.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\Information.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\Licensor.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\Object.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\Premiered.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\Producer.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\Source.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\Statistics.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\Studio.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\Text.cs" />
-    <Compile Include="Models\Services\MyAnimeListModel\Type.cs" />
+    <Compile Include="Models\Services\MyAnimeListServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -352,7 +320,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\MAL_APIServices\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

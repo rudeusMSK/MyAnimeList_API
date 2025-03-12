@@ -16,7 +16,7 @@ namespace ProjectForDemoOnly.Controllers
 {
     public class MAL_APIServicesController : Controller
     {
-        private readonly string nameServer = "https://myanimelist.p.rapidapi.com/v2/anime/";
+        private readonly string nameServer = "https://myanimelist-api1.p.rapidapi.com/anime/";
         private readonly string key = "X-RapidAPI-Key";
         private readonly string value = "5a4ff3e023msh26c80dfa95a2442p1d06d7jsnfcb35c840f94";
         HttpClient client = new HttpClient();
@@ -40,7 +40,7 @@ namespace ProjectForDemoOnly.Controllers
             {
                 response.EnsureSuccessStatusCode();
                 var body = await response.Content.ReadAsStringAsync();
-                var recommendations = JsonConvert.DeserializeObject<MAL_Recommendations>(body);
+                var recommendations = JsonConvert.DeserializeObject<dynamic>(body);
 
                 return PartialView("Get_Recommendations", recommendations);
             }
@@ -92,14 +92,14 @@ namespace ProjectForDemoOnly.Controllers
                 : season;
 
             // Get end point API:
-            string endpoint = "https://myanimelist.p.rapidapi.com/v2/anime/seasonal?year=2023&season=winter";
-                //$"{nameServer}{get_Seasonal}?year={DateTime.Now.Year}&season={season}";
+            string endpoint = $"{nameServer}{get_Seasonal}?year={DateTime.Now.Year}&season={season}";
+            //$"{nameServer}{get_Seasonal}?year={DateTime.Now.Year}&season={season}";
 
             // Setup http request message:
             HttpRequestMessage request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get, // Method: GET
-                RequestUri = new Uri("https://myanimelist-api1.p.rapidapi.com/anime/seasonal?year=2024&season=spring"), // Request Url
+                RequestUri = new Uri(endpoint), // Request Url
                 // header
                 Headers = {
                    { "x-rapidapi-key", "5a4ff3e023msh26c80dfa95a2442p1d06d7jsnfcb35c840f94" },
@@ -112,7 +112,7 @@ namespace ProjectForDemoOnly.Controllers
             {
                 response.EnsureSuccessStatusCode();
                 var body = await response.Content.ReadAsStringAsync();
-                MAL_GetSeasonalAnime AnimeOfSeasonal = JsonConvert.DeserializeObject<MAL_GetSeasonalAnime>(body);
+                MAL_AnimeOfSeason AnimeOfSeasonal = JsonConvert.DeserializeObject<MAL_AnimeOfSeason>(body);
 
                 // Return partial view
                 return PartialView("Get_AnimeOfSeason", AnimeOfSeasonal);
@@ -124,11 +124,11 @@ namespace ProjectForDemoOnly.Controllers
         {
             int month = DateTime.Now.Month;
 
-            if (month >= 3 && month <= 5) return Seasonal.Spring.ToString();
-            if (month >= 6 && month <= 8) return Seasonal.Summer.ToString();
-            if (month >= 9 && month <= 11) return Seasonal.Fall.ToString();
+            if (month >= 3 && month <= 5) return Seasonal.spring.ToString();
+            if (month >= 6 && month <= 8) return Seasonal.summer.ToString();
+            if (month >= 9 && month <= 11) return Seasonal.fall.ToString();
 
-            return Seasonal.Winter.ToString();
+            return Seasonal.winter.ToString();
         }
 
     }
