@@ -5,7 +5,108 @@
     <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-8">
             <div class="section-title">
-                <h4>TV Now</h4>
+                <h4>@Html.DisplayName(Model.TVNew.ToString())</h4>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="btn__all">
+                <a href="#" class="primary-btn">View All <span class="arrow_right"></span></a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @if (Model != null && Model.TVNew != null)
+        {
+            foreach (var item in Model.TVNew)
+            {
+
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg"
+                             data-setbg="@item.picture"
+                             style="background-image: url('@item.picture');width: 100%;background-position: center;background-size: cover;">
+                            <div class="ep">@item.nbEp</div>
+                            <div class="comment"><i class="fa fa-comments"></i> @item.members</div>
+                            <div class="view"><i class="fa fa-eye"></i> @item.score</div>
+                        </div>
+                        <div class="product__item__text">
+                            <ul>
+                                @foreach (var genre in item.genres)
+                                {
+                                    <li>@genre.ToString()</li>
+                                }
+                            </ul>
+                            <h5><a href="#">@item.title</a></h5>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        }
+        else
+        {
+            <h1>null</h1>
+        }
+
+    </div>
+</div>
+
+
+<div class="trending__product">
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-8">
+            <div class="section-title">
+                <h4>TV Now @Html.DisplayName(Model.TVCon.ToString())</h4>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="btn__all">
+                <a href="#" class="primary-btn">View All <span class="arrow_right"></span></a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @if (Model != null && Model.TVCon != null)
+        {
+            foreach (var item in Model.TVCon)
+            {
+
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg"
+                             data-setbg="@item.picture"
+                             style="background-image: url('@item.picture');width: 100%;background-position: center;background-size: cover;">
+                            <div class="ep">@item.nbEp</div>
+                            <div class="comment"><i class="fa fa-comments"></i> @item.members</div>
+                            <div class="view"><i class="fa fa-eye"></i> @item.score</div>
+                        </div>
+                        <div class="product__item__text">
+                            <ul>
+                                @foreach (var genre in item.genres)
+                                {
+                                    <li>@genre</li>
+                                }
+                            </ul>
+                            <h5><a href="#">@item.title</a></h5>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        }
+        else
+        {
+            <h1>null</h1>
+        }
+
+    </div>
+</div>
+
+<div class="trending__product">
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-8">
+            <div class="section-title">
+                <h4>TV Now @Html.DisplayName(Model.TV.ToString())</h4>
             </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4">
@@ -17,25 +118,221 @@
     <div class="row">
         @if (Model != null && Model.TV != null)
         {
-            foreach (var item in Model.TVNew)
+            foreach (var item in Model.TV)
             {
+
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" 
-                             data-setbg="@item.picture" 
+                        <div class="product__item__pic set-bg"
+                             data-setbg="@item.picture"
                              style="background-image: url('@item.picture');width: 100%;background-position: center;background-size: cover;">
                             <div class="ep">@item.nbEp</div>
                             <div class="comment"><i class="fa fa-comments"></i> @item.members</div>
                             <div class="view"><i class="fa fa-eye"></i> @item.score</div>
                         </div>
                         <div class="product__item__text">
-                            @{
-                                string genres = item.genres[0];
-                                string cleanedGenres = Regex.Replace(genres, @"\s+", " ");
-                                var genreList = cleanedGenres.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                            }
                             <ul>
-                                @foreach (var genre in genreList)
+                                @foreach (var genre in item.genres)
+                                {
+                                    <li>@genre</li>
+                                }
+                            </ul>
+                            <h5><a href="#">@item.title</a></h5>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        }
+        else
+        {
+            <h1>null</h1>
+        }
+
+    </div>
+</div>
+
+<div class="trending__product">
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-8">
+            <div class="section-title">
+                <h4>TV Now @Html.DisplayName(Model.OVAs.ToString())</h4>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="btn__all">
+                <a href="#" class="primary-btn">View All <span class="arrow_right"></span></a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @if (Model != null && Model.OVAs != null)
+        {
+            foreach (var item in Model.OVAs)
+            {
+
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg"
+                             data-setbg="@item.picture"
+                             style="background-image: url('@item.picture');width: 100%;background-position: center;background-size: cover;">
+                            <div class="ep">@item.nbEp</div>
+                            <div class="comment"><i class="fa fa-comments"></i> @item.members</div>
+                            <div class="view"><i class="fa fa-eye"></i> @item.score</div>
+                        </div>
+                        <div class="product__item__text">
+                            <ul>
+                                @foreach (var genre in item.genres)
+                                {
+                                    <li>@genre</li>
+                                }
+                            </ul>
+                            <h5><a href="#">@item.title</a></h5>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        }
+        else
+        {
+            <h1>null</h1>
+        }
+
+    </div>
+</div>
+
+<div class="trending__product">
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-8">
+            <div class="section-title">
+                <h4>TV Now @Html.DisplayName(Model.ONAs.ToString())</h4>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="btn__all">
+                <a href="#" class="primary-btn">View All <span class="arrow_right"></span></a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @if (Model != null && Model.ONAs != null)
+        {
+            foreach (var item in Model.ONAs)
+            {
+
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg"
+                             data-setbg="@item.picture"
+                             style="background-image: url('@item.picture');width: 100%;background-position: center;background-size: cover;">
+                            <div class="ep">@item.nbEp</div>
+                            <div class="comment"><i class="fa fa-comments"></i> @item.members</div>
+                            <div class="view"><i class="fa fa-eye"></i> @item.score</div>
+                        </div>
+                        <div class="product__item__text">
+                            <ul>
+                                @foreach (var genre in item.genres)
+                                {
+                                    <li>@genre</li>
+                                }
+                            </ul>
+                            <h5><a href="#">@item.title</a></h5>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        }
+        else
+        {
+            <h1>null</h1>
+        }
+
+    </div>
+</div>
+
+<div class="trending__product">
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-8">
+            <div class="section-title">
+                <h4>TV Now @Html.DisplayName(Model.Movies.ToString())</h4>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="btn__all">
+                <a href="#" class="primary-btn">View All <span class="arrow_right"></span></a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @if (Model != null && Model.Movies != null)
+        {
+            foreach (var item in Model.Movies)
+            {
+
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg"
+                             data-setbg="@item.picture"
+                             style="background-image: url('@item.picture');width: 100%;background-position: center;background-size: cover;">
+                            <div class="ep">@item.nbEp</div>
+                            <div class="comment"><i class="fa fa-comments"></i> @item.members</div>
+                            <div class="view"><i class="fa fa-eye"></i> @item.score</div>
+                        </div>
+                        <div class="product__item__text">
+                            <ul>
+                                @foreach (var genre in item.genres)
+                                {
+                                    <li>@genre</li>
+                                }
+                            </ul>
+                            <h5><a href="#">@item.title</a></h5>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        }
+        else
+        {
+            <h1>null</h1>
+        }
+
+    </div>
+</div>
+
+<div class="trending__product">
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-8">
+            <div class="section-title">
+                <h4>TV Now @Html.DisplayName(Model.Specials.ToString())</h4>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="btn__all">
+                <a href="#" class="primary-btn">View All <span class="arrow_right"></span></a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @if (Model != null && Model.Specials != null)
+        {
+            foreach (var item in Model.Specials)
+            {
+
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg"
+                             data-setbg="@item.picture"
+                             style="background-image: url('@item.picture');width: 100%;background-position: center;background-size: cover;">
+                            <div class="ep">@item.nbEp</div>
+                            <div class="comment"><i class="fa fa-comments"></i> @item.members</div>
+                            <div class="view"><i class="fa fa-eye"></i> @item.score</div>
+                        </div>
+                        <div class="product__item__text">
+                            <ul>
+                                @foreach (var genre in item.genres)
                                 {
                                     <li>@genre</li>
                                 }

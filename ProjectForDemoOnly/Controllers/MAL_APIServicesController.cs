@@ -11,6 +11,7 @@ using System.Web.Mvc;
 using System.Web.UI;
 using ProjectForDemoOnly.Models.Services.MyAnimeListModel;
 using System.Web.WebPages;
+using RestSharp;
 
 namespace ProjectForDemoOnly.Controllers
 {
@@ -22,33 +23,58 @@ namespace ProjectForDemoOnly.Controllers
         HttpClient client = new HttpClient();
 
         // GET: MAL_APIServices
-        public async Task<ActionResult> Get_Recommendations(int page = 1)
+        public async Task<ActionResult> Get_TopAnime()
         {
-            string get_Recommendations = "recommendations";
-            string endpoint = $"{nameServer}{get_Recommendations}?p={page}";
+            // API Services:
+            string get_TopAnime = "top/";
+            string category = null; int page = 2;
+            category = category == null ? 
+                CategoryOptions.all.ToString() 
+                : category;
+            page = 1;
+            // Get end point API:
+            string endpoint = $"{nameServer}{get_TopAnime}{category}?p={page}";
 
-            HttpRequestMessage request = new HttpRequestMessage
-            {
-                Method = HttpMethod.Get,
-                RequestUri = new Uri(endpoint),
+            // Setup http request message:
+            HttpRequestMessage request = new HttpRequestMessage {
+                Method = HttpMethod.Get, // Method: GET
+                RequestUri = new Uri(endpoint), // Request Url
+                // header
                 Headers = {
-                    { key, value },
+                  { key, value },
                 },
             };
 
+            // Send request:
             using (var response = await client.SendAsync(request))
             {
                 response.EnsureSuccessStatusCode();
                 var body = await response.Content.ReadAsStringAsync();
-                var recommendations = JsonConvert.DeserializeObject<dynamic>(body);
 
-                return PartialView("Get_Recommendations", recommendations);
+                if (!string.IsNullOrWhiteSpace(body))
+                {
+                    var jsonString = body.Replace("\\", ""); // Loại bỏ dấu backslash
+                    try
+                    {
+                        var TopAnime = JsonConvert.DeserializeObject<List<MAL_TopAnime>>(jsonString);
+                        if (TopAnime == null)
+                        {
+                            // Xử lý trường hợp TopAnime là null
+                            return PartialView("Get_TopAnime", null);
+                        }
+                        return PartialView("Get_TopAnime", TopAnime);
+                    }
+                    catch (JsonException jsonEx)
+                    {
+                        // Xử lý ngoại lệ JSON
+                        // Ghi lại hoặc hiển thị lỗi
+                        return PartialView("Get_TopAnime", null);
+                    }
+                }
+
+                // Nếu body là null hoặc rỗng
+                return PartialView("Get_TopAnime", null);
             }
-        }
-
-        public async Task<ActionResult> Get_TopAnime()
-        {
-            return default;
         }
 
         public async Task<ActionResult> Get_AnimeReviewByAnime()
@@ -81,29 +107,26 @@ namespace ProjectForDemoOnly.Controllers
             return default;
         }
 
-        public async Task<ActionResult> Get_SeasonalAnime(string season)
-        {
+
+        public async Task<ActionResult> Get_SeasonalAnime(string season) {
             // API Services:
             string get_Seasonal = "seasonal";
 
             // Get Seasonal of anime:
             season = season.IsEmpty() ? 
-                GetCurrentSeason()
+                MAL_Helper.GetCurrentSeason()
                 : season;
 
             // Get end point API:
             string endpoint = $"{nameServer}{get_Seasonal}?year={DateTime.Now.Year}&season={season}";
-            //$"{nameServer}{get_Seasonal}?year={DateTime.Now.Year}&season={season}";
 
             // Setup http request message:
-            HttpRequestMessage request = new HttpRequestMessage
-            {
+            HttpRequestMessage request = new HttpRequestMessage {
                 Method = HttpMethod.Get, // Method: GET
                 RequestUri = new Uri(endpoint), // Request Url
                 // header
                 Headers = {
-                   { "x-rapidapi-key", "5a4ff3e023msh26c80dfa95a2442p1d06d7jsnfcb35c840f94" },
-                   { "x-rapidapi-host", "myanimelist-api1.p.rapidapi.com" },
+                   { key, value },
                 },
             };
 
@@ -114,21 +137,27 @@ namespace ProjectForDemoOnly.Controllers
                 var body = await response.Content.ReadAsStringAsync();
                 MAL_AnimeOfSeason AnimeOfSeasonal = JsonConvert.DeserializeObject<MAL_AnimeOfSeason>(body);
 
+                foreach (var tv in AnimeOfSeasonal.TV)
+                    tv.genres = MAL_Helper.CleanAndSetGenres(tv.genres[0]);
+
+                foreach (var ova in AnimeOfSeasonal.OVAs)
+                    ova.genres = MAL_Helper.CleanAndSetGenres(ova.genres[0]);
+
+                foreach (var ona in AnimeOfSeasonal.ONAs)
+                    ona.genres = MAL_Helper.CleanAndSetGenres(ona.genres[0]);
+
+                foreach (var tvcon in AnimeOfSeasonal.TVCon)
+                    tvcon.genres = MAL_Helper.CleanAndSetGenres(tvcon.genres[0]);
+
+                foreach (var movie in AnimeOfSeasonal.Movies)
+                    movie.genres = MAL_Helper.CleanAndSetGenres(movie.genres[0]);
+
+                foreach (var tvnew in AnimeOfSeasonal.TVNew)
+                    tvnew.genres = MAL_Helper.CleanAndSetGenres(tvnew.genres[0]);
+
                 // Return partial view
                 return PartialView("Get_AnimeOfSeason", AnimeOfSeasonal);
             }
-        }
-
-        // Get current seasonal:
-        static string GetCurrentSeason()
-        {
-            int month = DateTime.Now.Month;
-
-            if (month >= 3 && month <= 5) return Seasonal.spring.ToString();
-            if (month >= 6 && month <= 8) return Seasonal.summer.ToString();
-            if (month >= 9 && month <= 11) return Seasonal.fall.ToString();
-
-            return Seasonal.winter.ToString();
         }
 
     }

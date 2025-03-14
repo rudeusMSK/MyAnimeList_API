@@ -1,16 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace ProjectForDemoOnly.Models.Services.MyAnimeListModel
 {
-    enum Seasonal
+    public static class MAL_Helper
+    {
+        // Get current seasonal:
+        public static string GetCurrentSeason()
+        {
+            int month = DateTime.Now.Month;
+
+            if (month >= 3 && month <= 5) return Seasonal.spring.ToString();
+            if (month >= 6 && month <= 8) return Seasonal.summer.ToString();
+            if (month >= 9 && month <= 11) return Seasonal.fall.ToString();
+
+            return Seasonal.winter.ToString();
+        }
+
+        public static List<string> CleanAndSetGenres(string rawGenres)
+        {
+            string cleanedGenres = Regex.Replace(rawGenres, @"\s+", " ").Trim();
+            return cleanedGenres.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+        }
+    }
+    
+    public enum CategoryOptions
+    {
+        all,
+        airing,
+        upcoming,
+        tv,
+        movie,
+        ova,
+        ona,
+        special,
+        bypopularity,
+        favorite, 
+    }
+
+    public enum Seasonal
     {
         winter,
         spring,
         summer,
         fall,
+    }
+
+    public class MAL_TopAnime
+    {
+        public string title { get; set; }
+        public string picture_url { get; set; }
+        public string myanimelist_url { get; set; }
+        public int? myanimelist_id { get; set; }
+        public int? rank { get; set; }
+        public double score { get; set; }
+        public string type { get; set; }
+        public string aired_on { get; set; }
+        public int? members { get; set; }
     }
 
     public class MAL_AnimeOfSeason
@@ -135,8 +184,4 @@ namespace ProjectForDemoOnly.Models.Services.MyAnimeListModel
         public string score { get; set; }
         public string members { get; set; }
     }
-
-
-
-
 }

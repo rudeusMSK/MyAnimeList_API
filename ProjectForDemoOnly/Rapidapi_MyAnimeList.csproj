@@ -317,6 +317,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Get_Recommendations.cshtml" />
     <Content Include="Views\Shared\Get_AnimeOfSeason.cshtml" />
+    <Content Include="Views\Shared\Get_TopAnime.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
