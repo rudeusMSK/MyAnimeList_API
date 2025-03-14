@@ -48,6 +48,39 @@ namespace ProjectForDemoOnly.Models.Services.MyAnimeListModel
         summer,
         fall,
     }
+    public class AnimeInformations
+    {
+        public string title { get; set; }
+        public string synopsis { get; set; }
+        public string picture { get; set; }
+        public List<Character> characters { get; set; }
+        public List<Staff> staff { get; set; }
+        public string trailer { get; set; }
+        public string englishTitle { get; set; }
+        public string japaneseTitle { get; set; }
+        public List<string> synonyms { get; set; }
+        public string type { get; set; }
+        public string episodes { get; set; }
+        public string aired { get; set; }
+        public string premiered { get; set; }
+        public string broadcast { get; set; }
+        public List<string> producers { get; set; }
+        public List<string> studios { get; set; }
+        public string source { get; set; }
+        public string duration { get; set; }
+        public string rating { get; set; }
+        public List<string> genres { get; set; }
+        public string status { get; set; }
+        public string score { get; set; }
+        public string scoreStats { get; set; }
+        public string ranked { get; set; }
+        public string popularity { get; set; }
+        public string members { get; set; }
+        public string favorites { get; set; }
+        public int id { get; set; }
+    }
+
+
 
     public class MAL_TopAnime
     {
@@ -71,6 +104,30 @@ namespace ProjectForDemoOnly.Models.Services.MyAnimeListModel
         public List<ONA> ONAs { get; set; }
         public List<Movie> Movies { get; set; }
         public List<Special> Specials { get; set; }
+    }
+
+    public class Character
+    {
+        public string link { get; set; }
+        public string picture { get; set; }
+        public string name { get; set; }
+        public string role { get; set; }
+        public Seiyuu seiyuu { get; set; }
+    }
+
+    public class Seiyuu
+    {
+        public string link { get; set; }
+        public string picture { get; set; }
+        public string name { get; set; }
+    }
+
+    public class Staff
+    {
+        public string link { get; set; }
+        public string picture { get; set; }
+        public string name { get; set; }
+        public string role { get; set; }
     }
 
     public class Movie
