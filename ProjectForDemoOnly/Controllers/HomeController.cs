@@ -14,7 +14,5 @@ namespace ProjectForDemoOnly.Controllers
         {
             return View();
         }
-
-
     }
 }

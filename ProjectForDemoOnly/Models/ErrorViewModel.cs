@@ -7,6 +7,7 @@ namespace ProjectForDemoOnly.Models
 {
     public class ErrorViewModel
     {
-       public string Message { get; set;}
+        public string title { get; set; }
+        public string Message { get; set;}
     }
 }

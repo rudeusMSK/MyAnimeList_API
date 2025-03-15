@@ -1,53 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 
 namespace ProjectForDemoOnly.Models.Services.MyAnimeListModel
 {
-    public static class MAL_Helper
-    {
-        // Get current seasonal:
-        public static string GetCurrentSeason()
-        {
-            int month = DateTime.Now.Month;
-
-            if (month >= 3 && month <= 5) return Seasonal.spring.ToString();
-            if (month >= 6 && month <= 8) return Seasonal.summer.ToString();
-            if (month >= 9 && month <= 11) return Seasonal.fall.ToString();
-
-            return Seasonal.winter.ToString();
-        }
-
-        public static List<string> CleanAndSetGenres(string rawGenres)
-        {
-            string cleanedGenres = Regex.Replace(rawGenres, @"\s+", " ").Trim();
-            return cleanedGenres.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-        }
-    }
-    
-    public enum CategoryOptions
-    {
-        all,
-        airing,
-        upcoming,
-        tv,
-        movie,
-        ova,
-        ona,
-        special,
-        bypopularity,
-        favorite, 
-    }
-
-    public enum Seasonal
-    {
-        winter,
-        spring,
-        summer,
-        fall,
-    }
     public class AnimeInformations
     {
         public string title { get; set; }
@@ -79,9 +40,6 @@ namespace ProjectForDemoOnly.Models.Services.MyAnimeListModel
         public string favorites { get; set; }
         public int id { get; set; }
     }
-
-
-
     public class MAL_TopAnime
     {
         public string title { get; set; }
