@@ -1,0 +1,151 @@
+﻿@model ProjectForDemoOnly.Models.Services.MyAnimeListModel.MAL_AnimeInfo
+
+@{
+    ViewBag.Title = "Get_AnimeInfo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="./index.html"><i class="fa fa-home"></i> Home</a>
+                    <a href="./categories.html">Categories</a>
+                    <span>@Model.title</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+
+<!-- Anime Section Begin -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="anime__details__pic set-bg" data-setbg="@Model.picture">
+                    <div class="comment"><i class="fa fa-comments"></i> 11</div>
+                    <div class="view"><i class="fa fa-eye"></i> @Model.members</div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="">
+                    <div class="anime__details__title">
+                        <h3>@Model.title</h3>
+                        <span>@Model.japaneseTitle</span>
+                    </div>
+                    <div class="anime__details__rating">
+                        <div class="rating">
+                            @Model.score <a href="#"><i class="fa fa-star"></i></a>
+                        </div>
+                        <span>@Model.scoreStats</span>
+                    </div>
+                    <p>@Model.synopsis</p>
+                    <div class="">
+                        <div class="row">
+
+                            <div class="col-lg-6 col-md-6">
+                                <ul>
+                                    <li><span>Type:</span> @Model.type</li>
+                                    <li><span>Date aired:</span> @Model.aired</li>
+                                    <li><span>Status:</span> @Model.status</li>
+                                    <li><span>Genres:</span> @string.Join(", ", Model.genres)</li>
+                                </ul>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6">
+                                <ul>
+                                    <li><span>Scores:</span> @Model.score</li>
+                                    <li><span>Rating:</span> @Model.rating</li>
+                                    <li><span>Duration:</span> @Model.duration</li>
+                                    <li><span>Quality:</span> HD</li>
+                                    <li><span>Views:</span> @Model.members</li>
+                                </ul>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6">
+                                @foreach (var s in Model.studios)
+                                {
+                                    <ul>
+                                        <li><span>characters:</span> @Model.rating</li>
+                                    </ul>
+                                }
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12">
+                    <div class="anime__video__player">
+                        <iframe width="100%"
+                                height="500"
+                                src="@Model.trailer"
+                                frameborder="0"
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+
+            </div>
+
+        <div class="row">
+            <div class="col-lg-8 col-md-8">
+                <div class="anime__details__review">
+                    <div class="section-title">
+                        <h5>character</h5>
+                    </div>
+
+                    <div class="anime__review__item">
+                        <h5>Characters</h5>
+                        <div class="row">
+                            @foreach (var character in Model.characters)
+                            {
+                                <div class="col-lg-6">
+                                    <ul class="anime__review__item__text">
+                                        <li>
+                                            <strong style="color:white">Character:</strong> <span style="color:white">@character.name</span>
+                                        </li>
+                                        <li>
+                                            <img width="50" height="50" src="@character.picture" alt="@character.name" />
+                                        </li>
+                                        <li>
+                                            <strong style="color:white">Seiyuu:</strong> <span style="color:white">@character.seiyuu.name</span>
+                                        </li>
+                                        <li><img width="50" height="50" src="@character.seiyuu.picture" alt="@character.seiyuu.name" /></li>
+                                    </ul>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    @for (int i = 0; i < 3; i++)
+                    {
+                        <div class="anime__review__item">
+                            <div class="anime__review__item__pic">
+                                <img src="img/anime/review-@(i + 1).jpg" alt="">
+                            </div>
+                            <div class="anime__review__item__text">
+                                <h6>Reviewer @(i + 1) - <span>Time ago</span></h6>
+                                <p>Sample review text for anime.</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="anime__details__form">
+                    <div class="section-title">
+                        <h5>Your Comment</h5>
+                    </div>
+                    <form action="#">
+                        <textarea placeholder="Your Comment"></textarea>
+                        <button type="submit"><i class="fa fa-location-arrow"></i> Review</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Anime Section End -->

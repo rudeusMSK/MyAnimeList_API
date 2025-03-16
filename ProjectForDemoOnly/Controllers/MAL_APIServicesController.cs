@@ -50,6 +50,14 @@ namespace ProjectForDemoOnly.Controllers
             }
         }
 
+        public async Task<ActionResult> Get_AnimeInfo(string id)
+        {
+            // check id...
+            MAL_AnimeInfo AnimeInfo = await animeService.GetAnimeInfoAsync(id);
+            return View(AnimeInfo);
+        }
+
+
         public async Task<ActionResult> Get_AnimeReviewByAnime()
         {
             return default;

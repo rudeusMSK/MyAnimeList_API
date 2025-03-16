@@ -21,7 +21,7 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             this.httpClient = httpClient;
             nameServer = "https://myanimelist-api1.p.rapidapi.com/anime/";
             apiKey = "X-RapidAPI-Key";
-            apivalue = "5a4ff3e023msh26c80dfa95a2442p1d06d7jsnfcb35c840f94";
+            apivalue = "dcba14be99msh7fda78dd24a8705p1f40b4jsn2874bae46dc6";
         }
 
         // Get: Top Anime
@@ -35,6 +35,17 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             // Send request:
             string endpoint = string.Format(endpointFormat, nameServer, category, page);
             return await SendRequestAsync<List<MAL_TopAnime>>(endpoint);
+        }
+
+        // Get: Top Anime
+        public async Task<MAL_AnimeInfo> GetAnimeInfoAsync(string id)
+        {
+            // Config:
+            const string endpointFormat = "{0}{1}";
+
+            // Send request:
+            string endpoint = string.Format(endpointFormat, nameServer, id);
+            return await SendRequestAsync<MAL_AnimeInfo>(endpoint);
         }
 
         // Get: Seasonal Anime

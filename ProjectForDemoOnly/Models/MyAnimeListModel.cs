@@ -9,7 +9,7 @@ using System.Web;
 
 namespace ProjectForDemoOnly.Models.Services.MyAnimeListModel
 {
-    public class AnimeInformations
+    public class MAL_AnimeInfo
     {
         public string title { get; set; }
         public string synopsis { get; set; }

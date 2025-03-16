@@ -321,6 +321,7 @@
     <Content Include="Views\Shared\Get_Recommendations.cshtml" />
     <Content Include="Views\Shared\Get_AnimeOfSeason.cshtml" />
     <Content Include="Views\Shared\Get_TopAnime.cshtml" />
+    <Content Include="Views\MAL_APIServices\Get_AnimeInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,7 +1,6 @@
 ﻿@model List<ProjectForDemoOnly.Models.Services.MyAnimeListModel.MAL_TopAnime>
 @using ProjectForDemoOnly.Services.MyAnimeList
 
-
 <div class="product__sidebar">
     <div class="product__sidebar__view">
         <div class="section-title">
@@ -13,7 +12,6 @@
             <li data-filter=".years">@CategoryOptions.movie</li>
             <li data-filter=".years">@CategoryOptions.upcoming</li>
             <li data-filter=".years">@CategoryOptions.bypopularity</li>
-
         </ul>
 
         <div class="filter__gallery">
@@ -22,7 +20,11 @@
                 <div class="product__sidebar__view__item set-bg mix day years" style="background-image: url('@anime.picture_url');">
                     <div class="ep">Rank: @anime.rank</div>
                     <div class="view"><i class="fa fa-eye"></i> @anime.members</div>
-                    <h5><a href="@anime.myanimelist_url">@anime.title</a></h5>
+                    <h5>
+                        <a href="@Url.Action("Get_AnimeInfo", "MAL_APIServices", new { id = anime.myanimelist_id})">
+                            @anime.title
+                        </a>
+                    </h5>
                     <p>Score: @anime.score</p>
                     <p>Type: @anime.type</p>
                     <p>Aired: @anime.aired_on</p>
