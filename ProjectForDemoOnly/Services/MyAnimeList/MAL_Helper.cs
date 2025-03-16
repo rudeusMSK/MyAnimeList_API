@@ -11,6 +11,13 @@ namespace ProjectForDemoOnly.Models.Services
 {
     public static class MAL_Helper
     {
+        public static string GetAnimeID(string Url) 
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(Url.Replace("https://myanimelist.net/anime/", ""));
+            return sb.ToString().Split('/')[0];
+        }
+
         // Clean Genres string:
         public static void CleanGenres(MAL_AnimeOfSeason animeOfSeasonal)
         {
