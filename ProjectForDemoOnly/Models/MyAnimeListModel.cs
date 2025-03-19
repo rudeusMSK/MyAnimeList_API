@@ -9,6 +9,15 @@ using System.Web;
 
 namespace ProjectForDemoOnly.Models.Services.MyAnimeListModel
 {
+
+    public class Genres
+    {
+        public string title { get; set; }
+        public int? amount { get; set; }
+        public int id { get; set; }
+    }
+
+
     public class MAL_AnimeInfo
     {
         public string title { get; set; }

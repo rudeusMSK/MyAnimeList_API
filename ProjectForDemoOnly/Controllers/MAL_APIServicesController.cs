@@ -57,7 +57,6 @@ namespace ProjectForDemoOnly.Controllers
             return View(AnimeInfo);
         }
 
-
         public async Task<ActionResult> Get_AnimeReviewByAnime()
         {
             return default;
@@ -93,8 +92,7 @@ namespace ProjectForDemoOnly.Controllers
         public async Task<ActionResult> Get_SeasonalAnime(string season)
         {
             int year = 0; 
-            try
-            {
+            try {
                 var animeOfSeasonal = await animeService.GetSeasonalAnimeAsync(season, year);
                 return PartialView("Get_AnimeOfSeason", animeOfSeasonal);
 
@@ -112,7 +110,5 @@ namespace ProjectForDemoOnly.Controllers
                 return PartialView("Error", errorView);
             }
         }
-
-
     }
 }
