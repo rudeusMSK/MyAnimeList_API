@@ -10,7 +10,7 @@ using System.Web;
 namespace ProjectForDemoOnly.Models.Services.MyAnimeListModel
 {
 
-    public class Genres
+    public class MAL_Genres
     {
         public string title { get; set; }
         public int? amount { get; set; }

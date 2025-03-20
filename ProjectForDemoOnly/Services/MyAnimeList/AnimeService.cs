@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using static System.Net.WebRequestMethods;
 
 namespace ProjectForDemoOnly.Services.MyAnimeList
 {
@@ -64,6 +65,13 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             MAL_Helper.CleanGenres(animeOfSeasonal);
             return animeOfSeasonal;
         }
+
+        // Get: Genres Anime
+        public async Task<List<MAL_Genres>> GetGenresAsync()
+        {
+            string enpoint = "http://localhost:3000/Genres";
+            return await SendRequestAsync<List<MAL_Genres>>(enpoint);
+        } 
 
         // Process Send Request:
         private async Task<T> SendRequestAsync<T>(string endpoint)

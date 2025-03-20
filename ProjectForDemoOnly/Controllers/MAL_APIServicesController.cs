@@ -50,6 +50,12 @@ namespace ProjectForDemoOnly.Controllers
             }
         }
 
+        public async Task<ActionResult> Get_AnimeGenres(string[] genres)
+        {
+            List<MAL_Genres> genreBody = await animeService.GetGenresAsync();
+            return View(genreBody);
+        }
+
         public async Task<ActionResult> Get_AnimeInfo(string id)
         {
             // check id...
@@ -67,13 +73,9 @@ namespace ProjectForDemoOnly.Controllers
             return default;
         }
 
-        public async Task<ActionResult> Get_AnimeGenres()
-        {
-            return default;
-        }
-
         public async Task<ActionResult> Get_Anime()
         {
+
             return default;
         }
 
