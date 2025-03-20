@@ -29,12 +29,15 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
         public async Task<List<MAL_TopAnime>> GetTopAnimeAsync()
         {
             // Config:
-            const string endpointFormat = "{0}top/{1}?p={2}";
-            string category = CategoryOptions.all.ToString();
-            int page = 1;
+            // const string endpointFormat = "{0}top/{1}?p={2}";
+            // string category = CategoryOptions.all.ToString();
+            // int page = 1;
 
             // Send request:
-            string endpoint = string.Format(endpointFormat, nameServer, category, page);
+            // string endpoint = string.Format(endpointFormat, nameServer, category, page);
+            
+            // local config:
+            string endpoint = "http://localhost:3000/TopAnime?_start=0&_end=10";
             return await SendRequestAsync<List<MAL_TopAnime>>(endpoint);
         }
 
@@ -53,12 +56,15 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
         public async Task<MAL_AnimeOfSeason> GetSeasonalAnimeAsync(string season, int year)
         {
             // Config:
-            season = string.IsNullOrEmpty(season) ? MAL_Helper.GetCurrentSeason() : season;
-            year = year == 0 ? DateTime.Now.Year : year;
+            //season = string.IsNullOrEmpty(season) ? MAL_Helper.GetCurrentSeason() : season;
+            //year = year == 0 ? DateTime.Now.Year : year;
 
             // Send request:
-            const string endpointFormat = "{0}seasonal?year={1}&season={2}";
-            string endpoint = string.Format(endpointFormat, nameServer, year, season);
+            //const string endpointFormat = "{0}seasonal?year={1}&season={2}";
+            //string endpoint = string.Format(endpointFormat, nameServer, year, season);
+
+            // local config: Defaul 2024 WINTER Seasonal
+            string endpoint = "http://localhost:3000/AnimeOfSeason";
             var animeOfSeasonal = await SendRequestAsync<MAL_AnimeOfSeason>(endpoint);
 
             // Format Genres:
@@ -69,6 +75,7 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
         // Get: Genres Anime
         public async Task<List<MAL_Genres>> GetGenresAsync()
         {
+            // local config:
             string enpoint = "http://localhost:3000/Genres";
             return await SendRequestAsync<List<MAL_Genres>>(enpoint);
         } 

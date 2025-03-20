@@ -11,6 +11,7 @@ namespace ProjectForDemoOnly.Models.Services
 {
     public static class MAL_Helper
     {
+        // Get ID Anime by Url
         public static string GetAnimeID(string Url) 
         {
             StringBuilder sb = new StringBuilder();
