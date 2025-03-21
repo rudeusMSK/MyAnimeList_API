@@ -323,6 +323,7 @@
     <Content Include="Views\Shared\Get_TopAnime.cshtml" />
     <Content Include="Views\MAL_APIServices\Get_AnimeInfo.cshtml" />
     <Content Include="Views\MAL_APIServices\Get_AnimeGenres.cshtml" />
+    <Content Include="Views\MAL_APIServices\Get_Recommendations.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

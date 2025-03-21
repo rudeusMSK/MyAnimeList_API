@@ -72,6 +72,17 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             return animeOfSeasonal;
         }
 
+        // Get: Recommendations
+        public async Task<List<MAL_Recommendations>> Get_RecommendationsAsync(int? page)
+        {
+            // Config:
+            const string endpointFormat = "{0}recommendations?p={1}";
+
+            // Send request:
+            string endpoint = string.Format(endpointFormat, nameServer, page);
+            return await SendRequestAsync<List<MAL_Recommendations>>(endpoint);
+        }
+
         // Get: Genres Anime
         public async Task<List<MAL_Genres>> GetGenresAsync()
         {

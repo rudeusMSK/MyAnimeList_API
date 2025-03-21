@@ -61,7 +61,6 @@ namespace ProjectForDemoOnly.Models.Services.MyAnimeListModel
         public string aired_on { get; set; }
         public int? members { get; set; }
     }
-
     public class MAL_AnimeOfSeason
     {
         public List<TV> TV { get; set; }
@@ -72,7 +71,32 @@ namespace ProjectForDemoOnly.Models.Services.MyAnimeListModel
         public List<Movie> Movies { get; set; }
         public List<Special> Specials { get; set; }
     }
-
+    public class Author
+    {
+        public string name { get; set; }
+        public string url { get; set; }
+    }
+    public class Liked
+    {
+        public string title { get; set; }
+        public string picture_url { get; set; }
+        public string myanimelist_url { get; set; }
+        public string myanimelist_id { get; set; }
+    }
+    public class Recommended
+    {
+        public string title { get; set; }
+        public string picture_url { get; set; }
+        public string myanimelist_url { get; set; }
+        public string myanimelist_id { get; set; }
+    }
+    public class MAL_Recommendations
+    {
+        public Liked liked { get; set; }
+        public Recommended recommended { get; set; }
+        public string description { get; set; }
+        public Author author { get; set; }
+    }
     public class Character
     {
         public string link { get; set; }
@@ -81,14 +105,12 @@ namespace ProjectForDemoOnly.Models.Services.MyAnimeListModel
         public string role { get; set; }
         public Seiyuu seiyuu { get; set; }
     }
-
     public class Seiyuu
     {
         public string link { get; set; }
         public string picture { get; set; }
         public string name { get; set; }
     }
-
     public class Staff
     {
         public string link { get; set; }
@@ -96,7 +118,6 @@ namespace ProjectForDemoOnly.Models.Services.MyAnimeListModel
         public string name { get; set; }
         public string role { get; set; }
     }
-
     public class Movie
     {
         public string picture { get; set; }
@@ -112,7 +133,6 @@ namespace ProjectForDemoOnly.Models.Services.MyAnimeListModel
         public string score { get; set; }
         public string members { get; set; }
     }
-
     public class ONA
     {
         public string picture { get; set; }
@@ -128,7 +148,6 @@ namespace ProjectForDemoOnly.Models.Services.MyAnimeListModel
         public string score { get; set; }
         public string members { get; set; }
     }
-
     public class OVA
     {
         public string picture { get; set; }
@@ -144,7 +163,6 @@ namespace ProjectForDemoOnly.Models.Services.MyAnimeListModel
         public string score { get; set; }
         public string members { get; set; }
     }
-
     public class Special
     {
         public string picture { get; set; }

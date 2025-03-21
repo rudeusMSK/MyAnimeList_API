@@ -76,10 +76,12 @@ namespace ProjectForDemoOnly.Controllers
             return default;
         }
 
-        public async Task<ActionResult> Get_Anime()
+        public async Task<ActionResult> Get_Recommendations(int? page)
         {
+            page = 1; // test
+            List<MAL_Recommendations> recommendations = await animeService.Get_RecommendationsAsync(page);
 
-            return default;
+            return View(recommendations);
         }
 
         public async Task<ActionResult> Get_AnimeReviews()
