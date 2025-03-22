@@ -1,0 +1,28 @@
+﻿@model IEnumerable<ProjectForDemoOnly.Models.Services.MyAnimeListModel.MAL_AnimeReview>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>MyAnimeList ID</th>
+            <th>Picture</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.anime.title
+                </td>
+                <td>@item.anime.myanimelist_id</td>
+                <td>
+                    <img src="@item.anime.picture_url" alt="@item.anime.title" style="width: 100px; height: auto;" />
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

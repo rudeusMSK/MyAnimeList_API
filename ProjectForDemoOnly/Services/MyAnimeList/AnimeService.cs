@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web.UI;
 using static System.Net.WebRequestMethods;
 
 namespace ProjectForDemoOnly.Services.MyAnimeList
@@ -89,7 +90,19 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             // local config:
             string enpoint = "http://localhost:3000/Genres";
             return await SendRequestAsync<List<MAL_Genres>>(enpoint);
-        } 
+        }
+
+        // Get: Review Anime
+        public async Task<List<MAL_AnimeReview>> GetAnimeReviewAsync(int? id)
+        {
+            // config:
+            const string endpointFormat = "{0}reviews/{1}?p={2}&spoilers={3}&preliminary={4}&seriesName={5}&sort={6}";
+
+            // Send request:
+            string endpoint = string.Format(endpointFormat, nameServer, id, 1, false, false, "Sousou%20no%20Frieren", "newest");
+            return await SendRequestAsync<List<MAL_AnimeReview>>("https://myanimelist-api1.p.rapidapi.com/anime/reviews/52991?p=1&spoilers=false&preliminary=false&seriesName=Sousou%20no%20Frieren&sort=newest");
+        }
+
 
         // Process Send Request:
         private async Task<T> SendRequestAsync<T>(string endpoint)

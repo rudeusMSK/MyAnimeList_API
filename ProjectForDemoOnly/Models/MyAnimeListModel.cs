@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Web;
 
@@ -71,6 +73,47 @@ namespace ProjectForDemoOnly.Models.Services.MyAnimeListModel
         public List<Movie> Movies { get; set; }
         public List<Special> Specials { get; set; }
     }
+
+    public class Date
+    {
+        public string date_str { get; set; }
+        public string time_str { get; set; }
+        public object timestamp { get; set; }
+    }
+
+    public class AnimeObject
+    {
+        public string title { get; set; }
+        public string myanimelist_url { get; set; }
+        public string myanimelist_id { get; set; }
+        public string all_reviews_url { get; set; }
+        public string picture_url { get; set; }
+    }
+
+    public class MAL_AnimeReview
+    {
+        [JsonProperty("object")]
+        public AnimeObject anime { get; set; }
+        public User user { get; set; }
+        public List<string> tags { get; set; }
+        public Text text { get; set; }
+        public Date date { get; set; }
+    }
+
+    public class Text
+    {
+        public string visible { get; set; }
+        public string hidden { get; set; }
+        public string full { get; set; }
+    }
+
+    public class User
+    {
+        public string name { get; set; }
+        public string url { get; set; }
+        public string picture_url { get; set; }
+    }
+
     public class Author
     {
         public string name { get; set; }

@@ -16,6 +16,7 @@ using ProjectForDemoOnly.Services.MyAnimeList;
 using ProjectForDemoOnly.Models.Services;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Web.Services.Description;
+using System.Web.Security;
 
 namespace ProjectForDemoOnly.Controllers
 {
@@ -84,9 +85,12 @@ namespace ProjectForDemoOnly.Controllers
             return View(recommendations);
         }
 
-        public async Task<ActionResult> Get_AnimeReviews()
+        public async Task<ActionResult> Get_AnimeReviews() // params: name, id
         {
-            return default;
+            // demo param:
+            List<MAL_AnimeReview> animeReviews = await animeService.GetAnimeReviewAsync(52991);
+
+            return View(animeReviews);
         }
 
         public async Task<ActionResult> Get_SearchAnime()
