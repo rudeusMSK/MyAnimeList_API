@@ -9,6 +9,11 @@
             <th>Title</th>
             <th>MyAnimeList ID</th>
             <th>Picture</th>
+            <th>User Name</th>
+            <th>User Profile</th>
+            <th>Review Tags</th>
+            <th>Review Text</th>
+            <th>Date</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -16,11 +21,31 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.anime.title
-                </td>
+                <td>@item.anime.title</td>
                 <td>@item.anime.myanimelist_id</td>
                 <td>
                     <img src="@item.anime.picture_url" alt="@item.anime.title" style="width: 100px; height: auto;" />
+                </td>
+                <td>
+                    @item.user.name
+                </td>
+                <td>
+                    <a href="@item.user.url" target="_blank">Profile</a>
+                </td>
+                <td>
+                    @string.Join(", ", item.tags)
+                </td>
+                <td>
+                    <div>
+                        <strong>Visible:</strong> @item.text.visible<br />
+                    </div>
+                </td>
+                <td>
+                    @item.date.date_str @item.date.time_str
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.anime.myanimelist_id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.anime.myanimelist_id })
                 </td>
             </tr>
         }

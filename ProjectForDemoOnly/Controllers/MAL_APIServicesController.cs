@@ -77,6 +77,12 @@ namespace ProjectForDemoOnly.Controllers
             return default;
         }
 
+        public async Task<ActionResult> Get_SearchAnime()
+        {
+
+            return default;
+        }
+
         public async Task<ActionResult> Get_Recommendations(int? page)
         {
             page = 1; // test
@@ -91,12 +97,6 @@ namespace ProjectForDemoOnly.Controllers
             List<MAL_AnimeReview> animeReviews = await animeService.GetAnimeReviewAsync(52991);
 
             return View(animeReviews);
-        }
-
-        public async Task<ActionResult> Get_SearchAnime()
-        {
-
-            return default;
         }
 
         // GET: Anime Of Seasonal: 

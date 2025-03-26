@@ -99,8 +99,8 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             const string endpointFormat = "{0}reviews/{1}?p={2}&spoilers={3}&preliminary={4}&seriesName={5}&sort={6}";
 
             // Send request:
-            string endpoint = string.Format(endpointFormat, nameServer, id, 1, false, false, "Sousou%20no%20Frieren", "newest");
-            return await SendRequestAsync<List<MAL_AnimeReview>>("https://myanimelist-api1.p.rapidapi.com/anime/reviews/52991?p=1&spoilers=false&preliminary=false&seriesName=Sousou%20no%20Frieren&sort=newest");
+            string endpoint = string.Format(endpointFormat, nameServer, id, 1, false, false, "Sousou no Frieren", "newest");
+            return await SendRequestAsync<List<MAL_AnimeReview>>(endpoint);
         }
 
 
