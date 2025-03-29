@@ -67,8 +67,18 @@ namespace ProjectForDemoOnly.Controllers
             return View(AnimeInfo);
         }
 
-        public async Task<ActionResult> Get_AnimeReviewByAnime()
+        public async Task<ActionResult> Get_AnimeReviewByAnime(
+            int? id,
+            int page,
+            bool spoilers,
+            string include_tags,
+            bool preliminary,
+            string sort )
         {
+            // Process params:
+            // ...
+
+            List<MAL_AnimeReview> animeReviewByAni = await animeService.GetAnimeReviewAsync(id);
             return default;
         }
 
@@ -91,10 +101,16 @@ namespace ProjectForDemoOnly.Controllers
             return View(recommendations);
         }
 
-        public async Task<ActionResult> Get_AnimeReviews() // params: name, id
+        public async Task<ActionResult> Get_AnimeReviews(
+            int id,
+            int page,
+            bool spoilers,
+            string include_tags,
+            bool preliminary,
+            string sort  )
         {
             // demo param:
-            List<MAL_AnimeReview> animeReviews = await animeService.GetAnimeReviewAsync(52991);
+            List<MAL_AnimeReview> animeReviews = await animeService.GetAnimeReviewAsync(id);
 
             return View(animeReviews);
         }
