@@ -43,7 +43,7 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
         }
 
         // Get: Top Anime
-        public async Task<MAL_AnimeInfo> GetAnimeInfoAsync(string id)
+        public async Task<MAL_AnimeInfo> GetAnimeInfoAsync(int? id)
         {
             // Config:
             const string endpointFormat = "{0}{1}";

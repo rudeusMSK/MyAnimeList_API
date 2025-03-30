@@ -28,9 +28,13 @@ namespace ProjectForDemoOnly.Controllers
 
 
         // GET: Top Anime
-        public async Task<ActionResult> Get_TopAnime()
+        public async Task<ActionResult> Get_TopAnime(string category)
         {
-            try {
+            // Page number param: p < Default: 1 >
+
+
+            try
+            {
                 var topAnime = await animeService.GetTopAnimeAsync();
                 return PartialView("Get_TopAnime", topAnime);
 
@@ -59,7 +63,7 @@ namespace ProjectForDemoOnly.Controllers
             return View(genreBody);
         }
 
-        public async Task<ActionResult> Get_AnimeInfo(string id)
+        public async Task<ActionResult> Get_AnimeInfo(int? id)
         {
             // check id...
 
@@ -82,13 +86,18 @@ namespace ProjectForDemoOnly.Controllers
             return default;
         }
 
-        public async Task<ActionResult> Get_RecommendationsByAnime()
+        public async Task<ActionResult> Get_RecommendationsByAnime(string seriesName, int? id)
         {
             return default;
         }
 
-        public async Task<ActionResult> Get_SearchAnime()
+        public async Task<ActionResult> Get_SearchAnime(
+            string SearchKey, 
+            int? score,
+            int?  genreID )
         {
+
+            // Number of result param: n < Minimum: 1 Maximum: 50 Default: 1 >
 
             return default;
         }
@@ -107,7 +116,7 @@ namespace ProjectForDemoOnly.Controllers
             bool spoilers,
             string include_tags,
             bool preliminary,
-            string sort  )
+            string include_filters)
         {
             // demo param:
             List<MAL_AnimeReview> animeReviews = await animeService.GetAnimeReviewAsync(id);
@@ -116,9 +125,10 @@ namespace ProjectForDemoOnly.Controllers
         }
 
         // GET: Anime Of Seasonal: 
-        public async Task<ActionResult> Get_SeasonalAnime(string season)
+        public async Task<ActionResult> Get_SeasonalAnime(string season, int year)
         {
-            int year = 0; 
+            // test param default
+            year = 0; 
             try {
                 var animeOfSeasonal = await animeService.GetSeasonalAnimeAsync(season, year);
                 return PartialView("Get_AnimeOfSeason", animeOfSeasonal);
