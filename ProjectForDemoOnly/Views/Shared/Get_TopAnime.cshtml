@@ -1,18 +1,4 @@
 ﻿@model List<ProjectForDemoOnly.Models.Services.MyAnimeListModel.MAL_TopAnime>
-@using ProjectForDemoOnly.Services.MyAnimeList
-
-<div class="product__sidebar">
-    <div class="product__sidebar__view">
-        <div class="section-title">
-            <h5>Top Anime</h5>
-        </div>
-        <ul class="filter__controls">
-            <li data-filter=".week">@CategoryOptions.airing</li>
-            <li data-filter=".month">@CategoryOptions.special</li>
-            <li data-filter=".years">@CategoryOptions.movie</li>
-            <li data-filter=".years">@CategoryOptions.upcoming</li>
-            <li data-filter=".years">@CategoryOptions.bypopularity</li>
-        </ul>
 
         <div class="filter__gallery">
             @foreach (var anime in Model)
@@ -34,5 +20,5 @@
                 </div>
                     }
                 </div>
-            </div>
-</div>
+    
+ 

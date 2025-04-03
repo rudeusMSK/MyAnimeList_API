@@ -30,12 +30,17 @@ namespace ProjectForDemoOnly.Controllers
         // GET: Top Anime
         public async Task<ActionResult> Get_TopAnime(string category)
         {
-            // Page number param: p < Default: 1 >
-
+            // check Defined CategoryOptions enum.
+            if (!Enum.IsDefined(typeof(CategoryOptions), category))
+            {
+                errorView.title = "Json parsing error";
+                errorView.Message = "Don't category option !";
+                return PartialView("Error", errorView);
+            }
 
             try
             {
-                var topAnime = await animeService.GetTopAnimeAsync();
+                var topAnime = await animeService.GetTopAnimeAsync(category);
                 return PartialView("Get_TopAnime", topAnime);
 
             } // Catch json: 
@@ -86,21 +91,21 @@ namespace ProjectForDemoOnly.Controllers
             return default;
         }
 
-        public async Task<ActionResult> Get_RecommendationsByAnime(string seriesName, int? id)
-        {
-            return default;
-        }
+        //public async Task<ActionResult> Get_RecommendationsByAnime(string seriesName, int? id)
+        //{
+        //    return default;
+        //}
 
-        public async Task<ActionResult> Get_SearchAnime(
-            string SearchKey, 
-            int? score,
-            int?  genreID )
-        {
+        //public async Task<ActionResult> Get_SearchAnime(
+        //    string SearchKey, 
+        //    int? score,
+        //    int?  genreID )
+        //{
 
-            // Number of result param: n < Minimum: 1 Maximum: 50 Default: 1 >
+        //    // Number of result param: n < Minimum: 1 Maximum: 50 Default: 1 >
 
-            return default;
-        }
+        //    return default;
+        //}
 
         public async Task<ActionResult> Get_Recommendations(int? page)
         {
@@ -125,7 +130,7 @@ namespace ProjectForDemoOnly.Controllers
         }
 
         // GET: Anime Of Seasonal: 
-        public async Task<ActionResult> Get_SeasonalAnime(string season, int year)
+        public async Task<ActionResult> Get_SeasonalAnime(string season, int? year)
         {
             // test param default
             year = 0; 

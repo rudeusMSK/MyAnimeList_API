@@ -27,18 +27,18 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
         }
 
         // Get: Top Anime
-        public async Task<List<MAL_TopAnime>> GetTopAnimeAsync()
+        public async Task<List<MAL_TopAnime>> GetTopAnimeAsync(string Category)
         {
             // Config:
-            // const string endpointFormat = "{0}top/{1}?p={2}";
-            // string category = CategoryOptions.all.ToString();
-            // int page = 1;
+             const string endpointFormat = "{0}top/{1}?p={2}";
+             //string category = CategoryOptions.all.ToString();
+             int page = 1;
 
             // Send request:
-            // string endpoint = string.Format(endpointFormat, nameServer, category, page);
+             string endpoint = string.Format(endpointFormat, nameServer, Category, page);
             
             // local config:
-            string endpoint = "http://localhost:3000/TopAnime?_start=0&_end=10";
+            // string endpoint = "http://localhost:3000/TopAnime?_start=0&_end=10";
             return await SendRequestAsync<List<MAL_TopAnime>>(endpoint);
         }
 
@@ -54,7 +54,7 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
         }
 
         // Get: Seasonal Anime
-        public async Task<MAL_AnimeOfSeason> GetSeasonalAnimeAsync(string season, int year)
+        public async Task<MAL_AnimeOfSeason> GetSeasonalAnimeAsync(string season, int? year)
         {
             // Config:
             //season = string.IsNullOrEmpty(season) ? MAL_Helper.GetCurrentSeason() : season;

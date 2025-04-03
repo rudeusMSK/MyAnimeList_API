@@ -1,4 +1,7 @@
-﻿    <!-- Hero Section Begin -->
+﻿@using ProjectForDemoOnly.Services.MyAnimeList
+
+
+<!-- Hero Section Begin -->
 <section class="hero">
     <div class="container">
         <div class="hero__slider owl-carousel">
@@ -47,17 +50,40 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
+
                 @* ------------------------------------------------------------------- *@
                 <div id="SeasonalAnime-container"></div>
                 @* ------------------------------------------------------------------- *@
+
             </div>
             <div class="col-lg-4 col-md-6 col-sm-8">
-                @* ------------------------------------------------------------------- *@
-                <div id="TopAnime-container"></div>
-                @* ------------------------------------------------------------------- *@
-            </div>
+                <div class="product__sidebar">
+                    <div class="product__sidebar__view">
+                        <div class="section-title">
+                            <h5>Top Anime</h5>
+                        </div>
+
+                        <ul class="filter__controls">
+                            <li data-filter="all" class="active">@CategoryOptions.all</li>
+                            <li data-filter="airing">@CategoryOptions.airing</li>
+                            <li data-filter="special">@CategoryOptions.special</li>
+                            <li data-filter="movie">@CategoryOptions.movie</li>
+                            <li data-filter="upcoming">@CategoryOptions.upcoming</li>
+                            <li data-filter="bypopularity">@CategoryOptions.bypopularity</li>
+                        </ul>
+
+                        @* ------------------------------------------------------------------- *@
+
+                        <div id="loading"> LOADING ... </div>
+                        <div id="TopAnime-container"></div>
+
+                        @* ------------------------------------------------------------------- *@
+
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
 </section>
 <!-- Product Section End -->
 
@@ -65,22 +91,37 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
-     $(document).ready(function () {
-         $('#loading').show();
+$(document).ready(function () {
+    function loadAnime(category) {
+        $('#loading').show();
+        $('#TopAnime-container').hide();
+        $.ajax({
+            url: '@Url.Action("Get_TopAnime", "MAL_APIServices")',
+            type: 'GET',
+            data: { category: category },
+            success: function (data) {
+                $('#loading').hide();
+                $('#TopAnime-container').show();
+                $('#TopAnime-container').html(data);
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching: ", error);
+                $('#loading').hide();
+            }
+        });
+    }
 
-         $.ajax({
-             url: '@Url.Action("Get_TopAnime", "MAL_APIServices")',
-             type: 'GET',
-             success: function (data) {
-                 $('#loading').hide();
-                 $('#TopAnime-container').html(data);
-             },
-             error: function (xhr, status, error) {
-                 console.error("Error fetching : ", error)
-                 $('#loading').hide();
-             }
-         });
-     });
+    loadAnime('all');
+
+    $('.filter__controls li').on('click', function () {
+        $('.filter__controls li').removeClass('active');
+        $(this).addClass('active');
+        var category = $(this).data('filter');
+        loadAnime(category);
+
+    });
+});
+
      $(document).ready(function () {
          $('#loading').show();
 
