@@ -133,8 +133,12 @@ namespace ProjectForDemoOnly.Controllers
         public async Task<ActionResult> Get_SeasonalAnime(string season, int? year)
         {
             // test param default
-            year = 0; 
-            try {
+            year = 0;
+
+            // TV, TV CON, TV NEW, OVAs, ONAs, Movies, Specials.
+
+            try
+            {
                 var animeOfSeasonal = await animeService.GetSeasonalAnimeAsync(season, year);
                 return PartialView("Get_AnimeOfSeason", animeOfSeasonal);
 

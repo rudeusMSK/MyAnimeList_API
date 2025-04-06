@@ -1,19 +1,30 @@
 ﻿@model ProjectForDemoOnly.Models.Services.MyAnimeListModel.MAL_AnimeOfSeason
 @using System.Text.RegularExpressions;
 
+
+ @*
+     Refactor: Anime of Seasonal.
+ *@
+
 <div class="trending__product">
     <div class="row">
-        <div class="col-lg-8 col-md-8 col-sm-8">
-            <div class="section-title">
-                <h4>@Html.DisplayName(Model.TVNew.ToString())</h4>
+        @if (Model != null && Model.TVNew != null)
+        {
+            <div class="col-lg-8 col-md-8 col-sm-8">
+                <div class="section-title">
+                    <h4>@Html.DisplayName(Model.TVNew.ToString())</h4>
+                </div>
             </div>
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-4">
-            <div class="btn__all">
-                <a href="#" class="primary-btn">View All <span class="arrow_right"></span></a>
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="btn__all">
+                    <a href="#" class="primary-btn">View All <span class="arrow_right"></span></a>
+                </div>
             </div>
+        }
         </div>
-    </div>
+
+    @* TV *@
+
     <div class="row">
         @if (Model != null && Model.TVNew != null)
         {
@@ -56,8 +67,11 @@
     <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-8">
             <div class="section-title">
-                <h4>TV Now @Html.DisplayName(Model.TVCon.ToString())</h4>
-            </div>
+                @if (Model != null && Model.TVNew != null)
+                {
+                    <h4>[@Html.DisplayName(Model.TVCon.ToString())</h4>
+                }
+                </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4">
             <div class="btn__all">
@@ -65,6 +79,9 @@
             </div>
         </div>
     </div>
+
+    @* TV CON *@
+
     <div class="row">
         @if (Model != null && Model.TVCon != null)
         {
@@ -105,8 +122,8 @@
 <div class="trending__product">
     <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-8">
-            <div class="section-title">
-                <h4>TV Now @Html.DisplayName(Model.TV.ToString())</h4>
+            <div class="section-title"> 
+                <h4>[@Html.DisplayName(Model.TV.ToString())</h4>
             </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4">
@@ -115,6 +132,9 @@
             </div>
         </div>
     </div>
+
+    @* TV NEW *@
+
     <div class="row">
         @if (Model != null && Model.TV != null)
         {
@@ -156,8 +176,11 @@
     <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-8">
             <div class="section-title">
-                <h4>TV Now @Html.DisplayName(Model.OVAs.ToString())</h4>
-            </div>
+                @if (Model != null && Model.TVNew != null)
+                {
+                    <h4>TV Now @Html.DisplayName(Model.OVAs.ToString())</h4>
+                }
+                </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4">
             <div class="btn__all">
@@ -165,6 +188,9 @@
             </div>
         </div>
     </div>
+
+    @* OVAs *@
+
     <div class="row">
         @if (Model != null && Model.OVAs != null)
         {
@@ -206,8 +232,11 @@
     <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-8">
             <div class="section-title">
-                <h4>TV Now @Html.DisplayName(Model.ONAs.ToString())</h4>
-            </div>
+                @if (Model != null && Model.TVNew != null)
+                {
+                    <h4>TV Now @Html.DisplayName(Model.ONAs.ToString())</h4>
+                }
+                </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4">
             <div class="btn__all">
@@ -215,6 +244,9 @@
             </div>
         </div>
     </div>
+
+    @* ONAs *@
+
     <div class="row">
         @if (Model != null && Model.ONAs != null)
         {
@@ -256,8 +288,11 @@
     <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-8">
             <div class="section-title">
-                <h4>TV Now @Html.DisplayName(Model.Movies.ToString())</h4>
-            </div>
+                @if (Model != null && Model.TVNew != null)
+                {
+                    <h4>TV Now @Html.DisplayName(Model.Movies.ToString())</h4>
+                }
+                </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4">
             <div class="btn__all">
@@ -265,6 +300,9 @@
             </div>
         </div>
     </div>
+
+    @* Movies *@
+
     <div class="row">
         @if (Model != null && Model.Movies != null)
         {
@@ -306,8 +344,11 @@
     <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-8">
             <div class="section-title">
-                <h4>TV Now @Html.DisplayName(Model.Specials.ToString())</h4>
-            </div>
+                @if (Model != null && Model.TVNew != null)
+                {
+                    <h4>TV Now @Html.DisplayName(Model.Specials.ToString())</h4>
+                }
+                </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4">
             <div class="btn__all">
@@ -315,6 +356,10 @@
             </div>
         </div>
     </div>
+
+
+    @* Specials *@
+
     <div class="row">
         @if (Model != null && Model.Specials != null)
         {

@@ -35,10 +35,10 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
              int page = 1;
 
             // Send request:
-             string endpoint = string.Format(endpointFormat, nameServer, Category, page);
+            // string endpoint = string.Format(endpointFormat, nameServer, Category, page);
             
             // local config:
-            // string endpoint = "http://localhost:3000/TopAnime?_start=0&_end=10";
+             string endpoint = "http://localhost:3000/TopAnime?_start=0&_end=10";
             return await SendRequestAsync<List<MAL_TopAnime>>(endpoint);
         }
 
@@ -53,6 +53,7 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             return await SendRequestAsync<MAL_AnimeInfo>(endpoint);
         }
 
+        // Refactor.
         // Get: Seasonal Anime
         public async Task<MAL_AnimeOfSeason> GetSeasonalAnimeAsync(string season, int? year)
         {
@@ -66,12 +67,45 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
 
             // local config: Defaul 2024 WINTER Seasonal
             string endpoint = "http://localhost:3000/AnimeOfSeason";
-            var animeOfSeasonal = await SendRequestAsync<MAL_AnimeOfSeason>(endpoint);
+            // var animeOfSeasonal = await SendRequestAsync<MAL_AnimeOfSeason>(endpoint);
+
+            List<TV> tv = await GetAnimeTVAsync(season, year);
+
+            MAL_AnimeOfSeason animeOfSeason = new MAL_AnimeOfSeason()
+            {
+
+                TV = tv
+
+            };
+
+
 
             // Format Genres:
-            MAL_Helper.CleanGenres(animeOfSeasonal);
-            return animeOfSeasonal;
+            // MAL_Helper.CleanGenres(animeOfSeasonal);
+            return animeOfSeason;
         }
+
+        public async Task<List<TV>> GetAnimeTVAsync(string season, int? year)
+        {
+
+            // local config: Defaul 2024 WINTER Seasonal
+            string endpoint = "http://localhost:3000/TV?_start=1&_end=4";
+            var tV = await SendRequestAsync<List<TV>>(endpoint);
+
+            return tV;
+        }
+
+        public async Task<TVCon> GetAnimeTVConAsync(string season, int? year)
+        {
+
+            // local config: Defaul 2024 WINTER Seasonal
+            string endpoint = "http://localhost:3000/TVCon?_start=1&_end=3";
+            var tVCon = await SendRequestAsync<TVCon>(endpoint);
+
+            return tVCon;
+        }
+
+
 
         // Get: Recommendations
         public async Task<List<MAL_Recommendations>> Get_RecommendationsAsync(int? page)
