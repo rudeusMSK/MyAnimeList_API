@@ -744,9 +744,11 @@ ol {
 }
 
 .product__sidebar__view .filter__controls {
-	position: absolute;
-	right: 0;
-	top: -5px;
+
+padding: 0;
+/*	position: absolute;
+	left: 0;
+	top: -5px;*/
 }
 
 .product__sidebar__view .filter__controls li {

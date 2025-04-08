@@ -69,12 +69,25 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             string endpoint = "http://localhost:3000/AnimeOfSeason";
             // var animeOfSeasonal = await SendRequestAsync<MAL_AnimeOfSeason>(endpoint);
 
+            // TV show:
             List<TV> tv = await GetAnimeTVAsync(season, year);
+            List<TVNew> tVNews  = await GetAnimeTVNewAsync(season, year);
+            List<TVCon> tVCons = await GetAnimeTVConAsync(season, year);
+            List<OVA> oVAs = await GetAnimeOVasAsync(season, year);
+            List<ONA> oNAs = await GetAnimeONasAsync(season, year);
+            List<Special> specials = await GetAnimeSpecialsAsync(season, year);
+            List<Movie> movies = await GetAnimeMoviesAsync(season, year);
 
             MAL_AnimeOfSeason animeOfSeason = new MAL_AnimeOfSeason()
             {
 
-                TV = tv
+                TV = tv,
+                TVNew = tVNews,
+                TVCon = tVCons,
+                ONAs = oNAs,
+                OVAs = oVAs,
+                Specials = specials,
+                Movies = movies
 
             };
 
@@ -95,16 +108,50 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             return tV;
         }
 
-        public async Task<TVCon> GetAnimeTVConAsync(string season, int? year)
+        public async Task<List<TVCon>> GetAnimeTVConAsync(string season, int? year)
         {
 
             // local config: Defaul 2024 WINTER Seasonal
             string endpoint = "http://localhost:3000/TVCon?_start=1&_end=3";
-            var tVCon = await SendRequestAsync<TVCon>(endpoint);
+            var tVCon = await SendRequestAsync<List<TVCon>>(endpoint);
 
             return tVCon;
         }
 
+        public async Task<List<TVNew>> GetAnimeTVNewAsync(string season, int? year)
+        {
+            string endpoint = "http://localhost:3000/TVNew?_start=1&_end=3";
+            var tVNew = await SendRequestAsync< List<TVNew>>(endpoint);
+            return tVNew;
+        }
+
+        public async Task<List<ONA>> GetAnimeONasAsync(string season, int? year)
+        {
+            string endpoint = "http://localhost:3000/ONAs?_start=1&_end=3";
+            var oNa = await SendRequestAsync<List<ONA>>(endpoint);
+            return oNa;
+        }
+
+        public async Task<List<OVA>> GetAnimeOVasAsync(string season, int? year)
+        {
+            string endpoint = "http://localhost:3000/OVAs?_start=1&_end=3";
+            var oVa = await SendRequestAsync<List<OVA>>(endpoint);
+            return oVa;
+        }
+
+        public async Task<List<Movie>> GetAnimeMoviesAsync(string season, int? year)
+        {
+            string endpoint = "http://localhost:3000/Movies?_start=1&_end=3";
+            var movie = await SendRequestAsync<List<Movie>>(endpoint);
+            return movie;
+        }
+
+        public async Task<List<Special>> GetAnimeSpecialsAsync(string season, int? year)
+        {
+            string endpoint = "http://localhost:3000/Specials?_start=1&_end=3";
+            var special = await SendRequestAsync<List<Special>>(endpoint);
+            return special;
+        }
 
 
         // Get: Recommendations
