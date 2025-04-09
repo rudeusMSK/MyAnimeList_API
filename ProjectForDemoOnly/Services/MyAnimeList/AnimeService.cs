@@ -49,7 +49,10 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             const string endpointFormat = "{0}{1}";
 
             // Send request:
-            string endpoint = string.Format(endpointFormat, nameServer, id);
+            // string endpoint = string.Format(endpointFormat, nameServer, id);
+
+            string endpoint = "http://localhost:3000/AnimeInfo";
+
             return await SendRequestAsync<MAL_AnimeInfo>(endpoint);
         }
 
@@ -180,7 +183,9 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             const string endpointFormat = "{0}reviews/{1}?p={2}&spoilers={3}&preliminary={4}&seriesName={5}&sort={6}";
 
             // Send request:
-            string endpoint = string.Format(endpointFormat, nameServer, id, 1, false, false, "Sousou no Frieren", "newest");
+            // string endpoint = string.Format(endpointFormat, nameServer, id, 1, false, false, "Sousou no Frieren", "newest");
+            string endpoint = "http://localhost:3000/AnimeReviewBySeri";
+
             return await SendRequestAsync<List<MAL_AnimeReview>>(endpoint);
         }
 

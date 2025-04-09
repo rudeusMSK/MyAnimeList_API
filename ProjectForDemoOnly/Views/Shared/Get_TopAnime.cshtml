@@ -8,17 +8,14 @@
                     <div class="view"><i class="fa fa-eye"></i> @anime.members</div>
                     <h5>
                         <img width="50" height="70" src="@anime.picture_url" alt="">
-                        <a href="@Url.Action("Get_AnimeInfo", "MAL_APIServices", new { id = anime.myanimelist_id})">
-                            @anime.title
-                        </a>
+                        <br />
+                            <a href="@Url.Action("Get_AnimeInfo", "MAL_APIServices", new { id = anime.myanimelist_id})">
+                                @anime.title
+                            </a>
+                       
                     </h5>
                 </div>
-                <div class="product__sidebar__view__item set-bg" style="background-image: url('');">
-                    <p>Score: @anime.score</p>
-                    <p>Type: @anime.type</p>
-                    <p>Aired: @anime.aired_on</p>
-                </div>
-                    }
+             }
                 </div>
     
  

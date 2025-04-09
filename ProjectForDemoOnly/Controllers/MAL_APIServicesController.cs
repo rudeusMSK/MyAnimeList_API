@@ -72,12 +72,13 @@ namespace ProjectForDemoOnly.Controllers
         {
             // check id...
 
-            MAL_AnimeInfo AnimeInfo = await animeService.GetAnimeInfoAsync(id);
+            MAL_AnimeInfo AnimeInfo = await animeService.GetAnimeInfoAsync(52991);
             return View(AnimeInfo);
         }
 
         public async Task<ActionResult> Get_AnimeReviewByAnime(
             int? id,
+            string name,
             int page,
             bool spoilers,
             string include_tags,
@@ -88,7 +89,8 @@ namespace ProjectForDemoOnly.Controllers
             // ...
 
             List<MAL_AnimeReview> animeReviewByAni = await animeService.GetAnimeReviewAsync(id);
-            return default;
+            
+            return PartialView("Get_AnimeReviewByAnime", animeReviewByAni);
         }
 
         //public async Task<ActionResult> Get_RecommendationsByAnime(string seriesName, int? id)

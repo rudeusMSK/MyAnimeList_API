@@ -1,0 +1,23 @@
+﻿@model IEnumerable<ProjectForDemoOnly.Models.Services.MyAnimeListModel.MAL_AnimeReview>
+
+@foreach (var review in Model)
+{
+    <div class="anime__review__item">
+        <div class="anime__review__item__pic">
+            <img src="@review.user.picture_url" alt="">
+        </div>
+        <div class="anime__review__item__text">
+            <h6>Reviewer @review.user.name.ToString() - <span> @review.date.time_str.ToString(); Time ago</span></h6>
+            <h5> anime: @review.anime.title </h5>
+            <p>tag: 
+           @foreach(var tag in review.tags)
+           {
+               tag.ToString();
+           } 
+            </p>
+            <p>
+                @review.text.visible.ToString()
+            </p>
+        </div>
+    </div>
+}
