@@ -5,6 +5,12 @@ using System.Web;
 
 namespace ProjectForDemoOnly.Services.MyAnimeList
 {
+    public enum ChooseConnector
+    {
+        JsonServer,
+        RappiApi,
+    }
+
     public enum sort
     {
         suggested,
