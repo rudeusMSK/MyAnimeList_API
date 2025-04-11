@@ -12,18 +12,20 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
 {
     public class AnimeService
     {
-        // Config: authentic RapApi.MyAnimeListAPI
+        // Config: authentic RapApi.MyAnimeListAPI / local JsonServer
         private readonly HttpClient httpClient;
         private readonly string nameServer;
         private readonly string apiKey;
         private readonly string apivalue;
 
-        public AnimeService(HttpClient httpClient)
+        public AnimeService(HttpClient httpClient) // param refactor: { httpClient, nameServer, apiKey, apivalue }
         {
             this.httpClient = httpClient;
             nameServer = "https://myanimelist-api1.p.rapidapi.com/anime/";
             apiKey = "X-RapidAPI-Key";
             apivalue = "dcba14be99msh7fda78dd24a8705p1f40b4jsn2874bae46dc6";
+
+            // stringbuilder endpoint: name Server + base endpoint + params
         }
 
         // Get: Top Anime
@@ -56,7 +58,6 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             return await SendRequestAsync<MAL_AnimeInfo>(endpoint);
         }
 
-        // Refactor.
         // Get: Seasonal Anime
         public async Task<MAL_AnimeOfSeason> GetSeasonalAnimeAsync(string season, int? year)
         {
@@ -93,8 +94,6 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
                 Movies = movies
 
             };
-
-
 
             // Format Genres:
             // MAL_Helper.CleanGenres(animeOfSeasonal);
@@ -155,7 +154,6 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             var special = await SendRequestAsync<List<Special>>(endpoint);
             return special;
         }
-
 
         // Get: Recommendations
         public async Task<List<MAL_Recommendations>> Get_RecommendationsAsync(int? page)

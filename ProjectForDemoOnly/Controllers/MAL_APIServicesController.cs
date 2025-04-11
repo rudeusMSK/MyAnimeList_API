@@ -1,22 +1,13 @@
-﻿using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using ProjectForDemoOnly.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System;
 using System.Web.Mvc;
-using System.Web.UI;
-using ProjectForDemoOnly.Models.Services.MyAnimeListModel;
-using System.Web.WebPages;
-using RestSharp;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
+using ProjectForDemoOnly.Models;
+using System.Collections.Generic;
 using ProjectForDemoOnly.Services.MyAnimeList;
-using ProjectForDemoOnly.Models.Services;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
-using System.Web.Services.Description;
-using System.Web.Security;
+using ProjectForDemoOnly.Models.Services.MyAnimeListModel;
+
 
 namespace ProjectForDemoOnly.Controllers
 {
