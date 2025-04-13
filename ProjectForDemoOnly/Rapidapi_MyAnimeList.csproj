@@ -153,6 +153,7 @@
     <Compile Include="Models\ErrorViewModel.cs" />
     <Compile Include="Services\MyAnimeList\Enums.cs" />
     <Compile Include="Services\MyAnimeList\JsonServerConnector.cs" />
+    <Compile Include="Services\MyAnimeList\JsonServerPorts.cs" />
     <Compile Include="Services\MyAnimeList\MAL_Helper.cs" />
     <Compile Include="Models\MyAnimeListModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -21,6 +21,10 @@ namespace ProjectForDemoOnly.Controllers
         // GET: Top Anime
         public async Task<ActionResult> Get_TopAnime(string category)
         {
+            //
+
+
+
             // check Defined CategoryOptions enum.
             if (!Enum.IsDefined(typeof(CategoryOptions), category))
             {
@@ -29,9 +33,11 @@ namespace ProjectForDemoOnly.Controllers
                 return PartialView("Error", errorView);
             }
 
+            //
             try
             {
                 var topAnime = await animeService.GetTopAnimeAsync(category);
+                
                 return PartialView("Get_TopAnime", topAnime);
 
             } // Catch json: 
