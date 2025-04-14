@@ -9,20 +9,19 @@ using System.Web;
 
 namespace ProjectForDemoOnly.Services.MyAnimeList
 {
-    public class RapidapiConnector : MAL_ConnectorServerType
+    public class RapidapiConnector : IMALServices
     {
         // Config: authentic RapApi.MyAnimeListAPI
         private readonly HttpClient httpClient;
-        private readonly string nameServer;
+        private readonly string nameServer = "https://myanimelist-api1.p.rapidapi.com/anime/";
         private readonly string apiKey;
         private readonly string apivalue;
 
-        public RapidapiConnector(HttpClient httpClient, string nameServer, string apiKey, string apivalue)
+        public RapidapiConnector(HttpClient httpClient, string apiKey, string apivalue)
         {
             this.httpClient = httpClient;
-            this.nameServer = nameServer; // https://myanimelist-api1.p.rapidapi.com/anime/
-            this.apiKey = apiKey;// "X-RapidAPI-Key"
-            this.apivalue = apivalue;// "dcba14be99msh7fda78dd24a8705p1f40b4jsn2874bae46dc6"
+            this.apiKey = apiKey;
+            this.apivalue = apivalue;
 
             // Config endpint here:
             // stringbuilder endpoint: name Server + base endpoint + params
@@ -30,18 +29,33 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
 
 
         // SERVER
-        public string Connect()
+        public void Connect()
         {
-            throw new NotImplementedException();
+            // Enpoint:
+
+            // Sent request:
         }
 
-        public string Disconnect()
+        public void Disconnect()
         {
             throw new NotImplementedException();
         }
 
 
         // API
+        public async Task<List<MAL_TopAnime>> GetTopAnimeAsync(string Category, int? page)
+        {
+            // Config:
+            const string endpointFormat = "{0}top/{1}?p={2}";
+
+            page = 1;
+
+            // Send request:
+            string endpoint = string.Format(endpointFormat, nameServer, Category, page);
+
+            return await SendRequestAsync<List<MAL_TopAnime>>(endpoint);
+        }
+
         public Task<MAL_AnimeInfo> GetAnimeInfoAsync(int? id)
         {
             throw new NotImplementedException();
@@ -60,20 +74,6 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
         public Task<MAL_AnimeOfSeason> GetSeasonalAnimeAsync(string season, int? year)
         {
             throw new NotImplementedException();
-        }
-
-        public async Task<List<MAL_TopAnime>> GetTopAnimeAsync(string Category) // Refactor param:  Category, page.
-        {
-            // Config:
-            const string endpointFormat = "{0}top/{1}?p={2}";
-            
-            //string category = CategoryOptions.all.ToString();
-            int page = 1;
-
-            // Send request:
-            string endpoint = string.Format(endpointFormat, nameServer, Category, page);
-
-            return await SendRequestAsync<List<MAL_TopAnime>>(endpoint);
         }
 
         public Task<List<MAL_Recommendations>> Get_RecommendationsAsync(int? page)

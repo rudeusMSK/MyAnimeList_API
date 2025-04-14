@@ -158,7 +158,7 @@
     <Compile Include="Models\MyAnimeListModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\MyAnimeList\AnimeService.cs" />
-    <Compile Include="Services\MyAnimeList\ConnectionServerType.cs" />
+    <Compile Include="Services\MyAnimeList\IMALServices.cs" />
     <Compile Include="Services\MyAnimeList\RapidapiConnector.cs" />
   </ItemGroup>
   <ItemGroup>

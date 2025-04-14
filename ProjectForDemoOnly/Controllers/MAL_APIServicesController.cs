@@ -14,47 +14,65 @@ namespace ProjectForDemoOnly.Controllers
     public class MAL_APIServicesController : Controller
     {
         // service authentication:
-        private static readonly AnimeService animeService = new AnimeService(new HttpClient());
+
+        IMALServices services;
+
+
         private ErrorViewModel errorView = new ErrorViewModel();
+
+
+        // Connect Type
+        public ActionResult ChooseConnectType(ChooseConnector connectorType, string apiKey, string apiValue)
+        {
+            // demo account:
+            connectorType = ChooseConnector.RappiApi;
+            apiKey = "X-RapidAPI-Key";
+            apiValue = "dcba14be99msh7fda78dd24a8705p1f40b4jsn2874bae46dc6";
+
+            // choose connect type service
+            services = AnimeService.CreateConnect(connectorType, apiKey, apiValue);
+            return View();
+        }
 
 
         // GET: Top Anime
         public async Task<ActionResult> Get_TopAnime(string category)
         {
-            //
+
+           var topAni =  await services.GetTopAnimeAsync(category, 1);
+            return PartialView("Get_TopAnime", topAni);
 
 
+            //            // check Defined CategoryOptions enum.
+            //            if (!Enum.IsDefined(typeof(CategoryOptions), category))
+            //            {
+            //                errorView.title = "Json parsing error";
+            //                errorView.Message = "Don't category option !";
+            //                return PartialView("Error", errorView);
+            //            }
 
-            // check Defined CategoryOptions enum.
-            if (!Enum.IsDefined(typeof(CategoryOptions), category))
-            {
-                errorView.title = "Json parsing error";
-                errorView.Message = "Don't category option !";
-                return PartialView("Error", errorView);
-            }
+            //            //
+            //            try
+            //            {
+            //                var topAnime = await animeService.GetTopAnimeAsync(category);
 
-            //
-            try
-            {
-                var topAnime = await animeService.GetTopAnimeAsync(category);
-                
-                return PartialView("Get_TopAnime", topAnime);
+            //                return PartialView("Get_TopAnime", topAnime);
 
-            } // Catch json: 
-            catch (JsonException je) {
+            //            } // Catch json: 
+            //            catch (JsonException je) {
 
-                // create error message:
-                errorView.title = "Json parsing error";
-                errorView.Message = je.Message;
-                return PartialView("Error", errorView);
+            //                // create error message:
+            //                errorView.title = "Json parsing error";
+            //                errorView.Message = je.Message;
+            //                return PartialView("Error", errorView);
 
-            } // Catch exception:
-            catch (Exception  ex) {
-                // create error message:
-                errorView.title = "Exception: ";
-                errorView.Message = ex.Message;
-                return PartialView("Error", errorView);
-            }
+            //            } // Catch exception:
+            //            catch (Exception  ex) {
+            //                // create error message:
+            //                errorView.title = "Exception: ";
+            //                errorView.Message = ex.Message;
+            //                return PartialView("Error", errorView);
+            //            }
         }
 
         public async Task<ActionResult> Get_AnimeGenres(string[] genres)
