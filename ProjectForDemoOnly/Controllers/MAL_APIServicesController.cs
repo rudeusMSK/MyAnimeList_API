@@ -49,40 +49,36 @@ namespace ProjectForDemoOnly.Controllers
         {
             // process service instance not created
             services = AnimeService.CreateConnect(ChooseConnector.JsonServer, "X-RapidAPI-Key", "dcba14be99msh7fda78dd24a8705p1f40b4jsn2874bae46dc6");
-            var topAni =  await services.GetTopAnimeAsync(category, 1);
-            return PartialView("Get_TopAnime", topAni);
+
+            try {
+                var topAni =  await services.GetTopAnimeAsync(category, 1);
+                return PartialView("Get_TopAnime", topAni);
+            } 
+            // Catch json: 
+            catch (JsonException je) {
+
+                // create error message:
+                errorView.title = "Json parsing error";
+                errorView.Message = je.Message;
+                return PartialView("Error", errorView);
+
+            } 
+            // Catch exception:
+            catch (Exception ex)  {
+                // create error message:
+                errorView.title = "Exception: ";
+                errorView.Message = ex.Message;
+                return PartialView("Error", errorView);
+            }
+        }
 
 
-            //            // check Defined CategoryOptions enum.
-            //            if (!Enum.IsDefined(typeof(CategoryOptions), category))
-            //            {
-            //                errorView.title = "Json parsing error";
-            //                errorView.Message = "Don't category option !";
-            //                return PartialView("Error", errorView);
-            //            }
-
-            //            //
-            //            try
-            //            {
-            //                var topAnime = await animeService.GetTopAnimeAsync(category);
-
-            //                return PartialView("Get_TopAnime", topAnime);
-
-            //            } // Catch json: 
-            //            catch (JsonException je) {
-
-            //                // create error message:
-            //                errorView.title = "Json parsing error";
-            //                errorView.Message = je.Message;
-            //                return PartialView("Error", errorView);
-
-            //            } // Catch exception:
-            //            catch (Exception  ex) {
-            //                // create error message:
-            //                errorView.title = "Exception: ";
-            //                errorView.Message = ex.Message;
-            //                return PartialView("Error", errorView);
-            //            }
+        public async Task<ActionResult> Get_AnimeGenres(string[] genreList)
+        {
+            // process genres request...
+            services = AnimeService.CreateConnect(ChooseConnector.JsonServer, "", "");
+            List<MAL_Genres> genres = await services.GetGenresAsync(null);
+            return View(genres);
         }
 
         //public async Task<ActionResult> Get_AnimeGenres(string[] genres)
@@ -114,7 +110,7 @@ namespace ProjectForDemoOnly.Controllers
         //    // ...
 
         //    List<MAL_AnimeReview> animeReviewByAni = await animeService.GetAnimeReviewAsync(id);
-            
+
         //    return PartialView("Get_AnimeReviewByAnime", animeReviewByAni);
         //}
 
@@ -183,6 +179,6 @@ namespace ProjectForDemoOnly.Controllers
         //        return PartialView("Error", errorView);
         //    }
         //}
-    
+
     }
 }

@@ -66,7 +66,7 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             throw new NotImplementedException();
         }
 
-        public Task<List<MAL_Genres>> GetGenresAsync()
+        public Task<List<MAL_Genres>> GetGenresAsync(int? id)
         {
             throw new NotImplementedException();
         }

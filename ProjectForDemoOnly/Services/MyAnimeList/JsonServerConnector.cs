@@ -19,6 +19,16 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             this.url = "http://localhost:";
         }
 
+        public async Task<List<MAL_Genres>> GetGenresAsync(int? id)
+        {
+            string format = "{0}{1}/Genres/";
+            string endpoint = string.Format(format, this.url, (int)JsonServerPorts.Genres);
+            
+            var body = await SendRequestAsync<List<MAL_Genres>>(endpoint, new HttpClient());
+            // process body respon ...
+            return body;
+        }
+
         public async Task<List<MAL_TopAnime>> GetTopAnimeAsync(string Category, int? page)
         {
             // page default:
@@ -30,8 +40,9 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             // string endpoint = string.Format(format,this.url, JsonServerPorts.TopAni, Category, page);
             string endpoint = string.Format(format, this.url, (int)JsonServerPorts.TopAni);
             // Send request url:
-            var topAni = await SendRequestAsync<List<MAL_TopAnime>>(endpoint, new HttpClient());
-            return topAni;
+            var body = await SendRequestAsync<List<MAL_TopAnime>>(endpoint, new HttpClient());
+            // process body respon ...
+            return body;
         }
 
         public async Task<List<TV>> GetAnimeTVAsync(string season, int? year) // Refactor params {season, year, start, end}
@@ -39,11 +50,11 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             string format = "{0}{1}/TV?_start={2}&_end={3}";
             string endpoint = string.Format(format, url, (int)JsonServerPorts.AniOfSeasnal, 1, 4);
 
-            var tV = await SendRequestAsync<List<TV>>(endpoint, new HttpClient());
+            var body = await SendRequestAsync<List<TV>>(endpoint, new HttpClient());
             
             // process body respon ...
             
-            return tV;
+            return body;
         }
 
         public async Task<List<TVCon>> GetAnimeTVConAsync(string season, int? year)
@@ -132,11 +143,6 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
         }
 
         public Task<List<MAL_AnimeReview>> GetAnimeReviewAsync(int? id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<MAL_Genres>> GetGenresAsync()
         {
             throw new NotImplementedException();
         }

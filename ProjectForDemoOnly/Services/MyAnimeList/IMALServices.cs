@@ -12,7 +12,7 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
     {
         // API Services
         Task<List<MAL_AnimeReview>> GetAnimeReviewAsync(int? id);
-        Task<List<MAL_Genres>> GetGenresAsync(); // params: int? id
+        Task<List<MAL_Genres>> GetGenresAsync(int? id); // Refactor param: int[] id
         Task<List<MAL_Recommendations>> Get_RecommendationsAsync(int? page);
         Task<MAL_AnimeOfSeason> GetSeasonalAnimeAsync(string season, int? year);
         Task<MAL_AnimeInfo> GetAnimeInfoAsync(int? id);
