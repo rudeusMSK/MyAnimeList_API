@@ -81,38 +81,32 @@ namespace ProjectForDemoOnly.Controllers
             return View(genres);
         }
 
-        //public async Task<ActionResult> Get_AnimeGenres(string[] genres)
-        //{
-        //    // process genres request...
 
-        //    List<MAL_Genres> genreBody = await animeService.GetGenresAsync();
-        //    return View(genreBody);
-        //}
+        public async Task<ActionResult> Get_AnimeInfo(int? id)
+        {
+            // check id...
+            services = AnimeService.CreateConnect(ChooseConnector.JsonServer, "", "");
+            MAL_AnimeInfo body = await services.GetAnimeInfoAsync(id);
+            return View(body);
+        }
 
-        //public async Task<ActionResult> Get_AnimeInfo(int? id)
-        //{
-        //    // check id...
+        public async Task<ActionResult> Get_AnimeReviewByAnime(
+            int? id,
+            string name,
+            int page,
+            bool spoilers,
+            string include_tags,
+            bool preliminary,
+            string sort)
+        {
+            // Process params:
+            // ...
 
-        //    MAL_AnimeInfo AnimeInfo = await animeService.GetAnimeInfoAsync(52991);
-        //    return View(AnimeInfo);
-        //}
+            services = AnimeService.CreateConnect(ChooseConnector.JsonServer, "", "");
+            List<MAL_AnimeReview> body = await services.GetAnimeReviewAsync(id);
 
-        //public async Task<ActionResult> Get_AnimeReviewByAnime(
-        //    int? id,
-        //    string name,
-        //    int page,
-        //    bool spoilers,
-        //    string include_tags,
-        //    bool preliminary,
-        //    string sort )
-        //{
-        //    // Process params:
-        //    // ...
-
-        //    List<MAL_AnimeReview> animeReviewByAni = await animeService.GetAnimeReviewAsync(id);
-
-        //    return PartialView("Get_AnimeReviewByAnime", animeReviewByAni);
-        //}
+            return PartialView("Get_AnimeReviewByAnime", body);
+        }
 
         ////public async Task<ActionResult> Get_RecommendationsByAnime(string seriesName, int? id)
         ////{
@@ -151,34 +145,5 @@ namespace ProjectForDemoOnly.Controllers
 
         //    return View(animeReviews);
         //}
-
-        //// GET: Anime Of Seasonal: 
-        //public async Task<ActionResult> Get_SeasonalAnime(string season, int? year)
-        //{
-        //    // test param default
-        //    year = 0;
-
-        //    // TV, TV CON, TV NEW, OVAs, ONAs, Movies, Specials.
-
-        //    try
-        //    {
-        //        var animeOfSeasonal = await animeService.GetSeasonalAnimeAsync(season, year);
-        //        return PartialView("Get_AnimeOfSeason", animeOfSeasonal);
-
-        //    }  // Catch json:
-        //    catch (JsonException je) {
-        //        // create error message:
-        //        errorView.title = "Json parsing error";
-        //        errorView.Message = je.Message;
-        //        return PartialView("Error", errorView);
-
-        //    } // Catch exception:
-        //    catch (Exception ex) {// create error message
-        //        errorView.title = "Exception: ";
-        //        errorView.Message = ex.Message;
-        //        return PartialView("Error", errorView);
-        //    }
-        //}
-
     }
 }

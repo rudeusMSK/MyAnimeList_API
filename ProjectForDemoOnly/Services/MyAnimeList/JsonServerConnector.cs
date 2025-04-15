@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ProjectForDemoOnly.Models.Services.MyAnimeListModel;
 using Newtonsoft.Json;
 using System.Net.Http;
+using ProjectForDemoOnly.Models.Services;
 
 namespace ProjectForDemoOnly.Services.MyAnimeList
 {
@@ -19,6 +20,33 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             this.url = "http://localhost:";
         }
 
+        public Task<List<MAL_Recommendations>> Get_RecommendationsAsync(int? page)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<List<MAL_AnimeReview>> GetAnimeReviewAsync(int? id)
+        {
+            string format = "{0}{1}/AnimeReviewBySeri/";
+
+            string endpoint = string.Format(format, this.url, (int)JsonServerPorts.ReviewByAni);
+            // Send request url:
+            var body = await SendRequestAsync<List<MAL_AnimeReview>>(endpoint, new HttpClient());
+            // process body respon ...
+            return body;
+        }
+
+        public async Task<MAL_AnimeInfo> GetAnimeInfoAsync(int? id)
+        {
+            string format = "{0}{1}/AnimeInfo/";
+
+            string endpoint = string.Format(format, this.url, (int)JsonServerPorts.AniInfo);
+            // Send request url:
+            var body = await SendRequestAsync<MAL_AnimeInfo>(endpoint, new HttpClient());
+            // process body respon ...
+            return body;
+        }
+
         public async Task<List<MAL_Genres>> GetGenresAsync(int? id)
         {
             string format = "{0}{1}/Genres/";
@@ -29,16 +57,17 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             return body;
         }
 
-        public async Task<List<MAL_TopAnime>> GetTopAnimeAsync(string Category, int? page)
+        public async Task<List<MAL_TopAnime>> GetTopAnimeAsync(string Category, int? page) // Refactor param {int? top}
         {
             // page default:
-            page = page?? 1;
+            // page = page?? 1;
 
             //string format = "{0}{1}top/{2}?p={3}";
-            string format = "{0}{1}/TopAnime/";
+            string format = "{0}{1}/TopAnime?_start={2}&_end={3}";
+
             // Config url: {0:Url} {1:port} {2:category} {3:page}
             // string endpoint = string.Format(format,this.url, JsonServerPorts.TopAni, Category, page);
-            string endpoint = string.Format(format, this.url, (int)JsonServerPorts.TopAni);
+            string endpoint = string.Format(format, this.url, (int)JsonServerPorts.TopAni,0, 10);
             // Send request url:
             var body = await SendRequestAsync<List<MAL_TopAnime>>(endpoint, new HttpClient());
             // process body respon ...
@@ -136,17 +165,6 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
         }
 
 
-
-        public Task<MAL_AnimeInfo> GetAnimeInfoAsync(int? id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<MAL_AnimeReview>> GetAnimeReviewAsync(int? id)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<MAL_AnimeOfSeason> GetSeasonalAnimeAsync(string season, int? year)
         {
             // Config:
@@ -187,13 +205,8 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             };
 
             // Format Genres:
-            // MAL_Helper.CleanGenres(animeOfSeasonal);
+            MAL_Helper.CleanGenres(animeOfSeason);
             return animeOfSeason;
-        }
-
-        public Task<List<MAL_Recommendations>> Get_RecommendationsAsync(int? page)
-        {
-            throw new NotImplementedException();
         }
     }
 }
