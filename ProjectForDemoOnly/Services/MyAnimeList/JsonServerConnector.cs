@@ -12,7 +12,6 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
     public class JsonServerConnector : IMALServices
     {
         private readonly string url;
-        private HttpClient httpClient;
 
         public JsonServerConnector() // params: domain name server.
         {
@@ -25,19 +24,84 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             // page default:
             page = page?? 1;
 
-            string format = "{0}{1}top/{2}?p={3}";
+            //string format = "{0}{1}top/{2}?p={3}";
+            string format = "{0}{1}/TopAnime/";
             // Config url: {0:Url} {1:port} {2:category} {3:page}
-            string endpoint = string.Format(format,this.url, JsonServerPorts.TopAni, Category, page);
+            // string endpoint = string.Format(format,this.url, JsonServerPorts.TopAni, Category, page);
+            string endpoint = string.Format(format, this.url, (int)JsonServerPorts.TopAni);
             // Send request url:
-            var topAni = await SendRequestAsync<List<MAL_TopAnime>>(endpoint);
-
+            var topAni = await SendRequestAsync<List<MAL_TopAnime>>(endpoint, new HttpClient());
             return topAni;
+        }
 
+        public async Task<List<TV>> GetAnimeTVAsync(string season, int? year) // Refactor params {season, year, start, end}
+        {
+            string format = "{0}{1}/TV?_start={2}&_end={3}";
+            string endpoint = string.Format(format, url, (int)JsonServerPorts.AniOfSeasnal, 1, 4);
+
+            var tV = await SendRequestAsync<List<TV>>(endpoint, new HttpClient());
+            
+            // process body respon ...
+            
+            return tV;
+        }
+
+        public async Task<List<TVCon>> GetAnimeTVConAsync(string season, int? year)
+        {
+
+            string format = "{0}{1}/TVCon?_start={2}&_end={3}";
+            string endpoint = string.Format(format, url, (int)JsonServerPorts.AniOfSeasnal, 1, 4);
+            var tVCon = await SendRequestAsync<List<TVCon>>(endpoint, new HttpClient());
+
+            return tVCon;
+        }
+
+        public async Task<List<TVNew>> GetAnimeTVNewAsync(string season, int? year)
+        {
+            string format = "{0}{1}/TVNew?_start={2}&_end={3}";
+            string endpoint = string.Format(format, url, (int)JsonServerPorts.AniOfSeasnal, 1, 4);
+
+            var tVNew = await SendRequestAsync<List<TVNew>>(endpoint, new HttpClient());
+            return tVNew;
+        }
+
+        public async Task<List<ONA>> GetAnimeONasAsync(string season, int? year)
+        {
+            string format = "{0}{1}/ONAs?_start={2}&_end={3}";
+            string endpoint = string.Format(format, url, (int)JsonServerPorts.AniOfSeasnal, 1, 4);
+
+            var oNa = await SendRequestAsync<List<ONA>>(endpoint, new HttpClient());
+            return oNa;
+        }
+
+        public async Task<List<OVA>> GetAnimeOVasAsync(string season, int? year)
+        {
+            string format = "{0}{1}/OVAs?_start={2}&_end={3}";
+            string endpoint = string.Format(format, url, (int)JsonServerPorts.AniOfSeasnal, 1, 4);
+
+            var oVa = await SendRequestAsync<List<OVA>>(endpoint, new HttpClient());
+            return oVa;
+        }
+
+        public async Task<List<Movie>> GetAnimeMoviesAsync(string season, int? year)
+        {
+            string format = "{0}{1}/Movies?_start={2}&_end={3}";
+            string endpoint = string.Format(format, url, (int)JsonServerPorts.AniOfSeasnal, 1, 4);
+            var movie = await SendRequestAsync<List<Movie>>(endpoint, new HttpClient());
+            return movie;
+        }
+
+        public async Task<List<Special>> GetAnimeSpecialsAsync(string season, int? year)
+        {
+            string format = "{0}{1}/Specials?_start={2}&_end={3}";
+            string endpoint = string.Format(format, url, (int)JsonServerPorts.AniOfSeasnal, 1, 4);
+            var special = await SendRequestAsync<List<Special>>(endpoint, new HttpClient());
+            return special;
         }
 
 
         // Process Send Request:
-        private async Task<T> SendRequestAsync<T>(string endpoint)
+        private async Task<T> SendRequestAsync<T>(string endpoint, HttpClient httpClient)
         {
             // Send Request:
             var request = CreateHttpRequest(endpoint);
@@ -77,9 +141,48 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             throw new NotImplementedException();
         }
 
-        public Task<MAL_AnimeOfSeason> GetSeasonalAnimeAsync(string season, int? year)
+        public async Task<MAL_AnimeOfSeason> GetSeasonalAnimeAsync(string season, int? year)
         {
-            throw new NotImplementedException();
+            // Config:
+            //season = string.IsNullOrEmpty(season) ? MAL_Helper.GetCurrentSeason() : season;
+            //year = year == 0 ? DateTime.Now.Year : year;
+
+            // Send request:
+            //const string endpointFormat = "{0}seasonal?year={1}&season={2}";
+            //string endpoint = string.Format(endpointFormat, nameServer, year, season);
+
+            // local config: Defaul 2024 WINTER Seasonal
+            //string endpoint = "http://localhost:3000/AnimeOfSeason";
+            // var animeOfSeasonal = await SendRequestAsync<MAL_AnimeOfSeason>(endpoint);
+
+            // string format = "{0}{1}/TopAnime/";
+            // Config url: {0:Url} {1:port} {2:category} {3:page}
+            // string endpoint = string.Format(format,this.url, JsonServerPorts.TopAni, Category, page);
+            // string endpoint = string.Format(format, this.url, (int)JsonServerPorts.AniOfSeasnal);
+
+            // TV show:
+            List<TV> tv = await GetAnimeTVAsync(season, year);
+            List<TVNew> tVNews = await GetAnimeTVNewAsync(season, year);
+            List<TVCon> tVCons = await GetAnimeTVConAsync(season, year);
+            List<OVA> oVAs = await GetAnimeOVasAsync(season, year);
+            List<ONA> oNAs = await GetAnimeONasAsync(season, year);
+            List<Special> specials = await GetAnimeSpecialsAsync(season, year);
+            List<Movie> movies = await GetAnimeMoviesAsync(season, year);
+
+            MAL_AnimeOfSeason animeOfSeason = new MAL_AnimeOfSeason()
+            {
+                TV = tv,
+                TVNew = tVNews,
+                TVCon = tVCons,
+                ONAs = oNAs,
+                OVAs = oVAs,
+                Specials = specials,
+                Movies = movies
+            };
+
+            // Format Genres:
+            // MAL_Helper.CleanGenres(animeOfSeasonal);
+            return animeOfSeason;
         }
 
         public Task<List<MAL_Recommendations>> Get_RecommendationsAsync(int? page)
