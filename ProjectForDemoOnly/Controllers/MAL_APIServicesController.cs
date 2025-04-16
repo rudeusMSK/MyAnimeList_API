@@ -108,6 +108,15 @@ namespace ProjectForDemoOnly.Controllers
             return PartialView("Get_AnimeReviewByAnime", body);
         }
 
+        public async Task<ActionResult> Get_Recommendations(int? page)
+        {
+            page = 1; // test
+            services = AnimeService.CreateConnect(ChooseConnector.JsonServer, "", "");
+            List<MAL_Recommendations> body = await services.Get_RecommendationsAsync(page);
+
+            return View(body);
+        }
+
         ////public async Task<ActionResult> Get_RecommendationsByAnime(string seriesName, int? id)
         ////{
         ////    return default;
@@ -123,14 +132,6 @@ namespace ProjectForDemoOnly.Controllers
 
         ////    return default;
         ////}
-
-        //public async Task<ActionResult> Get_Recommendations(int? page)
-        //{
-        //    page = 1; // test
-        //    List<MAL_Recommendations> recommendations = await animeService.Get_RecommendationsAsync(page);
-
-        //    return View(recommendations);
-        //}
 
         //public async Task<ActionResult> Get_AnimeReviews(
         //    int id,

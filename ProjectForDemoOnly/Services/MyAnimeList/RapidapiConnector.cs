@@ -1,11 +1,9 @@
-﻿using Newtonsoft.Json;
-using ProjectForDemoOnly.Models.Services.MyAnimeListModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Net.Http;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
-using System.Web;
+using System.Collections.Generic;
+using ProjectForDemoOnly.Models.Services.MyAnimeListModel;
 
 namespace ProjectForDemoOnly.Services.MyAnimeList
 {
@@ -73,6 +71,22 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
 
         public Task<MAL_AnimeOfSeason> GetSeasonalAnimeAsync(string season, int? year)
         {
+            // Config:
+            //season = string.IsNullOrEmpty(season) ? MAL_Helper.GetCurrentSeason() : season;
+            //year = year == 0 ? DateTime.Now.Year : year;
+
+            // Send request:
+            //const string endpointFormat = "{0}seasonal?year={1}&season={2}";
+            //string endpoint = string.Format(endpointFormat, nameServer, year, season);
+
+            // local config: Defaul 2024 WINTER Seasonal
+            //string endpoint = "http://localhost:3000/AnimeOfSeason";
+            // var animeOfSeasonal = await SendRequestAsync<MAL_AnimeOfSeason>(endpoint);
+
+            // string format = "{0}{1}/TopAnime/";
+            // Config url: {0:Url} {1:port} {2:category} {3:page}
+            // string endpoint = string.Format(format,this.url, JsonServerPorts.TopAni, Category, page);
+            // string endpoint = string.Format(format, this.url, (int)JsonServerPorts.AniOfSeasnal);
             throw new NotImplementedException();
         }
 

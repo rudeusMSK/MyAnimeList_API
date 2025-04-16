@@ -1,12 +1,5 @@
-﻿using Newtonsoft.Json;
-using ProjectForDemoOnly.Models.Services;
-using ProjectForDemoOnly.Models.Services.MyAnimeListModel;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web.UI;
-using static System.Net.WebRequestMethods;
 
 namespace ProjectForDemoOnly.Services.MyAnimeList
 {

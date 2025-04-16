@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Web;
-using System.Linq;
-using System.Collections.Generic;
-using System.Threading.Tasks; 
-using ProjectForDemoOnly.Models.Services.MyAnimeListModel;
 using Newtonsoft.Json;
 using System.Net.Http;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 using ProjectForDemoOnly.Models.Services;
+using ProjectForDemoOnly.Models.Services.MyAnimeListModel;
+
 
 namespace ProjectForDemoOnly.Services.MyAnimeList
 {
@@ -19,12 +18,18 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             // domain default:
             this.url = "http://localhost:";
         }
-
-        public Task<List<MAL_Recommendations>> Get_RecommendationsAsync(int? page)
+        // Anime Recomendation:
+        public async Task<List<MAL_Recommendations>> Get_RecommendationsAsync(int? page)
         {
-            throw new NotImplementedException();
+            // Config:
+            string format = "{0}{1}Recommendations";
+
+            // Send request:
+            string endpoint = string.Format(format, this.url, (int)JsonServerPorts.ReviewByAni);
+            return await SendRequestAsync<List<MAL_Recommendations>>(endpoint,new HttpClient());
         }
 
+        // Review by Anime:
         public async Task<List<MAL_AnimeReview>> GetAnimeReviewAsync(int? id)
         {
             string format = "{0}{1}/AnimeReviewBySeri/";
@@ -35,7 +40,7 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             // process body respon ...
             return body;
         }
-
+        // Anime informations:
         public async Task<MAL_AnimeInfo> GetAnimeInfoAsync(int? id)
         {
             string format = "{0}{1}/AnimeInfo/";
@@ -46,7 +51,7 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             // process body respon ...
             return body;
         }
-
+        // Genres:
         public async Task<List<MAL_Genres>> GetGenresAsync(int? id)
         {
             string format = "{0}{1}/Genres/";
@@ -56,7 +61,7 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             // process body respon ...
             return body;
         }
-
+        // Top Anime:
         public async Task<List<MAL_TopAnime>> GetTopAnimeAsync(string Category, int? page) // Refactor param {int? top}
         {
             // page default:
@@ -73,6 +78,36 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             // process body respon ...
             return body;
         }
+        // Anime Of Season:
+        public async Task<MAL_AnimeOfSeason> GetSeasonalAnimeAsync(string season, int? year)
+        {
+            // TV show:
+            List<TV> tv = await GetAnimeTVAsync(season, year);
+            List<TVNew> tVNews = await GetAnimeTVNewAsync(season, year);
+            List<TVCon> tVCons = await GetAnimeTVConAsync(season, year);
+            List<OVA> oVAs = await GetAnimeOVasAsync(season, year);
+            List<ONA> oNAs = await GetAnimeONasAsync(season, year);
+            List<Special> specials = await GetAnimeSpecialsAsync(season, year);
+            List<Movie> movies = await GetAnimeMoviesAsync(season, year);
+
+            MAL_AnimeOfSeason animeOfSeason = new MAL_AnimeOfSeason()
+            {
+                TV = tv,
+                TVNew = tVNews,
+                TVCon = tVCons,
+                ONAs = oNAs,
+                OVAs = oVAs,
+                Specials = specials,
+                Movies = movies
+            };
+
+            // Format Genres:
+            MAL_Helper.CleanGenres(animeOfSeason);
+            return animeOfSeason;
+        }
+
+        /* ============================================================== 
+         * Anime TV SHOW */
 
         public async Task<List<TV>> GetAnimeTVAsync(string season, int? year) // Refactor params {season, year, start, end}
         {
@@ -80,9 +115,9 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             string endpoint = string.Format(format, url, (int)JsonServerPorts.AniOfSeasnal, 1, 4);
 
             var body = await SendRequestAsync<List<TV>>(endpoint, new HttpClient());
-            
+
             // process body respon ...
-            
+
             return body;
         }
 
@@ -139,6 +174,8 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             return special;
         }
 
+        /* Anime TV SHOW *
+         * ==============================================================  */
 
         // Process Send Request:
         private async Task<T> SendRequestAsync<T>(string endpoint, HttpClient httpClient)
@@ -158,55 +195,10 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             return JsonConvert.DeserializeObject<T>(body);
         }
 
-        // Create Request
+        // Create Request:
         private HttpRequestMessage CreateHttpRequest(string endpoint)
         {
             return new HttpRequestMessage(HttpMethod.Get, new Uri(endpoint));
-        }
-
-
-        public async Task<MAL_AnimeOfSeason> GetSeasonalAnimeAsync(string season, int? year)
-        {
-            // Config:
-            //season = string.IsNullOrEmpty(season) ? MAL_Helper.GetCurrentSeason() : season;
-            //year = year == 0 ? DateTime.Now.Year : year;
-
-            // Send request:
-            //const string endpointFormat = "{0}seasonal?year={1}&season={2}";
-            //string endpoint = string.Format(endpointFormat, nameServer, year, season);
-
-            // local config: Defaul 2024 WINTER Seasonal
-            //string endpoint = "http://localhost:3000/AnimeOfSeason";
-            // var animeOfSeasonal = await SendRequestAsync<MAL_AnimeOfSeason>(endpoint);
-
-            // string format = "{0}{1}/TopAnime/";
-            // Config url: {0:Url} {1:port} {2:category} {3:page}
-            // string endpoint = string.Format(format,this.url, JsonServerPorts.TopAni, Category, page);
-            // string endpoint = string.Format(format, this.url, (int)JsonServerPorts.AniOfSeasnal);
-
-            // TV show:
-            List<TV> tv = await GetAnimeTVAsync(season, year);
-            List<TVNew> tVNews = await GetAnimeTVNewAsync(season, year);
-            List<TVCon> tVCons = await GetAnimeTVConAsync(season, year);
-            List<OVA> oVAs = await GetAnimeOVasAsync(season, year);
-            List<ONA> oNAs = await GetAnimeONasAsync(season, year);
-            List<Special> specials = await GetAnimeSpecialsAsync(season, year);
-            List<Movie> movies = await GetAnimeMoviesAsync(season, year);
-
-            MAL_AnimeOfSeason animeOfSeason = new MAL_AnimeOfSeason()
-            {
-                TV = tv,
-                TVNew = tVNews,
-                TVCon = tVCons,
-                ONAs = oNAs,
-                OVAs = oVAs,
-                Specials = specials,
-                Movies = movies
-            };
-
-            // Format Genres:
-            MAL_Helper.CleanGenres(animeOfSeason);
-            return animeOfSeason;
         }
     }
 }
