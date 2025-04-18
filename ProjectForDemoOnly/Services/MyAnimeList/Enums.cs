@@ -10,7 +10,6 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
         JsonServer,
         RappiApi,
     }
-
     public enum sort
     {
         suggested,
@@ -28,7 +27,6 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
         well_written,
         creative,
     }
-
     public enum CategoryOptions
     {
         all,
@@ -42,7 +40,6 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
         bypopularity,
         favorite,
     }
-
     public enum Seasonal
     {
         winter,

@@ -1,10 +1,9 @@
-﻿using ProjectForDemoOnly.Services.MyAnimeList;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Text;
-using System.Web;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using ProjectForDemoOnly.Services.MyAnimeList;
 using ProjectForDemoOnly.Models.Services.MyAnimeListModel;
 
 namespace ProjectForDemoOnly.Models.Services

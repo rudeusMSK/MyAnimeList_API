@@ -1,49 +1,63 @@
-﻿using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using ProjectForDemoOnly.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System;
 using System.Web.Mvc;
-using System.Web.UI;
-using ProjectForDemoOnly.Models.Services.MyAnimeListModel;
-using System.Web.WebPages;
-using RestSharp;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
+using ProjectForDemoOnly.Models;
+using System.Collections.Generic;
 using ProjectForDemoOnly.Services.MyAnimeList;
-using ProjectForDemoOnly.Models.Services;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
-using System.Web.Services.Description;
-using System.Web.Security;
+using ProjectForDemoOnly.Models.Services.MyAnimeListModel;
+
 
 namespace ProjectForDemoOnly.Controllers
 {
     public class MAL_APIServicesController : Controller
     {
         // service authentication:
-        private static readonly AnimeService animeService = new AnimeService(new HttpClient());
+
+        IMALServices services;
+
+        // ====================================================
+        // DEMO - RapiApiConnector. // account.
+        private readonly string apikey = "X-RapidAPI-Key", apiValue = "dcba14be99msh7fda78dd24a8705p1f40b4jsn2874bae46dc6";
+
+
         private ErrorViewModel errorView = new ErrorViewModel();
 
+
+        // Connect Type
+        public ActionResult ChooseConnectType(ChooseConnector connectorType, string apiKey, string apiValue)
+        {
+            // demo account:
+            connectorType = ChooseConnector.JsonServer;
+            apiKey = "X-RapidAPI-Key";
+            apiValue = "dcba14be99msh7fda78dd24a8705p1f40b4jsn2874bae46dc6";
+
+            // choose connect type service
+            services = AnimeService.CreateConnect(connectorType, apiKey, apiValue);
+            return View();
+        }
+
+        // GET: Anime Of Seasonal: 
+        public async Task<ActionResult> Get_SeasonalAnime(string season, int? year)
+        {
+            // process service instance not created
+            services = AnimeService.CreateConnect(ChooseConnector.RappiApi, apikey, apiValue);
+            var AniOfSeasonal = await services.GetSeasonalAnimeAsync(season, year);
+            return PartialView("Get_AnimeOfSeason", AniOfSeasonal);
+        }
 
         // GET: Top Anime
         public async Task<ActionResult> Get_TopAnime(string category)
         {
-            // check Defined CategoryOptions enum.
-            if (!Enum.IsDefined(typeof(CategoryOptions), category))
-            {
-                errorView.title = "Json parsing error";
-                errorView.Message = "Don't category option !";
-                return PartialView("Error", errorView);
-            }
+            // process service instance not created
+            services = AnimeService.CreateConnect(ChooseConnector.RappiApi, apikey, apiValue);
 
-            try
-            {
-                var topAnime = await animeService.GetTopAnimeAsync(category);
-                return PartialView("Get_TopAnime", topAnime);
-
-            } // Catch json: 
+            try {
+                var topAni =  await services.GetTopAnimeAsync(category, 1);
+                return PartialView("Get_TopAnime", topAni);
+            } 
+            // Catch json: 
             catch (JsonException je) {
 
                 // create error message:
@@ -51,8 +65,9 @@ namespace ProjectForDemoOnly.Controllers
                 errorView.Message = je.Message;
                 return PartialView("Error", errorView);
 
-            } // Catch exception:
-            catch (Exception  ex) {
+            } 
+            // Catch exception:
+            catch (Exception ex)  {
                 // create error message:
                 errorView.title = "Exception: ";
                 errorView.Message = ex.Message;
@@ -60,20 +75,22 @@ namespace ProjectForDemoOnly.Controllers
             }
         }
 
-        public async Task<ActionResult> Get_AnimeGenres(string[] genres)
+
+        public async Task<ActionResult> Get_AnimeGenres(string[] genreList)
         {
             // process genres request...
-
-            List<MAL_Genres> genreBody = await animeService.GetGenresAsync();
-            return View(genreBody);
+            services = AnimeService.CreateConnect(ChooseConnector.RappiApi, apikey, apiValue);
+            List<MAL_Genres> genres = await services.GetGenresAsync(null);
+            return View(genres);
         }
+
 
         public async Task<ActionResult> Get_AnimeInfo(int? id)
         {
             // check id...
-
-            MAL_AnimeInfo AnimeInfo = await animeService.GetAnimeInfoAsync(52991);
-            return View(AnimeInfo);
+            services = AnimeService.CreateConnect(ChooseConnector.RappiApi, apikey, apiValue);
+            MAL_AnimeInfo body = await services.GetAnimeInfoAsync(id);
+            return View(body);
         }
 
         public async Task<ActionResult> Get_AnimeReviewByAnime(
@@ -83,14 +100,24 @@ namespace ProjectForDemoOnly.Controllers
             bool spoilers,
             string include_tags,
             bool preliminary,
-            string sort )
+            string sort)
         {
             // Process params:
             // ...
 
-            List<MAL_AnimeReview> animeReviewByAni = await animeService.GetAnimeReviewAsync(id);
-            
-            return PartialView("Get_AnimeReviewByAnime", animeReviewByAni);
+            services = AnimeService.CreateConnect(ChooseConnector.RappiApi, apikey, apiValue);
+            List <MAL_AnimeReview> body = await services.GetAnimeReviewAsync(id);
+
+            return PartialView("Get_AnimeReviewByAnime", body);
+        }
+
+        public async Task<ActionResult> Get_Recommendations(int? page)
+        {
+            page = 1; // test
+            services = AnimeService.CreateConnect(ChooseConnector.RappiApi, apikey, apiValue);
+            List<MAL_Recommendations> body = await services.Get_RecommendationsAsync(page);
+
+            return View(body);
         }
 
         //public async Task<ActionResult> Get_RecommendationsByAnime(string seriesName, int? id)
@@ -109,54 +136,18 @@ namespace ProjectForDemoOnly.Controllers
         //    return default;
         //}
 
-        public async Task<ActionResult> Get_Recommendations(int? page)
-        {
-            page = 1; // test
-            List<MAL_Recommendations> recommendations = await animeService.Get_RecommendationsAsync(page);
+        //public async Task<ActionResult> Get_AnimeReviews(
+        //    int id,
+        //    int page,
+        //    bool spoilers,
+        //    string include_tags,
+        //    bool preliminary,
+        //    string include_filters)
+        //{
+        //    // demo param:
+        //    List<MAL_AnimeReview> animeReviews = await animeService.GetAnimeReviewAsync(id);
 
-            return View(recommendations);
-        }
-
-        public async Task<ActionResult> Get_AnimeReviews(
-            int id,
-            int page,
-            bool spoilers,
-            string include_tags,
-            bool preliminary,
-            string include_filters)
-        {
-            // demo param:
-            List<MAL_AnimeReview> animeReviews = await animeService.GetAnimeReviewAsync(id);
-
-            return View(animeReviews);
-        }
-
-        // GET: Anime Of Seasonal: 
-        public async Task<ActionResult> Get_SeasonalAnime(string season, int? year)
-        {
-            // test param default
-            year = 0;
-
-            // TV, TV CON, TV NEW, OVAs, ONAs, Movies, Specials.
-
-            try
-            {
-                var animeOfSeasonal = await animeService.GetSeasonalAnimeAsync(season, year);
-                return PartialView("Get_AnimeOfSeason", animeOfSeasonal);
-
-            }  // Catch json:
-            catch (JsonException je) {
-                // create error message:
-                errorView.title = "Json parsing error";
-                errorView.Message = je.Message;
-                return PartialView("Error", errorView);
-
-            } // Catch exception:
-            catch (Exception ex) {// create error message
-                errorView.title = "Exception: ";
-                errorView.Message = ex.Message;
-                return PartialView("Error", errorView);
-            }
-        }
+        //    return View(animeReviews);
+        //}
     }
 }
