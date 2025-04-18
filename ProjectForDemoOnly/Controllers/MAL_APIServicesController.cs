@@ -17,6 +17,10 @@ namespace ProjectForDemoOnly.Controllers
 
         IMALServices services;
 
+        // ====================================================
+        // DEMO - RapiApiConnector. // account.
+        private readonly string apikey = "X-RapidAPI-Key", apiValue = "dcba14be99msh7fda78dd24a8705p1f40b4jsn2874bae46dc6";
+
 
         private ErrorViewModel errorView = new ErrorViewModel();
 
@@ -38,17 +42,16 @@ namespace ProjectForDemoOnly.Controllers
         public async Task<ActionResult> Get_SeasonalAnime(string season, int? year)
         {
             // process service instance not created
-            services = AnimeService.CreateConnect(ChooseConnector.JsonServer,"","");
+            services = AnimeService.CreateConnect(ChooseConnector.RappiApi, apikey, apiValue);
             var AniOfSeasonal = await services.GetSeasonalAnimeAsync(season, year);
             return PartialView("Get_AnimeOfSeason", AniOfSeasonal);
         }
-
 
         // GET: Top Anime
         public async Task<ActionResult> Get_TopAnime(string category)
         {
             // process service instance not created
-            services = AnimeService.CreateConnect(ChooseConnector.JsonServer, "X-RapidAPI-Key", "dcba14be99msh7fda78dd24a8705p1f40b4jsn2874bae46dc6");
+            services = AnimeService.CreateConnect(ChooseConnector.RappiApi, apikey, apiValue);
 
             try {
                 var topAni =  await services.GetTopAnimeAsync(category, 1);
@@ -76,7 +79,7 @@ namespace ProjectForDemoOnly.Controllers
         public async Task<ActionResult> Get_AnimeGenres(string[] genreList)
         {
             // process genres request...
-            services = AnimeService.CreateConnect(ChooseConnector.JsonServer, "", "");
+            services = AnimeService.CreateConnect(ChooseConnector.RappiApi, apikey, apiValue);
             List<MAL_Genres> genres = await services.GetGenresAsync(null);
             return View(genres);
         }
@@ -85,7 +88,7 @@ namespace ProjectForDemoOnly.Controllers
         public async Task<ActionResult> Get_AnimeInfo(int? id)
         {
             // check id...
-            services = AnimeService.CreateConnect(ChooseConnector.JsonServer, "", "");
+            services = AnimeService.CreateConnect(ChooseConnector.RappiApi, apikey, apiValue);
             MAL_AnimeInfo body = await services.GetAnimeInfoAsync(id);
             return View(body);
         }
@@ -102,8 +105,8 @@ namespace ProjectForDemoOnly.Controllers
             // Process params:
             // ...
 
-            services = AnimeService.CreateConnect(ChooseConnector.JsonServer, "", "");
-            List<MAL_AnimeReview> body = await services.GetAnimeReviewAsync(id);
+            services = AnimeService.CreateConnect(ChooseConnector.RappiApi, apikey, apiValue);
+            List <MAL_AnimeReview> body = await services.GetAnimeReviewAsync(id);
 
             return PartialView("Get_AnimeReviewByAnime", body);
         }
@@ -111,27 +114,27 @@ namespace ProjectForDemoOnly.Controllers
         public async Task<ActionResult> Get_Recommendations(int? page)
         {
             page = 1; // test
-            services = AnimeService.CreateConnect(ChooseConnector.JsonServer, "", "");
+            services = AnimeService.CreateConnect(ChooseConnector.RappiApi, apikey, apiValue);
             List<MAL_Recommendations> body = await services.Get_RecommendationsAsync(page);
 
             return View(body);
         }
 
-        ////public async Task<ActionResult> Get_RecommendationsByAnime(string seriesName, int? id)
-        ////{
-        ////    return default;
-        ////}
+        //public async Task<ActionResult> Get_RecommendationsByAnime(string seriesName, int? id)
+        //{
+        //    return default;
+        //}
 
-        ////public async Task<ActionResult> Get_SearchAnime(
-        ////    string SearchKey, 
-        ////    int? score,
-        ////    int?  genreID )
-        ////{
+        //public async Task<ActionResult> Get_SearchAnime(
+        //    string SearchKey, 
+        //    int? score,
+        //    int?  genreID )
+        //{
 
-        ////    // Number of result param: n < Minimum: 1 Maximum: 50 Default: 1 >
+        //    // Number of result param: n < Minimum: 1 Maximum: 50 Default: 1 >
 
-        ////    return default;
-        ////}
+        //    return default;
+        //}
 
         //public async Task<ActionResult> Get_AnimeReviews(
         //    int id,

@@ -28,7 +28,6 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             string endpoint = string.Format(format, this.url, (int)JsonServerPorts.ReviewByAni);
             return await SendRequestAsync<List<MAL_Recommendations>>(endpoint,new HttpClient());
         }
-
         // Review by Anime:
         public async Task<List<MAL_AnimeReview>> GetAnimeReviewAsync(int? id)
         {
@@ -194,7 +193,6 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
 
             return JsonConvert.DeserializeObject<T>(body);
         }
-
         // Create Request:
         private HttpRequestMessage CreateHttpRequest(string endpoint)
         {

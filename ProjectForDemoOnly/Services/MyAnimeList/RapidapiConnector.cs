@@ -4,6 +4,8 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using ProjectForDemoOnly.Models.Services.MyAnimeListModel;
+using System.Web.UI;
+using ProjectForDemoOnly.Models.Services;
 
 namespace ProjectForDemoOnly.Services.MyAnimeList
 {
@@ -25,78 +27,77 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             // stringbuilder endpoint: name Server + base endpoint + params
         }
 
-
-        // SERVER
-        public void Connect()
-        {
-            // Enpoint:
-
-            // Sent request:
-        }
-
-        public void Disconnect()
-        {
-            throw new NotImplementedException();
-        }
-
-
         // API
         public async Task<List<MAL_TopAnime>> GetTopAnimeAsync(string Category, int? page)
         {
+
             // Config:
             const string endpointFormat = "{0}top/{1}?p={2}";
-
-            page = 1;
-
             // Send request:
             string endpoint = string.Format(endpointFormat, nameServer, Category, page);
 
-            return await SendRequestAsync<List<MAL_TopAnime>>(endpoint);
+            return await SendRequestAsync<List<MAL_TopAnime>>(endpoint, new HttpClient());
         }
 
-        public Task<MAL_AnimeInfo> GetAnimeInfoAsync(int? id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<MAL_AnimeReview>> GetAnimeReviewAsync(int? id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<MAL_Genres>> GetGenresAsync(int? id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<MAL_AnimeOfSeason> GetSeasonalAnimeAsync(string season, int? year)
+        public async Task<MAL_AnimeInfo> GetAnimeInfoAsync(int? id)
         {
             // Config:
-            //season = string.IsNullOrEmpty(season) ? MAL_Helper.GetCurrentSeason() : season;
-            //year = year == 0 ? DateTime.Now.Year : year;
+            const string endpointFormat = "{0}{1}";
 
             // Send request:
-            //const string endpointFormat = "{0}seasonal?year={1}&season={2}";
-            //string endpoint = string.Format(endpointFormat, nameServer, year, season);
-
-            // local config: Defaul 2024 WINTER Seasonal
-            //string endpoint = "http://localhost:3000/AnimeOfSeason";
-            // var animeOfSeasonal = await SendRequestAsync<MAL_AnimeOfSeason>(endpoint);
-
-            // string format = "{0}{1}/TopAnime/";
-            // Config url: {0:Url} {1:port} {2:category} {3:page}
-            // string endpoint = string.Format(format,this.url, JsonServerPorts.TopAni, Category, page);
-            // string endpoint = string.Format(format, this.url, (int)JsonServerPorts.AniOfSeasnal);
-            throw new NotImplementedException();
+            string endpoint = string.Format(endpointFormat, nameServer, id);
+            return await SendRequestAsync<MAL_AnimeInfo>(endpoint, new HttpClient());
         }
 
-        public Task<List<MAL_Recommendations>> Get_RecommendationsAsync(int? page)
+        public async Task<List<MAL_AnimeReview>> GetAnimeReviewAsync(int? id)
         {
-            throw new NotImplementedException();
+            // config:
+            const string endpointFormat = "{0}reviews/{1}?p={2}&spoilers={3}&preliminary={4}&seriesName={5}&sort={6}";
+
+            // Send request:
+            string endpoint = string.Format(endpointFormat, nameServer, id, 1, false, false, "Sousou no Frieren", "newest");
+
+            return await SendRequestAsync<List<MAL_AnimeReview>>(endpoint, new HttpClient());
+        }
+
+        public async Task<List<MAL_Genres>> GetGenresAsync(int? id)
+        {
+            // Config:
+            const string endpointFormat = "{0}genres";
+            // Send request:
+            string endpoint = string.Format(endpointFormat, nameServer);
+            return await SendRequestAsync<List<MAL_Genres>>(endpoint, new HttpClient());
+        }
+
+        public async Task<MAL_AnimeOfSeason> GetSeasonalAnimeAsync(string season, int? year)
+        {
+            //Config:
+            season = string.IsNullOrEmpty(season) ? MAL_Helper.GetCurrentSeason() : season;
+            year = year == 0 || year == null ? DateTime.Now.Year : year;
+
+            //Send request:
+            const string endpointFormat = "{0}seasonal?year={1}&season={2}";
+            string endpoint = string.Format(endpointFormat, nameServer, year, season);
+            var animeOfSeasonal = await SendRequestAsync<MAL_AnimeOfSeason>(endpoint, new HttpClient());
+
+            // Format Genres:
+            MAL_Helper.CleanGenres(animeOfSeasonal);
+
+            return animeOfSeasonal;
+        }
+
+        public async Task<List<MAL_Recommendations>> Get_RecommendationsAsync(int? page)
+        {
+            // Config:
+            const string endpointFormat = "{0}recommendations?p={1}";
+
+            // Send request:
+            string endpoint = string.Format(endpointFormat, nameServer, page);
+            return await SendRequestAsync<List<MAL_Recommendations>>(endpoint, new HttpClient());
         }
 
         // Process Send Request:
-        private async Task<T> SendRequestAsync<T>(string endpoint)
+        private async Task<T> SendRequestAsync<T>(string endpoint,HttpClient httpClient)
         {
             // Send Request:
             var request = CreateHttpRequest(endpoint);

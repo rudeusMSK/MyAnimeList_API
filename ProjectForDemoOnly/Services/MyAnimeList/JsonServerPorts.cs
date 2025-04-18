@@ -13,6 +13,6 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
         ReviewByAni = 3003,
         Review = 3004,
         Genres = 3005,
-        SearchAni = 3006,
+        Recomendations = 3006,
     }
 }
