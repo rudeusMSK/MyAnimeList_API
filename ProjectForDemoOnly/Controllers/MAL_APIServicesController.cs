@@ -7,6 +7,7 @@ using ProjectForDemoOnly.Models;
 using System.Collections.Generic;
 using ProjectForDemoOnly.Services.MyAnimeList;
 using ProjectForDemoOnly.Models.Services.MyAnimeListModel;
+using System.Web;
 
 
 namespace ProjectForDemoOnly.Controllers
@@ -26,15 +27,26 @@ namespace ProjectForDemoOnly.Controllers
 
 
         // Connect Type
-        public ActionResult ChooseConnectType(ChooseConnector connectorType, string apiKey, string apiValue)
+        public ActionResult ChooseConnectType(ChooseConnector? connectorType, string apiKey, string apiValue)
         {
             // demo account:
-            connectorType = ChooseConnector.JsonServer;
+            connectorType = ChooseConnector.RappiApi;
             apiKey = "X-RapidAPI-Key";
             apiValue = "dcba14be99msh7fda78dd24a8705p1f40b4jsn2874bae46dc6";
 
-            // choose connect type service
-            services = AnimeService.CreateConnect(connectorType, apiKey, apiValue);
+            HttpCookie serverTypeCookie = new HttpCookie("serverType", connectorType.ToString());
+            serverTypeCookie.Expires = DateTime.Now.AddMinutes(5);
+            Response.Cookies.Add(serverTypeCookie);
+
+            HttpCookie apiKeyCookie = new HttpCookie("apiKey", apiKey);
+            apiKeyCookie.Expires = DateTime.Now.AddMinutes(5);
+            Response.Cookies.Add(apiKeyCookie);
+
+            HttpCookie apiValueCookie = new HttpCookie("apiValue", apiValue);
+            apiValueCookie.Expires = DateTime.Now.AddMinutes(5);
+            Response.Cookies.Add(apiValueCookie);
+
+            ViewBag.Message = "Đã lưu kết nối vào cookie.";
             return View();
         }
 
@@ -50,8 +62,22 @@ namespace ProjectForDemoOnly.Controllers
         // GET: Top Anime
         public async Task<ActionResult> Get_TopAnime(string category)
         {
+            var connectorStr = Request.Cookies["serverType"]?.Value;
+            var apiKey = Request.Cookies["apiKey"]?.Value;
+            var apiValue = Request.Cookies["apiValue"]?.Value;
+
+            if (string.IsNullOrEmpty(connectorStr))
+            {
+                errorView.title = "không tìm thấy phương thức kết nối với Server.";
+                errorView.Message = "Bạn chưa thiết lập kiểu kết nối.";
+                return View("Error", errorView);
+            }
+
+            var connectorType = (ChooseConnector)Enum.Parse(typeof(ChooseConnector), connectorStr);
+
             // process service instance not created
-            services = AnimeService.CreateConnect(ChooseConnector.RappiApi, apikey, apiValue);
+            // services = AnimeService.CreateConnect(ChooseConnector.RappiApi, apikey, apiValue);
+            services = AnimeService.CreateConnect(connectorType, apiKey, apiValue);
 
             try {
                 var topAni =  await services.GetTopAnimeAsync(category, 1);
