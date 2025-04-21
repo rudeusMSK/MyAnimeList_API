@@ -135,19 +135,5 @@ namespace ProjectForDemoOnly.Controllers
 
         //    return default;
         //}
-
-        //public async Task<ActionResult> Get_AnimeReviews(
-        //    int id,
-        //    int page,
-        //    bool spoilers,
-        //    string include_tags,
-        //    bool preliminary,
-        //    string include_filters)
-        //{
-        //    // demo param:
-        //    List<MAL_AnimeReview> animeReviews = await animeService.GetAnimeReviewAsync(id);
-
-        //    return View(animeReviews);
-        //}
     }
 }
