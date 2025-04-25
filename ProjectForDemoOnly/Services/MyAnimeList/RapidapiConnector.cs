@@ -28,6 +28,7 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
         // API
         public async Task<List<MAL_TopAnime>> GetTopAnimeAsync(string Category, int? page)
         {
+            Category = "all";
 
             // Config:
             const string endpointFormat = "{0}top/{1}?p={2}";

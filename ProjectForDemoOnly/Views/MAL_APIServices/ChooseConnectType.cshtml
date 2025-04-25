@@ -1,8 +1,48 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "ChooseConnectType";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ChooseConnectType</h2>
 
+<div class="container mt-5">
+    <h2 class="text-center">Chọn kiểu kết nối API</h2>
+
+    @if (!string.IsNullOrEmpty(ViewBag.Message))
+    {
+        <div class="alert alert-success" role="alert">
+            @ViewBag.Message
+        </div>
+    }
+
+    @using (Html.BeginForm("ChooseConnectType", "MAL_APIServices", FormMethod.Get, new { @class = "form-group" }))
+    {
+        <div class="form-group">
+            <label for="connectorType">Chọn kiểu kết nối:</label>
+            <select class="form-control" name="connectorType" id="connectorType" required>
+                <option value="">-- Chọn --</option>
+                <option value="JsonServer">JsonServer</option>
+                <option value="Rappiapi">Rappiapi</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="apiKey">API Key:</label>
+            <input type="text" class="form-control" name="apiKey" id="apiKey" placeholder="Nhập API Key" required />
+        </div>
+
+        <div class="form-group">
+            <label for="apiValue">API Value:</label>
+            <input type="text" class="form-control" name="apiValue" id="apiValue" placeholder="Nhập API Value" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Lưu kết nối</button>
+    }
+
+    <hr />
+
+    <!-- Nút để ngắt kết nối -->
+    @using (Html.BeginForm("Disconnect", "MAL_APIServices", FormMethod.Post))
+    {
+        <button type="submit" class="btn btn-danger">Ngắt kết nối</button>
+    }
+</div>

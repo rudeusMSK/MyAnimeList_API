@@ -1,17 +1,13 @@
 ﻿@model ProjectForDemoOnly.Models.ErrorViewModel
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Error</title>
-</head>
-<body>
-    <hgroup>
-        <h1>Error.</h1>
-        <h2>An error occurred while processing your request.</h2>
-        <h3>@Model.title</h3>
-        <h4>@Model.Message.ToString()</h4>
-    </hgroup>
+<body class="bg-light">
+    <div class="container min-vh-100 d-flex align-items-center justify-content-center">
+        <div class="card shadow-sm text-center">
+            <div class="card-body p-5">
+                <h1 class="card-title display-4 text-danger mb-4">@Model.title</h1>
+                <p class="card-text mb-4">@Model.Message.ToString()</p>
+                @Html.ActionLink("Đi đến nhà cung cấp dịch vụ.", "ChooseConnectType", "MAL_APIServices", null, new { @class = "btn btn-primary btn-lg" })
+            </div>
+        </div>
+    </div>
 </body>
-</html>
