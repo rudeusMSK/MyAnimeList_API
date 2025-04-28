@@ -7,54 +7,102 @@ using ProjectForDemoOnly.Models;
 using System.Collections.Generic;
 using ProjectForDemoOnly.Services.MyAnimeList;
 using ProjectForDemoOnly.Models.Services.MyAnimeListModel;
+using System.Web;
+using Microsoft.Ajax.Utilities;
 
 
 namespace ProjectForDemoOnly.Controllers
 {
     public class MAL_APIServicesController : Controller
     {
-        // service authentication:
+        // ======================================================
+        // Demo account:
+        //apiKey = "X-RapidAPI-Key";
+        //apiValue = "dcba14be99msh7fda78dd24a8705p1f40b4jsn2874bae46dc6";
+        // ======================================================
 
+        // services:
         IMALServices services;
-
-        // ====================================================
-        // DEMO - RapiApiConnector. // account.
-        private readonly string apikey = "X-RapidAPI-Key", apiValue = "dcba14be99msh7fda78dd24a8705p1f40b4jsn2874bae46dc6";
-
-
         private ErrorViewModel errorView = new ErrorViewModel();
 
-
-        // Connect Type
-        public ActionResult ChooseConnectType(ChooseConnector connectorType, string apiKey, string apiValue)
+        // Disconnect Service:
+        public ActionResult Disconnect()
         {
-            // demo account:
-            connectorType = ChooseConnector.JsonServer;
-            apiKey = "X-RapidAPI-Key";
-            apiValue = "dcba14be99msh7fda78dd24a8705p1f40b4jsn2874bae46dc6";
+            AnimeService.DeleteCookies(Response);
+            return View("ChooseConnectType");
+        }
 
-            // choose connect type service
-            services = AnimeService.CreateConnect(connectorType, apiKey, apiValue);
+        // Choose Services:
+        public ActionResult ChooseConnectType(ChooseConnector? connectorType, string apiKey, string apiValue)
+        {
+            if (connectorType.HasValue 
+                && !string.IsNullOrEmpty(apiKey) 
+                && !string.IsNullOrEmpty(apiValue))
+
+                // Save:
+                AnimeService.SaveConnectionCookies(
+                    Response, 
+                    connectorType.Value, 
+                    apiKey, 
+                    apiValue
+                );
+
+            ViewBag.Message = AnimeService.State;
             return View();
         }
 
-        // GET: Anime Of Seasonal: 
+        // GET: Anime Of Seasonal:
         public async Task<ActionResult> Get_SeasonalAnime(string season, int? year)
         {
-            // process service instance not created
-            services = AnimeService.CreateConnect(ChooseConnector.RappiApi, apikey, apiValue);
-            var AniOfSeasonal = await services.GetSeasonalAnimeAsync(season, year);
+            // Init Service:
+            services = AnimeService.InitService(Request);
+            if (services == null)
+            {
+                errorView.title = "Chua ket noi service";
+                errorView.Message = "chon kieu ket noi";
+                return PartialView("Error", errorView);
+            }
+
+            try
+            {
+                // Get Service:
+                var AniOfSeasonal = await services.GetSeasonalAnimeAsync(season, year);
             return PartialView("Get_AnimeOfSeason", AniOfSeasonal);
+            }
+            // Catch json: 
+            catch (JsonException je)
+            {
+
+                // create error message:
+                errorView.title = "Json parsing error";
+                errorView.Message = je.Message;
+                return PartialView("Error", errorView);
+            }
+            // Catch exception:
+            catch (Exception ex)
+            {
+                // create error message:
+                errorView.title = "Exception: ";
+                errorView.Message = ex.Message;
+                return PartialView("Error", errorView);
+            }
         }
 
         // GET: Top Anime
         public async Task<ActionResult> Get_TopAnime(string category)
         {
-            // process service instance not created
-            services = AnimeService.CreateConnect(ChooseConnector.RappiApi, apikey, apiValue);
+            // Init Service:
+            services = AnimeService.InitService(Request);
 
-            try {
-                var topAni =  await services.GetTopAnimeAsync(category, 1);
+            if (services == null)  {
+                errorView.title = "Chua ket noi service";
+                errorView.Message = "chon kieu ket noi";
+                return PartialView("Error", errorView);
+            }
+            // Get Service:
+            try
+            {
+                var topAni = await services.GetTopAnimeAsync(category, 1);
                 return PartialView("Get_TopAnime", topAni);
             } 
             // Catch json: 
@@ -78,19 +126,73 @@ namespace ProjectForDemoOnly.Controllers
 
         public async Task<ActionResult> Get_AnimeGenres(string[] genreList)
         {
-            // process genres request...
-            services = AnimeService.CreateConnect(ChooseConnector.RappiApi, apikey, apiValue);
-            List<MAL_Genres> genres = await services.GetGenresAsync(null);
-            return View(genres);
-        }
+            services = AnimeService.InitService(Request);
+            if (services == null)
+            {
+                errorView.title = "Chua ket noi service";
+                errorView.Message = "chon kieu ket noi";
+                return PartialView("Error", errorView);
+            }
 
+            try
+            {
+                // process genres request...
+                List<MAL_Genres> genres = await services.GetGenresAsync(null);
+            return View(genres);
+            }
+            // Catch json: 
+            catch (JsonException je)
+            {
+
+                // create error message:
+                errorView.title = "Json parsing error";
+                errorView.Message = je.Message;
+                return PartialView("Error", errorView);
+            }
+            // Catch exception:
+            catch (Exception ex)
+            {
+                // create error message:
+                errorView.title = "Exception: ";
+                errorView.Message = ex.Message;
+                return PartialView("Error", errorView);
+            }
+        }
 
         public async Task<ActionResult> Get_AnimeInfo(int? id)
         {
+            services = AnimeService.InitService(Request);
+            if (services == null)
+            {
+                errorView.title = "Chua ket noi service";
+                errorView.Message = "chon kieu ket noi";
+                return PartialView("Error", errorView);
+            }
+
             // check id...
-            services = AnimeService.CreateConnect(ChooseConnector.RappiApi, apikey, apiValue);
-            MAL_AnimeInfo body = await services.GetAnimeInfoAsync(id);
+            try
+            {
+                MAL_AnimeInfo body = await services.GetAnimeInfoAsync(id);
             return View(body);
+            }
+            // Catch json: 
+            catch (JsonException je)
+            {
+
+                // create error message:
+                errorView.title = "Json parsing error";
+                errorView.Message = je.Message;
+                return PartialView("Error", errorView);
+
+            }
+            // Catch exception:
+            catch (Exception ex)
+            {
+                // create error message:
+                errorView.title = "Exception: ";
+                errorView.Message = ex.Message;
+                return PartialView("Error", errorView);
+            }
         }
 
         public async Task<ActionResult> Get_AnimeReviewByAnime(
@@ -102,52 +204,79 @@ namespace ProjectForDemoOnly.Controllers
             bool preliminary,
             string sort)
         {
+
+            // Init Service:
+            services = AnimeService.InitService(Request);
+            if (services == null)
+            {
+                errorView.title = "Chua ket noi service";
+                errorView.Message = "chon kieu ket noi";
+                return PartialView("Error", errorView);
+            }
+
             // Process params:
             // ...
+            try
+            {
+                List <MAL_AnimeReview> body = await services.GetAnimeReviewAsync(id);
+                return PartialView("Get_AnimeReviewByAnime", body);
+            }
+            // Catch json: 
+            catch (JsonException je)
+            {
 
-            services = AnimeService.CreateConnect(ChooseConnector.RappiApi, apikey, apiValue);
-            List <MAL_AnimeReview> body = await services.GetAnimeReviewAsync(id);
+                // create error message:
+                errorView.title = "Json parsing error";
+                errorView.Message = je.Message;
+                return PartialView("Error", errorView);
 
-            return PartialView("Get_AnimeReviewByAnime", body);
+            }
+            // Catch exception:
+            catch (Exception ex)
+            {
+                // create error message:
+                errorView.title = "Exception: ";
+                errorView.Message = ex.Message;
+                return PartialView("Error", errorView);
+            }
         }
 
         public async Task<ActionResult> Get_Recommendations(int? page)
         {
+            // Init Service:
+            services = AnimeService.InitService(Request);
+            if (services == null)
+            {
+                errorView.title = "Chua ket noi service";
+                errorView.Message = "chon kieu ket noi";
+                return PartialView("Error", errorView);
+            }
+
             page = 1; // test
-            services = AnimeService.CreateConnect(ChooseConnector.RappiApi, apikey, apiValue);
-            List<MAL_Recommendations> body = await services.Get_RecommendationsAsync(page);
+            try
+            {
+                List<MAL_Recommendations> body = await services.Get_RecommendationsAsync(page);
 
             return View(body);
+            }
+            // Catch json: 
+            catch (JsonException je)
+            {
+
+                // create error message:
+                errorView.title = "Json parsing error";
+                errorView.Message = je.Message;
+                return PartialView("Error", errorView);
+
+            }
+            // Catch exception:
+            catch (Exception ex)
+            {
+                // create error message:
+                errorView.title = "Exception: ";
+                errorView.Message = ex.Message;
+                return PartialView("Error", errorView);
+            }
         }
-
-        //public async Task<ActionResult> Get_RecommendationsByAnime(string seriesName, int? id)
-        //{
-        //    return default;
-        //}
-
-        //public async Task<ActionResult> Get_SearchAnime(
-        //    string SearchKey, 
-        //    int? score,
-        //    int?  genreID )
-        //{
-
-        //    // Number of result param: n < Minimum: 1 Maximum: 50 Default: 1 >
-
-        //    return default;
-        //}
-
-        //public async Task<ActionResult> Get_AnimeReviews(
-        //    int id,
-        //    int page,
-        //    bool spoilers,
-        //    string include_tags,
-        //    bool preliminary,
-        //    string include_filters)
-        //{
-        //    // demo param:
-        //    List<MAL_AnimeReview> animeReviews = await animeService.GetAnimeReviewAsync(id);
-
-        //    return View(animeReviews);
-        //}
     }
 }

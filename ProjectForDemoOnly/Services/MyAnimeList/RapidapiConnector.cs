@@ -12,14 +12,12 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
     public class RapidapiConnector : IMALServices
     {
         // Config: authentic RapApi.MyAnimeListAPI
-        private readonly HttpClient httpClient;
         private readonly string nameServer = "https://myanimelist-api1.p.rapidapi.com/anime/";
         private readonly string apiKey;
         private readonly string apivalue;
 
         public RapidapiConnector(HttpClient httpClient, string apiKey, string apivalue)
         {
-            this.httpClient = httpClient;
             this.apiKey = apiKey;
             this.apivalue = apivalue;
 
@@ -30,6 +28,7 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
         // API
         public async Task<List<MAL_TopAnime>> GetTopAnimeAsync(string Category, int? page)
         {
+            Category = "all";
 
             // Config:
             const string endpointFormat = "{0}top/{1}?p={2}";

@@ -330,6 +330,7 @@
     <Content Include="Views\MAL_APIServices\Get_Recommendations.cshtml" />
     <Content Include="Views\MAL_APIServices\Get_AnimeReviews.cshtml" />
     <Content Include="Views\Shared\Get_AnimeReviewByAnime.cshtml" />
+    <Content Include="Views\MAL_APIServices\ChooseConnectType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

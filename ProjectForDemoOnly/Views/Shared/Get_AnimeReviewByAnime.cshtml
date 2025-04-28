@@ -9,11 +9,12 @@
         <div class="anime__review__item__text">
             <h6>Reviewer @review.user.name.ToString() - <span> @review.date.time_str.ToString(); Time ago</span></h6>
             <h5> anime: @review.anime.title </h5>
-            <p>tag: 
-           @foreach(var tag in review.tags)
-           {
-               tag.ToString();
-           } 
+            <p>
+                tag:
+                @foreach (var tag in review.tags)
+                {
+                    tag.ToString();
+                }
             </p>
             <p>
                 @review.text.visible.ToString()

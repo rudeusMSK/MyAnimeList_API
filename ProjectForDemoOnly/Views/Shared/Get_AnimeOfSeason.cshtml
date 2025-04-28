@@ -2,9 +2,9 @@
 @using System.Text.RegularExpressions;
 
 
- @*
-     Refactor: Anime of Seasonal.
- *@
+@*
+    Refactor: Anime of Seasonal.
+*@
 
 <div class="trending__product">
     <div class="row">
@@ -21,7 +21,7 @@
                 </div>
             </div>
         }
-        </div>
+    </div>
 
     @* TV *@
 
@@ -71,7 +71,7 @@
                 {
                     <h4>[@Html.DisplayName(Model.TVCon.ToString())</h4>
                 }
-                </div>
+            </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4">
             <div class="btn__all">
@@ -122,8 +122,12 @@
 <div class="trending__product">
     <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-8">
-            <div class="section-title"> 
-                <h4>[@Html.DisplayName(Model.TV.ToString())</h4>
+            <div class="section-title">
+                @if (Model != null && Model.TV != null)
+                {
+                    <h4>[@Html.DisplayName(Model.TV.ToString())</h4>
+                }
+
             </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4">
@@ -181,7 +185,7 @@
                 {
                     <h4>[@Html.DisplayName(Model.ONAs.ToString())</h4>
                 }
-                </div>
+            </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4">
             <div class="btn__all">
@@ -237,7 +241,7 @@
                 {
                     <h4>[@Html.DisplayName(Model.Movies.ToString())</h4>
                 }
-                </div>
+            </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4">
             <div class="btn__all">
@@ -293,7 +297,7 @@
                 {
                     <h4>[@Html.DisplayName(Model.Specials.ToString())</h4>
                 }
-                </div>
+            </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4">
             <div class="btn__all">

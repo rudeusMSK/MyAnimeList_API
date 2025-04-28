@@ -1,21 +1,19 @@
 ﻿@model List<ProjectForDemoOnly.Models.Services.MyAnimeListModel.MAL_TopAnime>
 
-        <div class="filter__gallery">
-            @foreach (var anime in Model)
-            {
-                <div class="product__sidebar__view__item set-bg mix" style="background-image: url('');">
-                    <div class="ep">Rank: @anime.rank</div>
-                    <div class="view"><i class="fa fa-eye"></i> @anime.members</div>
-                    <h5>
-                        <img width="50" height="70" src="@anime.picture_url" alt="">
-                        <br />
-                            <a href="@Url.Action("Get_AnimeInfo", "MAL_APIServices", new { id = anime.myanimelist_id})">
-                                @anime.title
-                            </a>
-                       
-                    </h5>
-                </div>
-             }
-                </div>
-    
- 
+<div class="filter__gallery">
+    @foreach (var anime in Model)
+    {
+        <div class="product__sidebar__view__item set-bg mix" style="background-image: url('');">
+            <div class="ep">Rank: @anime.rank</div>
+            <div class="view"><i class="fa fa-eye"></i> @anime.members</div>
+            <h5>
+                <img width="50" height="70" src="@anime.picture_url" alt="">
+                <br />
+                <a href="@Url.Action("Get_AnimeInfo", "MAL_APIServices", new { id = anime.myanimelist_id})">
+                    @anime.title
+                </a>
+            </h5>
+        </div>
+    }
+</div>
+
