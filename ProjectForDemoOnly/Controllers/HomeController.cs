@@ -14,5 +14,35 @@ namespace ProjectForDemoOnly.Controllers
         {
             return View();
         }
+
+        public ActionResult Top()
+        {
+            return View();
+        }
+
+        public ActionResult Recommendations()
+        {
+            return View();
+        }
+
+        public ActionResult Seasonal()
+        {
+            return View();
+        }
+
+        public ActionResult Review()
+        {
+            return View();
+        }
+
+        public ActionResult AnimeDetail()
+        {
+            return View();
+        }
+
+        public ActionResult Genres()
+        {
+            return View();
+        }
     }
 }
