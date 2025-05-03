@@ -52,6 +52,7 @@ namespace ProjectForDemoOnly.Controllers
         }
 
         // GET: Anime Of Seasonal:
+        [HttpGet]
         public async Task<ActionResult> Get_SeasonalAnime(string season, int? year)
         {
             // Init Service:
@@ -89,6 +90,7 @@ namespace ProjectForDemoOnly.Controllers
         }
 
         // GET: Top Anime
+        [HttpGet]
         public async Task<ActionResult> Get_TopAnime(string category)
         {
             // Init Service:
@@ -123,7 +125,7 @@ namespace ProjectForDemoOnly.Controllers
             }
         }
 
-
+        [HttpGet]
         public async Task<ActionResult> Get_AnimeGenres(string[] genreList)
         {
             services = AnimeService.InitService(Request);
@@ -159,6 +161,7 @@ namespace ProjectForDemoOnly.Controllers
             }
         }
 
+        [HttpGet]
         public async Task<ActionResult> Get_AnimeInfo(int? id)
         {
             services = AnimeService.InitService(Request);
@@ -195,6 +198,7 @@ namespace ProjectForDemoOnly.Controllers
             }
         }
 
+        [HttpGet]
         public async Task<ActionResult> Get_AnimeReviewByAnime(
             int? id,
             string name,
@@ -241,6 +245,7 @@ namespace ProjectForDemoOnly.Controllers
             }
         }
 
+        [HttpGet]
         public async Task<ActionResult> Get_Recommendations(int? page)
         {
             // Init Service:

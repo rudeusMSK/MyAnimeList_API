@@ -331,6 +331,12 @@
     <Content Include="Views\MAL_APIServices\Get_AnimeReviews.cshtml" />
     <Content Include="Views\Shared\Get_AnimeReviewByAnime.cshtml" />
     <Content Include="Views\MAL_APIServices\ChooseConnectType.cshtml" />
+    <Content Include="Views\Home\Top.cshtml" />
+    <Content Include="Views\Home\Recommendations.cshtml" />
+    <Content Include="Views\Home\Seasonal.cshtml" />
+    <Content Include="Views\Home\Review.cshtml" />
+    <Content Include="Views\Home\AnimeDetail.cshtml" />
+    <Content Include="Views\Home\Genres.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

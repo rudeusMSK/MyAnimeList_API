@@ -1,0 +1,187 @@
+﻿@model ProjectForDemoOnly.Models.Services.MyAnimeListModel.MAL_AnimeInfo
+
+@{
+    ViewBag.Title = "AnimeDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>AnimeDetail</h2>
+
+<div>
+    <h4>MAL_AnimeInfo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.synopsis)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.synopsis)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.picture)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.picture)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.trailer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.trailer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.englishTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.englishTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.japaneseTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.japaneseTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.episodes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.episodes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.aired)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.aired)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.premiered)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.premiered)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.broadcast)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.broadcast)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.source)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.source)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.duration)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.duration)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.rating)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.rating)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.score)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.score)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.scoreStats)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.scoreStats)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ranked)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ranked)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.popularity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.popularity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.members)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.members)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.favorites)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.favorites)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
