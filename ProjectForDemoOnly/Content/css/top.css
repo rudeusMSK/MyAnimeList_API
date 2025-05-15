@@ -1,0 +1,78 @@
+﻿ .rank-badge {
+    position: absolute;
+    top: 1px;
+    left: 6px;
+    background-color: #dc3545;
+    color: white;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 50%;
+    font-size: 1rem;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+
+.rank-1-badge {
+    color: black;
+    font-size: 1.2rem;
+}
+
+.rank-1 {
+    background-color: gold;
+}
+
+.rank-2 {
+    background-color: lightgreen;
+}
+
+.rank-3 {
+    color: dodgerblue;
+}
+
+.anime-card {
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+    .anime-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+.card-body {
+    padding: 1.25rem;
+}
+
+
+.anime-img-wrapper {
+    width: 96px;
+    height: 96px;
+    margin: 1rem auto 0;
+    background: #f0f0f0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+
+.anime-img {
+    width: auto;
+    height: 100%;
+    object-fit: contain;
+}
+
+
+.card-img-top {
+    display: none;
+}
+
+.option {
+    color: black !important;
+}
+
+    .current {
+        color: black !important;
+    }
