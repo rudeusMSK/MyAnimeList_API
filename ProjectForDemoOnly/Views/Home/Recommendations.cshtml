@@ -5,48 +5,86 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Recommendations</h2>
+<style>
+    .header-bg {
+        background-color: #212529;
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.picture_url)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.myanimelist_url)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.myanimelist_id)
-        </th>
-        <th></th>
-    </tr>
+    }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.picture_url)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.myanimelist_url)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.myanimelist_id)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
-}
+    .card {
+        transition: transform 0.3s ease;
+        background: var(--card);
+        color: var(--card-foreground);
+        border-color: var(--border);
+    }
 
-</table>
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+    .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .btn-primary {
+        background-color: var(--primary);
+        border-color: var(--primary);
+        color: var(--primary-foreground);
+    }
+
+        .btn-primary:hover {
+            background-color: var(--accent);
+            border-color: var(--accent);
+        }
+</style>
+<header class="py-5 text-center header-bg">
+    <h1 class="display-4">Anime Recommendations</h1>
+</header>
+
+<main class="container py-4">
+    <div class="row">
+        <div class="col-md-6">
+            <h2 class="mb-4 text-primary">Liked Anime</h2>
+            <div class="card mb-3 bg-dark border-light">
+                <img src="https://images.unsplash.com/photo-1625806335347-a20fe6306c30" class="card-img-top" alt="Anime Cover">
+                <div class="card-body">
+                    <h5 class="card-title">Death Note</h5>
+                    <a href="#" class="btn btn-primary">View on MyAnimeList</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <h2 class="mb-4 text-danger">Recommended Anime</h2>
+            <div class="card mb-3 bg-dark border-light">
+                <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477" class="card-img-top" alt="Anime Cover">
+                <div class="card-body">
+                    <h5 class="card-title">Code Geass</h5>
+                    <a href="#" class="btn btn-primary">View on MyAnimeList</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="description-section my-5">
+        <div class="card bg-dark border-light">
+            <div class="card-body">
+                <h3>Why These Recommendations?</h3>
+                <p class="lead">Based on your interest in psychological thrillers and complex plot narratives, these anime series offer similar themes and storytelling approaches.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="author-section mb-5">
+        <div class="card bg-dark border-light">
+            <div class="card-body d-flex align-items-center">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" class="rounded-circle me-3" width="50" height="50" alt="Author">
+                <div>
+                    <h4 class="mb-0">John Doe</h4>
+                    <a href="#" class="text-primary">View Profile</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

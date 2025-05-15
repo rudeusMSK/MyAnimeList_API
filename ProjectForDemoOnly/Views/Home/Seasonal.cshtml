@@ -1,28 +1,79 @@
-﻿@model IEnumerable<ProjectForDemoOnly.Models.Services.MyAnimeListModel.MAL_AnimeOfSeason>
+﻿@model ProjectForDemoOnly.Models.Services.MyAnimeListModel.MAL_AnimeOfSeason
 
 @{
     ViewBag.Title = "Seasonal";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Seasonal</h2>
+<div class="container py-4">
+    <header class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-gradient">Winter 2024 Anime</h1>
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="darkModeToggle">
+            <label class="form-check-label" for="darkModeToggle">Dark Mode</label>
+        </div>
+    </header>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th></th>
-    </tr>
+    <div class="row mb-4 search-section p-3 rounded">
+        <div class="col-md-6">
+            <input type="search" class="form-control custom-input" placeholder="Search anime...">
+        </div>
+        <div class="col-md-3">
+            <select class="form-select custom-input">
+                <option>Sort by Release Date</option>
+                <option>Sort by Score</option>
+                <option>Sort by Popularity</option>
+            </select>
+        </div>
+    </div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
-}
+    <ul class="nav nav-tabs custom-tabs mb-4" role="tablist">
+        <li class="nav-item">
+            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tv">TV Series</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#movies">Movies</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#ova">OVA</button>
+        </li>
+    </ul>
 
-</table>
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="tv">
+            @if (Model != null && Model.TV != null)
+            {
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
+                    @foreach (var anime in Model.TV)
+                    {
+                        <div class="col">
+                            <div class="card h-100 anime-card glass-effect">
+                                @if (anime.fromType == "New")
+                                {
+                                    <div class="card-badge">New</div>
+                                }
+                                <img src="@anime.picture" class="card-img-top" alt="Anime Thumbnail">
+                                <div class="card-body">
+                                    <h5 class="card-title highlight-text">@anime.title</h5>
+                                    <div class="mb-2">
+                                        @foreach (var genre in anime.genres)
+                                        {
+                                            <span class="badge custom-badge me-1">@genre</span>
+                                        }
+                                    </div>
+                                    <p class="card-text info-text">
+                                        <i class="bi bi-calendar"></i> @anime.releaseDate<br>
+                                        <i class="bi bi-collection"></i> @anime.nbEp Episodes<br>
+                                        <i class="bi bi-star-fill text-warning"></i> @anime.score
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            </div>
+            
+
+    </div>
+</div>
