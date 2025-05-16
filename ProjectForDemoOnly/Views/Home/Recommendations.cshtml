@@ -8,8 +8,6 @@
 <style>
     .header-bg {
         background-color: #212529;
-<<<<<<< HEAD
-
     }
 
     .card {
@@ -23,21 +21,6 @@
             transform: translateY(-5px);
         }
 
-=======
-    }
-
-    .card {
-        transition: transform 0.3s ease;
-        background: var(--card);
-        color: var(--card-foreground);
-        border-color: var(--border);
-    }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
->>>>>>> 8db6d13 (fix: <layout navbar> redirect to HomeCotroller Actions.)
     .card-img-top {
         height: 200px;
         object-fit: cover;
@@ -59,52 +42,6 @@
 </header>
 
 <main class="container py-4">
-<<<<<<< HEAD
-    <div class="row">
-        <div class="col-md-6">
-            <h2 class="mb-4 text-primary">Liked Anime</h2>
-            <div class="card mb-3 bg-dark border-light">
-                <img src="https://images.unsplash.com/photo-1625806335347-a20fe6306c30" class="card-img-top" alt="Anime Cover">
-                <div class="card-body">
-                    <h5 class="card-title">Death Note</h5>
-                    <a href="#" class="btn btn-primary">View on MyAnimeList</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <h2 class="mb-4 text-danger">Recommended Anime</h2>
-            <div class="card mb-3 bg-dark border-light">
-                <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477" class="card-img-top" alt="Anime Cover">
-                <div class="card-body">
-                    <h5 class="card-title">Code Geass</h5>
-                    <a href="#" class="btn btn-primary">View on MyAnimeList</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <section class="description-section my-5">
-        <div class="card bg-dark border-light">
-            <div class="card-body">
-                <h3>Why These Recommendations?</h3>
-                <p class="lead">Based on your interest in psychological thrillers and complex plot narratives, these anime series offer similar themes and storytelling approaches.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="author-section mb-5">
-        <div class="card bg-dark border-light">
-            <div class="card-body d-flex align-items-center">
-                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" class="rounded-circle me-3" width="50" height="50" alt="Author">
-                <div>
-                    <h4 class="mb-0">John Doe</h4>
-                    <a href="#" class="text-primary">View Profile</a>
-                </div>
-            </div>
-        </div>
-    </section>
-=======
     @foreach (var item in Model)
     {
         <div class="row mb-4">
@@ -156,5 +93,4 @@
             </div>
         </div>
     }
->>>>>>> 8db6d13 (fix: <layout navbar> redirect to HomeCotroller Actions.)
 </main>
