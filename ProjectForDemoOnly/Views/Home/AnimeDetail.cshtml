@@ -5,183 +5,188 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>AnimeDetail</h2>
-
-<div>
-    <h4>MAL_AnimeInfo</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.synopsis)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.synopsis)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.picture)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.picture)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.trailer)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.trailer)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.englishTitle)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.englishTitle)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.japaneseTitle)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.japaneseTitle)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.type)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.type)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.episodes)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.episodes)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.aired)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.aired)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.premiered)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.premiered)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.broadcast)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.broadcast)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.source)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.source)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.duration)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.duration)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.rating)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.rating)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.status)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.status)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.score)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.score)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.scoreStats)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.scoreStats)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ranked)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ranked)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.popularity)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.popularity)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.members)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.members)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.favorites)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.favorites)
-        </dd>
-
-    </dl>
+<div class="hero-section position-relative mb-4">
+    <img src="@Model.picture" class="w-100 hero-img" alt="@Model.title Banner">
+    <div class="hero-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-end">
+        <div class="container pb-4">
+            <h1 class="display-3 fw-bold">@Model.title</h1>
+            <div class="d-flex align-items-center gap-4">
+                <div class="rating d-flex align-items-center">
+                    <span class="h2 mb-0 me-2">@Model.rating</span>
+                    <div class="stars">
+                        @for (int i = 0; i < 5; i++)
+                        {
+                            <i class="bi @(i < (int) Math.Floor(double.Parse(Model.rating)) ? "bi-star-fill" : "bi-star") text-warning"></i>
+                        }
+                    </div>
+                </div>
+                <div class="stats d-flex gap-4">
+                    <div class="stat-item">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Members: @Model.members</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="bi bi-heart-fill text-danger"></i>
+                        <span>Favorites: @Model.favorites</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="bi bi-trophy-fill text-warning"></i>
+                        <span>Ranked: @Model.ranked</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+<div class="container mb-5">
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card bg-secondary mb-4">
+                <div class="card-body">
+                    <h2 class="card-title mb-4">Basic Information</h2>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="label">Japanese Title</span>
+                            <span class="value">@Model.japaneseTitle</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">English Title</span>
+                            <span class="value">@Model.englishTitle</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Type</span>
+                            <span class="value">@Model.type</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Episodes</span>
+                            <span class="value">@Model.episodes</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Duration</span>
+                            <span class="value">@Model.duration</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Aired</span>
+                            <span class="value">@Model.aired</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Broadcast</span>
+                            <span class="value">@Model.broadcast</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Status</span>
+                            <span class="value">@Model.status</span>
+                        </div>
+                    </div>
+
+                    <h3 class="mt-4 mb-3">Studios & Producers</h3>
+                    <div class="mb-4">
+                        <div class="studios-producers">
+                            <h6>Studios:</h6>
+                            @foreach (var studio in Model.studios)
+                            {
+                                <span class="badge bg-info me-2 mb-2">@studio</span>
+                            }
+                            <h6 class="mt-2">Producers:</h6>
+                            @foreach (var producer in Model.producers)
+                            {
+                                <span class="badge bg-success me-2 mb-2">@producer</span>
+                            }
+                        </div>
+                    </div>
+
+                    <h3 class="mb-3">Genres</h3>
+                    <div class="genres mb-4">
+                        @foreach (var genre in Model.genres)
+                        {
+                            <span class="badge bg-primary me-2 mb-2">@genre</span>
+                        }
+                    </div>
+
+                    <h3 class="mb-3">Synopsis</h3>
+                    <p class="synopsis">@Model.synopsis</p>
+                </div>
+            </div>
+
+            <div class="card bg-secondary mb-4">
+                <div class="card-body">
+                    <h3 class="card-title mb-3">Official Trailer</h3>
+                    <div class="ratio ratio-16x9">
+                        <iframe src="@Model.trailer" title="Anime Trailer" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card bg-secondary mb-4">
+                <div class="card-body">
+                    <h3 class="card-title mb-3">Main Characters</h3>
+                    <div class="character-list">
+                        @foreach (var character in Model.characters)
+                        {
+                            <div class="character-item" data-bs-toggle="modal" data-bs-target="#characterModal@(character.name.Replace(" ", ""))">
+                                <img src="@character.picture" class="character-img" alt="@character.name">
+                                <div class="character-info">
+                                    <span class="character-name">@character.name</span>
+                                    <span class="character-role">@character.role</span>
+                                    <span class="seiyuu">VA: @character.seiyuu?.name</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="card bg-secondary">
+                <div class="card-body">
+                    <h3 class="card-title mb-3">Staff</h3>
+                    <div class="staff-list">
+                        @foreach (var staff in Model.staff)
+                        {
+                            <div class="staff-item">
+                                <img src="@staff.picture" class="staff-img" alt="@staff.name">
+                                <div class="staff-info">
+                                    <span class="staff-name">@staff.name</span>
+                                    <span class="staff-role">@staff.role</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Character Modals -->
+@foreach (var character in Model.characters)
+{
+    <div class="modal fade" id="characterModal@(character.name.Replace(" ", ""))" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content bg-secondary">
+                <div class="modal-header">
+                    <h5 class="modal-title">Character Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="character-detail">
+                        <img src="@character.picture" class="character-detail-img" alt="@character.name">
+                        <div class="character-detail-info">
+                            <h4>@character.name</h4>
+                            <p class="role">@character.role</p>
+                            <div class="seiyuu-info">
+                                <h5>Voice Actor</h5>
+                                <div class="d-flex align-items-center gap-3">
+                                    <img src="@character.seiyuu?.picture" class="seiyuu-img" alt="@character.seiyuu?.name">
+                                    <span>@character.seiyuu?.name</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

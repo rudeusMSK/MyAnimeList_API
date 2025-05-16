@@ -22,10 +22,10 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
         public async Task<List<MAL_Recommendations>> Get_RecommendationsAsync(int? page)
         {
             // Config:
-            string format = "{0}{1}Recommendations";
+            string format = "{0}{1}/Recommendation";
 
             // Send request:
-            string endpoint = string.Format(format, this.url, (int)JsonServerPorts.ReviewByAni);
+            string endpoint = string.Format(format, this.url, (int)JsonServerPorts.Recomendations);
             return await SendRequestAsync<List<MAL_Recommendations>>(endpoint,new HttpClient());
         }
         // Review by Anime:
@@ -43,7 +43,6 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
         public async Task<MAL_AnimeInfo> GetAnimeInfoAsync(int? id)
         {
             string format = "{0}{1}/AnimeInfo/";
-
             string endpoint = string.Format(format, this.url, (int)JsonServerPorts.AniInfo);
             // Send request url:
             var body = await SendRequestAsync<MAL_AnimeInfo>(endpoint, new HttpClient());
@@ -55,7 +54,7 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
         {
             string format = "{0}{1}/Genres/";
             string endpoint = string.Format(format, this.url, (int)JsonServerPorts.Genres);
-            
+            // Send request url:
             var body = await SendRequestAsync<List<MAL_Genres>>(endpoint, new HttpClient());
             // process body respon ...
             return body;
@@ -68,9 +67,6 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
 
             //string format = "{0}{1}top/{2}?p={3}";
             string format = "{0}{1}/TopAnime?_start={2}&_end={3}";
-
-            // Config url: {0:Url} {1:port} {2:category} {3:page}
-            // string endpoint = string.Format(format,this.url, JsonServerPorts.TopAni, Category, page);
             string endpoint = string.Format(format, this.url, (int)JsonServerPorts.TopAni,0, 10);
             // Send request url:
             var body = await SendRequestAsync<List<MAL_TopAnime>>(endpoint, new HttpClient());

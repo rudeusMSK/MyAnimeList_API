@@ -32,6 +32,7 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
 
             // Config:
             const string endpointFormat = "{0}top/{1}?p={2}";
+
             // Send request:
             string endpoint = string.Format(endpointFormat, nameServer, Category, page);
 
