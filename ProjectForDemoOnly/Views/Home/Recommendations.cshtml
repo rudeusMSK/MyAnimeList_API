@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ProjectForDemoOnly.Models.Services.MyAnimeListModel.Recommended>
+﻿@model IEnumerable<ProjectForDemoOnly.Models.Services.MyAnimeListModel.MAL_Recommendations>
 
 @{
     ViewBag.Title = "Recommendations";
@@ -8,6 +8,7 @@
 <style>
     .header-bg {
         background-color: #212529;
+<<<<<<< HEAD
 
     }
 
@@ -22,6 +23,21 @@
             transform: translateY(-5px);
         }
 
+=======
+    }
+
+    .card {
+        transition: transform 0.3s ease;
+        background: var(--card);
+        color: var(--card-foreground);
+        border-color: var(--border);
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+>>>>>>> 8db6d13 (fix: <layout navbar> redirect to HomeCotroller Actions.)
     .card-img-top {
         height: 200px;
         object-fit: cover;
@@ -43,6 +59,7 @@
 </header>
 
 <main class="container py-4">
+<<<<<<< HEAD
     <div class="row">
         <div class="col-md-6">
             <h2 class="mb-4 text-primary">Liked Anime</h2>
@@ -87,4 +104,57 @@
             </div>
         </div>
     </section>
+=======
+    @foreach (var item in Model)
+    {
+        <div class="row mb-4">
+            <!-- Liked Anime -->
+            <div class="col-md-6">
+                <h4 class="text-primary">Liked Anime</h4>
+                <div class="card bg-dark border-light">
+                    <img src="@item.liked.picture_url" class="card-img-top" alt="@item.liked.title">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.liked.title</h5>
+                        <a href="@item.liked.myanimelist_url" class="btn btn-primary" target="_blank">View on MyAnimeList</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommended Anime -->
+            <div class="col-md-6">
+                <h4 class="text-danger">Recommended Anime</h4>
+                <div class="card bg-dark border-light">
+                    <img src="@item.recommended.picture_url" class="card-img-top" alt="@item.recommended.title">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.recommended.title</h5>
+                        <a href="@item.recommended.myanimelist_url" class="btn btn-primary" target="_blank">View on MyAnimeList</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div class="col-12 my-3">
+                <div class="card bg-dark border-light">
+                    <div class="card-body">
+                        <h5>Why this recommendation?</h5>
+                        <p class="lead">@item.description</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Author Info -->
+            <div class="col-12 mb-5">
+                <div class="card bg-dark border-light">
+                    <div class="card-body d-flex align-items-center">
+                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" class="rounded-circle me-3" width="50" height="50" alt="Author">
+                        <div>
+                            <h4 class="mb-0">@item.author.name</h4>
+                            <a href="@item.author.url" class="text-primary" target="_blank">View Profile</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+>>>>>>> 8db6d13 (fix: <layout navbar> redirect to HomeCotroller Actions.)
 </main>
