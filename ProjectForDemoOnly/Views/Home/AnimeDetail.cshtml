@@ -5,39 +5,48 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<link rel="stylesheet" href="~/Content/css/DetailPage.css">
+
 <div class="hero-section position-relative mb-4">
-    <img src="@Model.picture" class="w-100 hero-img" alt="@Model.title Banner">
+    <img src="@Model.picture" class="w-100 hero-img" alt="Anime Banner">
     <div class="hero-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-end">
         <div class="container pb-4">
-            <h1 class="display-3 fw-bold">@Model.title</h1>
-            <div class="d-flex align-items-center gap-4">
-                <div class="rating d-flex align-items-center">
-                    <span class="h2 mb-0 me-2">@Model.rating</span>
-                    <div class="stars">
-                        @for (int i = 0; i < 5; i++)
-                        {
-                            <i class="bi @(i < (int) Math.Floor(double.Parse(Model.rating)) ? "bi-star-fill" : "bi-star") text-warning"></i>
-                        }
-                    </div>
-                </div>
-                <div class="stats d-flex gap-4">
-                    <div class="stat-item">
-                        <i class="bi bi-people-fill"></i>
-                        <span>Members: @Model.members</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="bi bi-heart-fill text-danger"></i>
-                        <span>Favorites: @Model.favorites</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="bi bi-trophy-fill text-warning"></i>
-                        <span>Ranked: @Model.ranked</span>
+            <div class="d-flex align-items-end gap-4">
+                <img src="@Model.picture" class="poster-img" alt="Anime Poster">
+                <div>
+                    <h1 class="display-3 fw-bold">Demon Slayer</h1>
+                    <div class="d-flex align-items-center gap-4">
+                        <div class="rating d-flex align-items-center">
+                            <span class="h2 mb-0 me-2">@Model.score</span>
+                            <div class="stars">
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-half text-warning"></i>
+                            </div>
+                        </div>
+                        <div class="stats d-flex gap-4">
+                            <div class="stat-item">
+                                <i class="bi bi-people-fill"></i>
+                                <span>Members: @Model.members</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="bi bi-heart-fill text-danger"></i>
+                                <span>Favorites: @Model.favorites</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="bi bi-trophy-fill text-warning"></i>
+                                <span>Ranked: @Model.ranked @Model.scoreStats </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 <div class="container mb-5">
     <div class="row g-4">
@@ -126,12 +135,63 @@
                     <div class="character-list">
                         @foreach (var character in Model.characters)
                         {
-                            <div class="character-item" data-bs-toggle="modal" data-bs-target="#characterModal@(character.name.Replace(" ", ""))">
-                                <img src="@character.picture" class="character-img" alt="@character.name">
+                            <div class="character-item" data-bs-toggle="modal" data-bs-target="#characterModal@character.name">
+                                <img src="@character.picture" class="character-img" alt="Character">
                                 <div class="character-info">
                                     <span class="character-name">@character.name</span>
                                     <span class="character-role">@character.role</span>
-                                    <span class="seiyuu">VA: @character.seiyuu?.name</span>
+                                    <span class="seiyuu">VA: @character.seiyuu.name</span>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="characterModal@character.name" tabindex="-1">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content bg-secondary">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Character & Voice Actor Details</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="character-detail">
+                                                <img src="@character.picture" class="character-detail-img" alt="@character.name">
+                                                <div class="character-detail-info">
+                                                    <h4>@character.name</h4>
+                                                    <p class="role">@character.role</p>
+                                                    <div class="seiyuu-info">
+                                                        <h5>Voice Actor Information</h5>
+                                                        <div class="seiyuu-details">
+                                                            <div class="seiyuu-profile mb-3">
+                                                                <img src="@character.seiyuu.picture" class="seiyuu-img-large" alt="@character.seiyuu.name">
+                                                                <div class="seiyuu-text">
+                                                                    <h6 class="seiyuu-name">@character.seiyuu.name</h6>
+                                                                    <p class="seiyuu-meta">Japanese Voice Actor</p>
+                                                                    <a href="@character.seiyuu.link" class="seiyuu-link">View Full Profile</a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="seiyuu-stats">
+                                                                <div class="stat-badge">
+                                                                    <i class="bi bi-mic-fill"></i>
+                                                                    <span>150+ Roles</span>
+                                                                </div>
+                                                                <div class="stat-badge">
+                                                                    <i class="bi bi-award-fill"></i>
+                                                                    <span>Voice Acting Awards</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="other-works mt-3">
+                                                                <h6>Notable Works</h6>
+                                                                <div class="work-badges">
+                                                                    <span class="badge bg-info me-2 mb-2">Tokyo Ghoul</span>
+                                                                    <span class="badge bg-info me-2 mb-2">Fire Force</span>
+                                                                    <span class="badge bg-info me-2 mb-2">Jujutsu Kaisen</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         }
@@ -143,13 +203,13 @@
                 <div class="card-body">
                     <h3 class="card-title mb-3">Staff</h3>
                     <div class="staff-list">
-                        @foreach (var staff in Model.staff)
+                        @foreach (var staffMember in Model.staff)
                         {
                             <div class="staff-item">
-                                <img src="@staff.picture" class="staff-img" alt="@staff.name">
+                                <img src="@staffMember.picture" class="staff-img" alt="Staff">
                                 <div class="staff-info">
-                                    <span class="staff-name">@staff.name</span>
-                                    <span class="staff-role">@staff.role</span>
+                                    <span class="staff-name">@staffMember.name</span>
+                                    <span class="staff-role">@staffMember.role</span>
                                 </div>
                             </div>
                         }
@@ -157,30 +217,26 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-<!-- Character Modals -->
-@foreach (var character in Model.characters)
-{
-    <div class="modal fade" id="characterModal@(character.name.Replace(" ", ""))" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content bg-secondary">
-                <div class="modal-header">
-                    <h5 class="modal-title">Character Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="character-detail">
-                        <img src="@character.picture" class="character-detail-img" alt="@character.name">
-                        <div class="character-detail-info">
-                            <h4>@character.name</h4>
-                            <p class="role">@character.role</p>
-                            <div class="seiyuu-info">
-                                <h5>Voice Actor</h5>
-                                <div class="d-flex align-items-center gap-3">
-                                    <img src="@character.seiyuu?.picture" class="seiyuu-img" alt="@character.seiyuu?.name">
-                                    <span>@character.seiyuu?.name</span>
+        <div class="modal fade" id="characterModal1" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content bg-secondary">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Character Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="character-detail">
+                            <img src="https://images.unsplash.com/photo-1597223557154-721c1cecc4b0" class="character-detail-img" alt="Character">
+                            <div class="character-detail-info">
+                                <h4>Tanjiro Kamado</h4>
+                                <p class="role">Main Character</p>
+                                <div class="seiyuu-info">
+                                    <h5>Voice Actor</h5>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <img src="https://images.unsplash.com/photo-1597223557154-721c1cecc4b0" class="seiyuu-img" alt="Voice Actor">
+                                        <span>Natsuki Hanae</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -189,58 +245,13 @@
             </div>
         </div>
     </div>
-}
-        <dt>
-            @Html.DisplayNameFor(model => model.score)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.score)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.scoreStats)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.scoreStats)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ranked)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ranked)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.popularity)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.popularity)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.members)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.members)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.favorites)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.favorites)
-        </dd>
-
-    </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+<script>
+    function toggleCharacterInfo(element) {
+        const expandedInfo = element.parentElement.querySelector('.character-details-expanded');
+        const expandIcon = element.querySelector('.expand-icon');
+        expandedInfo.classList.toggle('hidden');
+        expandIcon.classList.toggle('rotated');
+    }
+</script>
