@@ -69,9 +69,18 @@ namespace ProjectForDemoOnly.Controllers
                 return View(AniOfSeasonal);
         }
 
-        public ActionResult Review()
+        public async Task<ActionResult> Review()
         {
-            return View();
+            IMALServices services = AnimeService.InitService(Request);
+            if (services == null)
+            {
+                errorView.title = "Chua ket noi service";
+                errorView.Message = "chon kieu ket noi";
+                return PartialView("Error", errorView);
+            }
+            // check id...
+            var body = await services.GetAnimeReviewAsync(1);
+            return View(body);
         }
 
         public async Task<ActionResult> AnimeDetail()
@@ -84,13 +93,22 @@ namespace ProjectForDemoOnly.Controllers
                 return PartialView("Error", errorView);
             }
             // check id...
-                MAL_AnimeInfo body = await services.GetAnimeInfoAsync(3352);
+                var body = await services.GetAnimeInfoAsync(3352);
                 return View(body);
         }
 
-        public ActionResult Genres()
+        public async Task<ActionResult> Genres()
         {
-            return View();
+            IMALServices services = AnimeService.InitService(Request);
+            if (services == null)
+            {
+                errorView.title = "Chua ket noi service";
+                errorView.Message = "chon kieu ket noi";
+                return PartialView("Error", errorView);
+            }
+            // check id...
+            var body = await services.GetGenresAsync(null);
+            return View(body);
         }
 
         protected override void OnException(ExceptionContext filterContext)
