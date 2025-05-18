@@ -1,9 +1,7 @@
-﻿using ProjectForDemoOnly.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Web;
-using System.Web.Services.Description;
 
 namespace ProjectForDemoOnly.Services.MyAnimeList
 {
@@ -12,6 +10,7 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
         // Status:
         public static string State = "Choose Service.";
 
+        // Delete Services:
         public static void DeleteCookies(HttpResponseBase response)
         {
             var cookieNames = new List<string> { "serverType", "apiKey", "apiValue" };
@@ -31,6 +30,7 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             State = "Choose Service.";
         }
 
+        // Save Connection:
         public static void SaveConnectionCookies(HttpResponseBase response, ChooseConnector connectorType, string apiKey, string apiValue)
         {
             // Delete old Cookies Service Type.
@@ -52,6 +52,7 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             State = $"Config Service ({connectorType}) is Save.";
         }
 
+        // Innit Services:
         public static IMALServices InitService(HttpRequestBase request)
         {
             var connectorStr = request.Cookies["serverType"]?.Value;
@@ -70,6 +71,7 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             return CreateConnect(connectorType, apiKey, apiValue);
         }
 
+        // Create Services:
         public static IMALServices CreateConnect(ChooseConnector connectorType, string apiKey, string apiValue)
         {
             switch (connectorType)
@@ -82,7 +84,7 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
                 case ChooseConnector.RappiApi:
                     
                     if (string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(apiValue))
-                        throw new ArgumentException("Đối với Rappiapi, apiKey và apiValue không được để trống.");
+                        throw new ArgumentException("Type connect: Rappiapi service - apiKey and apiValue is not Null.");
                     // return new JsonServerConnector();
                     
                     
@@ -92,7 +94,7 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
                 default:
                     
                     State = "Type connect: Not connect to Server.";
-                    throw new NotSupportedException("Loại kết nối không được hỗ trợ.");
+                    throw new NotSupportedException("Not Support Services.");
             }
         }
     }

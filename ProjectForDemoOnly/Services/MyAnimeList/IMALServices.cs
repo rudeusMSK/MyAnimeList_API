@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Threading.Tasks;
+using System.Collections.Generic;
 using ProjectForDemoOnly.Models.Services.MyAnimeListModel;
-using System.Threading.Tasks;
 
 namespace ProjectForDemoOnly.Services.MyAnimeList
 {

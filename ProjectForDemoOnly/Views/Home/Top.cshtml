@@ -1,146 +1,120 @@
 ﻿@model IEnumerable<ProjectForDemoOnly.Models.Services.MyAnimeListModel.MAL_TopAnime>
 @using ProjectForDemoOnly.Services.MyAnimeList
+
 @{
     var topList = Model.OrderBy(a => a.rank).ToList();
     var top3 = topList.Take(3).ToList();
     var rest = topList.Skip(3).ToList();
-
-
-   //  var pageNumber = 1;
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Top Anime Series Rankings</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="~/Content/css/top.css">
+<!-- ========================================================
+CSS: -->
+<link rel="stylesheet" href="~/Content/css/GenresPage.css">
 
-
-
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-</head>
-<body class="bg-dark">
-    <header class="py-5 text-center text-white">
-        <h1 class="display-4 fw-bold">Top Anime Series Rankings</h1>
-        <p class="lead">Discover the Highest Rated Anime</p>
-
-
-        <div class="container mb-4 filter-bar">
-                <div class="row g-2 justify-content-center align-items-center">
-                    <!-- Dropdown lọc thể loại -->
-                    <div class="col-md-4">
-                        <select class="form-control" name="" id="" required>
-                            <option value="">-- Chọn --</option>
-                            <option value="@CategoryOptions.all">@CategoryOptions.all</option>
-                            <option value="">@CategoryOptions.bypopularity</option>
-                            <option value="">@CategoryOptions.upcoming</option>
-                            <option value="">@CategoryOptions.airing</option>
-                            <option value="">@CategoryOptions.ona</option>
-                            <option value="">@CategoryOptions.ova</option>
-                            <option value="">@CategoryOptions.tv</option>
-                            <option value="">@CategoryOptions.special</option>
-                            <option value="">@CategoryOptions.movie</option>
-                            <option value="">@CategoryOptions.favorite</option>
-                        </select>
-                    </div>
-
-                    <!-- Input nhập số trang -->
-                    <div class="col-md-2">
-                        <input type="number" name="page" class="form-control" min="1" value="@ViewBag.PageNumber" placeholder="Page" />
-                    </div>
-
-                    <!-- Nút lọc -->
-                    <div class="col-md-2">
-                        <button class="btn btn-outline-light w-100" type="submit">
-                            Filter
-                        </button>
-                    </div>
-                </div>
-        </div>
-
-    </header>
-    <main class="container py-4">
-
-        <div class="container my-5">
-            <!-- TOP 1-3 -->
-            <div class="row justify-content-center top-ranking gx-4 gy-4">
-                @foreach (var anime in top3)
-                {
-                    var badgeClass = anime.rank == 1 ? "rank-1-badge" : "";
-                    var cardClass = anime.rank == 1 ? "shadow-lg border-primary border-3" : "shadow-sm";
-                    var colSize = anime.rank == 1 ? "col-12 col-md-4" : "col-6 col-md-3";
-                    @* Chỉ ví dụ đoạn Top 1 *@
-                    <div class="col-12 col-md-4">
-                        <div class="card h-100 anime-card rank-1 shadow-lg border-primary border-3">
-                            <div class="rank-badge rank-1-badge">@anime.rank</div>
-                            <div class="anime-img-wrapper">
-                                <img src="@anime.picture_url" class="anime-img" alt="@anime.title" />
-                            </div>
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title text-center">@anime.title</h5>
-                                <p class="card-text text-center">Score: @anime.score • Type: @anime.type</p>
-                                <a href="@anime.myanimelist_url" target="_blank" class="btn btn-primary mt-auto mx-auto">View Details</a>
-                            </div>
-                        </div>
-                    </div>
-
-                }
+<!-- ========================================================
+HEADER: FILLTER -->
+<header class="py-5 text-center text-white">
+    <h1 class="display-4 fw-bold">Top Anime Series Rankings</h1>
+    <p class="lead">Discover the Highest Rated Anime</p>
+    <div class="container mb-4 filter-bar">
+        <div class="row g-2 justify-content-center align-items-center">
+            <!-- Dropdown Category -->
+            <div class="col-md-4">
+                <select class="form-control" name="" id="" required>
+                    <option value="">-- Chọn --</option>
+                    <option value="@CategoryOptions.all">@CategoryOptions.all</option>
+                    <option value="">@CategoryOptions.bypopularity</option>
+                    <option value="">@CategoryOptions.upcoming</option>
+                    <option value="">@CategoryOptions.airing</option>
+                    <option value="">@CategoryOptions.ona</option>
+                    <option value="">@CategoryOptions.ova</option>
+                    <option value="">@CategoryOptions.tv</option>
+                    <option value="">@CategoryOptions.special</option>
+                    <option value="">@CategoryOptions.movie</option>
+                    <option value="">@CategoryOptions.favorite</option>
+                </select>
             </div>
-        </div>
 
-        <div class="container mb-5">
-            <!-- TOP 4+ -->
-            <div class="row g-4">
-                @foreach (var anime in rest)
-                {
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <div class="card h-100 anime-card shadow-sm">
-                            <div class="rank-badge">@anime.rank</div>
-                            <div class="anime-img-wrapper">
-                                <img src="@anime.picture_url" class="anime-img" alt="@anime.title" />
-                            </div>
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">@anime.title</h5>
-                                <p class="card-text">Score: @anime.score • Type: @anime.type</p>
-                                <a href="@anime.myanimelist_url" target="_blank" class="btn btn-sm btn-outline-primary mt-auto mx-auto">View</a>
-                            </div>
-                        </div>
-                    </div>
-                }
+            <!-- Input page -->
+            <div class="col-md-2">
+                <input type="number" name="page" class="form-control" min="1" value="@ViewBag.PageNumber" placeholder="Page" />
             </div>
-        </div>
 
-    </main>
-    <div class="modal fade" id="animeModal1" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content bg-dark text-white">
-                <div class="modal-header">
-                    <h5 class="modal-title">Fullmetal Alchemist: Brotherhood</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477" class="img-fluid rounded" alt="Fullmetal Alchemist">
-                        </div>
-                        <div class="col-md-6">
-                            <h6>Details</h6>
-                            <p>Score: 9.8</p>
-                            <p>Episodes: 64</p>
-                            <p>Genre: Action, Adventure</p>
-                            <p>Year: 2009</p>
-                            <p>Synopsis: Two brothers lose their mother to an incurable disease. With the power of alchemy, they use taboo knowledge to resurrect her. The process fails, and as a toll for using this type of alchemy, the older brother, Edward Elric loses his left leg while the younger brother, Alphonse Elric loses his entire body. To save his brother, Edward sacrifices his right arm and is able to affix his brother's soul to a suit of armor. With the help of a family friend, Edward receives metal limbs - automail - to replace his lost ones.</p>
-                        </div>
-                    </div>
-                </div>
+            <!-- fillter button -->
+            <div class="col-md-2">
+                <button class="btn btn-outline-light w-100" type="submit">
+                    Filter
+                </button>
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+
+</header>
+
+<!-- ========================================================
+BODY: TOP 1-3, TOP 4... -->
+<main class="container py-4">
+
+    <div class="container my-5">
+        <!-- TOP 1-3 -->
+        <div class="row justify-content-center top-ranking gx-4 gy-4">
+            @foreach (var anime in top3)
+            {
+                string badgeClass = "";
+                string cardClass = "shadow-sm";
+
+                switch (anime.rank)
+                {
+                    case 1:
+                        badgeClass = "rank-2-badge";
+                        cardClass = "shadow-lg border-primary-subtle border-2";
+                        break;
+                    case 2:
+                        badgeClass = "rank-1-badge";
+                        cardClass = "shadow-lg border-danger-subtle border-2";
+                        break;
+                    case 3:
+                        badgeClass = "rank-3-badge";
+                        cardClass = "shadow-lg border-info-subtle border-2";
+                        break;
+                }
+
+                <div class="col-12 col-md-4">
+                    <div class="card h-100 anime-card @cardClass">
+                        <div class="rank-badge border-danger-subtle @badgeClass">@anime.rank</div>
+                        <div class="anime-img-wrapper">
+                            <img src="@anime.picture_url" class="anime-img" alt="@anime.title" />
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title text-center">@anime.title</h5>
+                            <p class="card-text text-center">Score: @anime.score • Type: @anime.type</p>
+                            <a href="@anime.myanimelist_url" target="_blank" class="btn btn-primary mt-auto mx-auto">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- TOP 4...+ -->
+    <div class="container mb-5">
+        <div class="row g-4">
+            @foreach (var anime in rest)
+            {
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="card h-100 anime-card shadow-sm">
+                        <div class="rank-badge">@anime.rank</div>
+                        <div class="anime-img-wrapper">
+                            <img src="@anime.picture_url" class="anime-img" alt="@anime.title" />
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">@anime.title</h5>
+                            <p class="card-text">Score: @anime.score • Type: @anime.type</p>
+                            <a href="@anime.myanimelist_url" target="_blank" class="btn btn-sm btn-outline-primary mt-auto mx-auto">View</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</main>

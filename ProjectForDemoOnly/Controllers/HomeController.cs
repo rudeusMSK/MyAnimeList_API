@@ -1,20 +1,20 @@
-﻿using RestSharp;
-using ProjectForDemoOnly.Models;
+﻿using System.Web.Mvc;
 using Newtonsoft.Json;
-using System.Web.Mvc;
-using System.Net.Http;
 using System.Threading.Tasks;
-using System;
-using ProjectForDemoOnly.Models.Services.MyAnimeListModel;
+using ProjectForDemoOnly.Models;
 using ProjectForDemoOnly.Services.MyAnimeList;
-using System.Web.Services.Description;
 
 namespace ProjectForDemoOnly.Controllers
 {
     public class HomeController : Controller
     {
+        // Create ErrorView:
+        private ErrorViewModel errorView = new ErrorViewModel() {
+            title = "Not connected to Service.",
+            Message = "> Go to Service selection.",
+        };
 
-        private ErrorViewModel errorView = new ErrorViewModel();
+        // Declare Services
         IMALServices services;
 
         public ActionResult index()
@@ -22,91 +22,88 @@ namespace ProjectForDemoOnly.Controllers
             return View();
         }
 
+        [HttpGet]
         public async Task<ActionResult> Top()
         {
             // Init Service:
             services = AnimeService.InitService(Request);
 
-            if (services == null)
-            {
-                errorView.title = "Chua ket noi service";
-                errorView.Message = "chon kieu ket noi";
-                return PartialView("Error", errorView);
-            }
+            // service processing:
+            if (services == null) return PartialView("Error", errorView);
+
             // Get Service:
                 var topAni = await services.GetTopAnimeAsync("all", 1);
                 return View(topAni);
         }
 
+        [HttpGet]
         public async Task<ActionResult> Recommendations()
         {
             // Init Service:
             services = AnimeService.InitService(Request);
 
-            if (services == null)
-            {
-                errorView.title = "Chua ket noi service";
-                errorView.Message = "chon kieu ket noi";
-                return PartialView("Error", errorView);
-            }
+            // service processing:
+            if (services == null) return PartialView("Error", errorView);
+
             // Get Service:
             var body = await services.Get_RecommendationsAsync(1);
             return View(body);
         }
 
+        [HttpGet]
         public async Task<ActionResult> Seasonal()
         {
             // Init Service:
             services = AnimeService.InitService(Request);
-            if (services == null)
-            {
-                errorView.title = "Chua ket noi service";
-                errorView.Message = "chon kieu ket noi";
-                return PartialView("Error", errorView);
-            }
-                // Get Service:
-                var AniOfSeasonal = await services.GetSeasonalAnimeAsync(null, 2025);
+
+            // service processing:
+            if (services == null) return PartialView("Error", errorView);
+
+            // Get Service:
+            var AniOfSeasonal = await services.GetSeasonalAnimeAsync(null, 2025);
                 return View(AniOfSeasonal);
         }
 
+        [HttpGet]
         public async Task<ActionResult> Review()
         {
-            IMALServices services = AnimeService.InitService(Request);
-            if (services == null)
-            {
-                errorView.title = "Chua ket noi service";
-                errorView.Message = "chon kieu ket noi";
-                return PartialView("Error", errorView);
-            }
+            // Init Service:
+            services = AnimeService.InitService(Request);
+
+            // service processing:
+            if (services == null) return PartialView("Error", errorView);
+
             // check id...
+
+            // Get Service:
             var body = await services.GetAnimeReviewAsync(1);
             return View(body);
         }
 
+        [HttpGet]
         public async Task<ActionResult> AnimeDetail()
         {
-            IMALServices services = AnimeService.InitService(Request);
-            if (services == null)
-            {
-                errorView.title = "Chua ket noi service";
-                errorView.Message = "chon kieu ket noi";
-                return PartialView("Error", errorView);
-            }
-            // check id...
-                var body = await services.GetAnimeInfoAsync(3352);
-                return View(body);
+            // Init Service:
+            services = AnimeService.InitService(Request);
+
+            // service processing:
+            if (services == null) return PartialView("Error", errorView);
+
+            // Get Service:
+            var body = await services.GetAnimeInfoAsync(3352);    
+            return View(body);
         }
 
+        [HttpGet]
         public async Task<ActionResult> Genres()
         {
-            IMALServices services = AnimeService.InitService(Request);
-            if (services == null)
-            {
-                errorView.title = "Chua ket noi service";
-                errorView.Message = "chon kieu ket noi";
-                return PartialView("Error", errorView);
-            }
-            // check id...
+            // Init Service:
+            services = AnimeService.InitService(Request);
+
+            // service processing:
+            if (services == null) return PartialView("Error", errorView);
+
+            // Get Service:
             var body = await services.GetGenresAsync(null);
             return View(body);
         }
@@ -116,18 +113,15 @@ namespace ProjectForDemoOnly.Controllers
             filterContext.ExceptionHandled = true;
             var ex = filterContext.Exception;
 
-            if (ex is JsonException je)
-            {
+            if (ex is JsonException je) {
                 errorView.title = "Json parsing error";
                 errorView.Message = je.Message;
-            }
-            else
-            {
+            } else {
                 errorView.title = "Exception:";
                 errorView.Message = ex.Message;
             }
 
-            // Trả về PartialView nếu là AJAX hoặc lấy từ view con
+            // Return PartialView if AJAX or get from child view
             if (filterContext.HttpContext.Request.IsAjaxRequest())
             {
                 filterContext.Result = new PartialViewResult
@@ -135,11 +129,7 @@ namespace ProjectForDemoOnly.Controllers
                     ViewName = "Error",
                     ViewData = new ViewDataDictionary(errorView)
                 };
-            }
-            else
-            {
-                filterContext.Result = View("Error", errorView);
-            }
+            } else filterContext.Result = View("Error", errorView);
         }
     }
 }
