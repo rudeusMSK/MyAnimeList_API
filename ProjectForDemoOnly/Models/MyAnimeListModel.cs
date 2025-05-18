@@ -1,25 +1,14 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Text.RegularExpressions;
-using System.Web;
 
 namespace ProjectForDemoOnly.Models.Services.MyAnimeListModel
 {
-
     public class MAL_Genres
     {
         public string title { get; set; }
         public int? amount { get; set; }
         public int id { get; set; }
     }
-
-
     public class MAL_AnimeInfo
     {
         public string title { get; set; }
@@ -73,14 +62,12 @@ namespace ProjectForDemoOnly.Models.Services.MyAnimeListModel
         public List<Movie> Movies { get; set; }
         public List<Special> Specials { get; set; }
     }
-
     public class Date
     {
         public string date_str { get; set; }
         public string time_str { get; set; }
         public object timestamp { get; set; }
     }
-
     public class AnimeObject
     {
         public string title { get; set; }
@@ -89,7 +76,6 @@ namespace ProjectForDemoOnly.Models.Services.MyAnimeListModel
         public string all_reviews_url { get; set; }
         public string picture_url { get; set; }
     }
-
     public class MAL_AnimeReview
     {
         [JsonProperty("object")]
@@ -99,21 +85,18 @@ namespace ProjectForDemoOnly.Models.Services.MyAnimeListModel
         public Text text { get; set; }
         public Date date { get; set; }
     }
-
     public class Text
     {
         public string visible { get; set; }
         public string hidden { get; set; }
         public string full { get; set; }
     }
-
     public class User
     {
         public string name { get; set; }
         public string url { get; set; }
         public string picture_url { get; set; }
     }
-
     public class Author
     {
         public string name { get; set; }
@@ -221,7 +204,6 @@ namespace ProjectForDemoOnly.Models.Services.MyAnimeListModel
         public string score { get; set; }
         public string members { get; set; }
     }
-
     public class TV
     {
         public string picture { get; set; }
@@ -237,7 +219,6 @@ namespace ProjectForDemoOnly.Models.Services.MyAnimeListModel
         public string score { get; set; }
         public string members { get; set; }
     }
-
     public class TVCon
     {
         public string picture { get; set; }
@@ -253,7 +234,6 @@ namespace ProjectForDemoOnly.Models.Services.MyAnimeListModel
         public string score { get; set; }
         public string members { get; set; }
     }
-
     public class TVNew
     {
         public string picture { get; set; }

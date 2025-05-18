@@ -5,6 +5,7 @@ using System.Web;
 
 namespace ProjectForDemoOnly.Services.MyAnimeList
 {
+    // Port Default: local JsonServer Services.
     public enum JsonServerPorts
     {
         AniOfSeasnal = 3000,

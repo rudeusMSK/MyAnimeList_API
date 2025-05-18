@@ -1,82 +1,120 @@
 ﻿@model IEnumerable<ProjectForDemoOnly.Models.Services.MyAnimeListModel.MAL_TopAnime>
+@using ProjectForDemoOnly.Services.MyAnimeList
 
 @{
-    ViewBag.Title = "Top";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    var topList = Model.OrderBy(a => a.rank).ToList();
+    var top3 = topList.Take(3).ToList();
+    var rest = topList.Skip(3).ToList();
 }
 
-<h2>Top</h2>
+<!-- ========================================================
+CSS: -->
+<link rel="stylesheet" href="~/Content/css/GenresPage.css">
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.picture_url)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.myanimelist_url)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.myanimelist_id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.rank)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.score)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.type)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.aired_on)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.members)
-        </th>
-        <th></th>
-    </tr>
+<!-- ========================================================
+HEADER: FILLTER -->
+<header class="py-5 text-center text-white">
+    <h1 class="display-4 fw-bold">Top Anime Series Rankings</h1>
+    <p class="lead">Discover the Highest Rated Anime</p>
+    <div class="container mb-4 filter-bar">
+        <div class="row g-2 justify-content-center align-items-center">
+            <!-- Dropdown Category -->
+            <div class="col-md-4">
+                <select class="form-control" name="" id="" required>
+                    <option value="">-- Chọn --</option>
+                    <option value="@CategoryOptions.all">@CategoryOptions.all</option>
+                    <option value="">@CategoryOptions.bypopularity</option>
+                    <option value="">@CategoryOptions.upcoming</option>
+                    <option value="">@CategoryOptions.airing</option>
+                    <option value="">@CategoryOptions.ona</option>
+                    <option value="">@CategoryOptions.ova</option>
+                    <option value="">@CategoryOptions.tv</option>
+                    <option value="">@CategoryOptions.special</option>
+                    <option value="">@CategoryOptions.movie</option>
+                    <option value="">@CategoryOptions.favorite</option>
+                </select>
+            </div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.picture_url)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.myanimelist_url)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.myanimelist_id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.rank)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.score)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.type)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.aired_on)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.members)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
-}
+            <!-- Input page -->
+            <div class="col-md-2">
+                <input type="number" name="page" class="form-control" min="1" value="@ViewBag.PageNumber" placeholder="Page" />
+            </div>
 
-</table>
+            <!-- fillter button -->
+            <div class="col-md-2">
+                <button class="btn btn-outline-light w-100" type="submit">
+                    Filter
+                </button>
+            </div>
+        </div>
+    </div>
+
+</header>
+
+<!-- ========================================================
+BODY: TOP 1-3, TOP 4... -->
+<main class="container py-4">
+
+    <div class="container my-5">
+        <!-- TOP 1-3 -->
+        <div class="row justify-content-center top-ranking gx-4 gy-4">
+            @foreach (var anime in top3)
+            {
+                string badgeClass = "";
+                string cardClass = "shadow-sm";
+
+                switch (anime.rank)
+                {
+                    case 1:
+                        badgeClass = "rank-2-badge";
+                        cardClass = "shadow-lg border-primary-subtle border-2";
+                        break;
+                    case 2:
+                        badgeClass = "rank-1-badge";
+                        cardClass = "shadow-lg border-danger-subtle border-2";
+                        break;
+                    case 3:
+                        badgeClass = "rank-3-badge";
+                        cardClass = "shadow-lg border-info-subtle border-2";
+                        break;
+                }
+
+                <div class="col-12 col-md-4">
+                    <div class="card h-100 anime-card @cardClass">
+                        <div class="rank-badge border-danger-subtle @badgeClass">@anime.rank</div>
+                        <div class="anime-img-wrapper">
+                            <img src="@anime.picture_url" class="anime-img" alt="@anime.title" />
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title text-center">@anime.title</h5>
+                            <p class="card-text text-center">Score: @anime.score • Type: @anime.type</p>
+                            <a href="@anime.myanimelist_url" target="_blank" class="btn btn-primary mt-auto mx-auto">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- TOP 4...+ -->
+    <div class="container mb-5">
+        <div class="row g-4">
+            @foreach (var anime in rest)
+            {
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="card h-100 anime-card shadow-sm">
+                        <div class="rank-badge">@anime.rank</div>
+                        <div class="anime-img-wrapper">
+                            <img src="@anime.picture_url" class="anime-img" alt="@anime.title" />
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">@anime.title</h5>
+                            <p class="card-text">Score: @anime.score • Type: @anime.type</p>
+                            <a href="@anime.myanimelist_url" target="_blank" class="btn btn-sm btn-outline-primary mt-auto mx-auto">View</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</main>

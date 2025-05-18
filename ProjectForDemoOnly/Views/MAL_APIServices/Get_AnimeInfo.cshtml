@@ -1,18 +1,20 @@
-﻿@model ProjectForDemoOnly.Models.Services.MyAnimeListModel.MAL_AnimeInfo
+﻿﻿@model ProjectForDemoOnly.Models.Services.MyAnimeListModel.MAL_AnimeInfo
 
 @{
     ViewBag.Title = "Get_AnimeInfo";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!-- Breadcrumb Begin -->
-<div class="breadcrumb-option">
+<!-- ================================================
+Breadcrumb Begin -->
+
+<div class="breadcrumb-option custom-color">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
-                    <a href="./index.html"><i class="fa fa-home"></i> Home</a>
-                    <a href="./categories.html">Categories</a>
+                    <a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> Home</a>
+                    <a href="@Url.Action("seasonal", "home")">anime</a>
                     <span id="anime-id">@Model.id</span>
                     <span id="anime-title">@Model.title</span>
                 </div>
@@ -20,8 +22,11 @@
         </div>
     </div>
 </div>
-<!-- Breadcrumb End -->
-<!-- Anime Section Begin -->
+
+
+<!-- ================================================
+Anime Section Begin -->
+
 <div class="container">
     <div class="row">
         <div class="col-lg-3">
@@ -122,20 +127,19 @@
                         </div>
                     </div>
 
-
-                    @*
-                        Review
-                    *@
-
+                    <!-- ================================================
+                    Anime Review Begin -->
                     <div id="AnimeReview-container"></div>
-
 
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- Anime Section End -->
+
+<!-- ================================================
+JS -->
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 @section scripts {
     <script>

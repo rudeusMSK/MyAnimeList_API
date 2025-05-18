@@ -3,9 +3,8 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using ProjectForDemoOnly.Models.Services.MyAnimeListModel;
-using System.Web.UI;
 using ProjectForDemoOnly.Models.Services;
+using ProjectForDemoOnly.Models.Services.MyAnimeListModel;
 
 namespace ProjectForDemoOnly.Services.MyAnimeList
 {
@@ -25,13 +24,16 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             // stringbuilder endpoint: name Server + base endpoint + params
         }
 
-        // API
+        // ========================== START ==========================
+        // APIs:
+
         public async Task<List<MAL_TopAnime>> GetTopAnimeAsync(string Category, int? page)
         {
             Category = "all";
 
             // Config:
             const string endpointFormat = "{0}top/{1}?p={2}";
+
             // Send request:
             string endpoint = string.Format(endpointFormat, nameServer, Category, page);
 
@@ -94,6 +96,9 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             string endpoint = string.Format(endpointFormat, nameServer, page);
             return await SendRequestAsync<List<MAL_Recommendations>>(endpoint, new HttpClient());
         }
+
+        // APIs:
+        // ========================== END ==========================
 
         // Process Send Request:
         private async Task<T> SendRequestAsync<T>(string endpoint,HttpClient httpClient)

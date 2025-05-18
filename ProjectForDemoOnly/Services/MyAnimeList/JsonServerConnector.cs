@@ -18,16 +18,21 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             // domain default:
             this.url = "http://localhost:";
         }
+
+        // ========================== START ==========================
+        // APIs:
+
         // Anime Recomendation:
         public async Task<List<MAL_Recommendations>> Get_RecommendationsAsync(int? page)
         {
             // Config:
-            string format = "{0}{1}Recommendations";
+            string format = "{0}{1}/Recommendation";
 
             // Send request:
-            string endpoint = string.Format(format, this.url, (int)JsonServerPorts.ReviewByAni);
+            string endpoint = string.Format(format, this.url, (int)JsonServerPorts.Recomendations);
             return await SendRequestAsync<List<MAL_Recommendations>>(endpoint,new HttpClient());
         }
+        
         // Review by Anime:
         public async Task<List<MAL_AnimeReview>> GetAnimeReviewAsync(int? id)
         {
@@ -39,27 +44,29 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             // process body respon ...
             return body;
         }
+        
         // Anime informations:
         public async Task<MAL_AnimeInfo> GetAnimeInfoAsync(int? id)
         {
             string format = "{0}{1}/AnimeInfo/";
-
             string endpoint = string.Format(format, this.url, (int)JsonServerPorts.AniInfo);
             // Send request url:
             var body = await SendRequestAsync<MAL_AnimeInfo>(endpoint, new HttpClient());
             // process body respon ...
             return body;
         }
+        
         // Genres:
         public async Task<List<MAL_Genres>> GetGenresAsync(int? id)
         {
             string format = "{0}{1}/Genres/";
             string endpoint = string.Format(format, this.url, (int)JsonServerPorts.Genres);
-            
+            // Send request url:
             var body = await SendRequestAsync<List<MAL_Genres>>(endpoint, new HttpClient());
             // process body respon ...
             return body;
         }
+        
         // Top Anime:
         public async Task<List<MAL_TopAnime>> GetTopAnimeAsync(string Category, int? page) // Refactor param {int? top}
         {
@@ -68,15 +75,13 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
 
             //string format = "{0}{1}top/{2}?p={3}";
             string format = "{0}{1}/TopAnime?_start={2}&_end={3}";
-
-            // Config url: {0:Url} {1:port} {2:category} {3:page}
-            // string endpoint = string.Format(format,this.url, JsonServerPorts.TopAni, Category, page);
             string endpoint = string.Format(format, this.url, (int)JsonServerPorts.TopAni,0, 10);
             // Send request url:
             var body = await SendRequestAsync<List<MAL_TopAnime>>(endpoint, new HttpClient());
             // process body respon ...
             return body;
         }
+        
         // Anime Of Season:
         public async Task<MAL_AnimeOfSeason> GetSeasonalAnimeAsync(string season, int? year)
         {
@@ -105,8 +110,11 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             return animeOfSeason;
         }
 
-        /* ============================================================== 
-         * Anime TV SHOW */
+        // APIs:
+        // ========================== END ==========================
+
+        // ========================== START ==========================
+        // Anime TV SHOW
 
         public async Task<List<TV>> GetAnimeTVAsync(string season, int? year) // Refactor params {season, year, start, end}
         {
@@ -172,9 +180,9 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             var special = await SendRequestAsync<List<Special>>(endpoint, new HttpClient());
             return special;
         }
-
-        /* Anime TV SHOW *
-         * ==============================================================  */
+        
+        // APIs:
+        // ========================== END ==========================
 
         // Process Send Request:
         private async Task<T> SendRequestAsync<T>(string endpoint, HttpClient httpClient)

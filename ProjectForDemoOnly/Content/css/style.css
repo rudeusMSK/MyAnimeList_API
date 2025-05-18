@@ -33,10 +33,10 @@
 
 html,
 body {
-	height: 100%;
+	height: auto;
 	font-family: "Mulish", sans-serif;
 	-webkit-font-smoothing: antialiased;
-	background: #0b0c2a;
+	background: #052c65;
 }
 
 h1,
@@ -46,7 +46,7 @@ h4,
 h5,
 h6 {
 	margin: 0;
-	color: #111111;
+	color: #ffffff !important;
 	font-weight: 400;
 	font-family: "Mulish", sans-serif;
 }
@@ -114,6 +114,11 @@ ol {
 
 .section-title {
 	margin-bottom: 30px;
+}
+
+.custom-color {
+	background-color: #0a0a30 !important;
+	color: white;
 }
 
 .section-title h4,
@@ -1672,7 +1677,7 @@ padding: 0;
 	color: #a6a6a6;
 }
 
-.blog__details__form form input::-ms-input-placeholder {
+.blog__details__form form input:-ms-input-placeholder {
 	color: #a6a6a6;
 }
 
@@ -1706,7 +1711,7 @@ padding: 0;
 	color: #a6a6a6;
 }
 
-.blog__details__form form textarea::-ms-input-placeholder {
+.blog__details__form form textarea:-ms-input-placeholder {
 	color: #a6a6a6;
 }
 
@@ -1783,7 +1788,7 @@ padding: 0;
 	color: #b7b7b7;
 }
 
-.login__form form .input__item input::-ms-input-placeholder {
+.login__form form .input__item input:-ms-input-placeholder {
 	color: #b7b7b7;
 }
 
