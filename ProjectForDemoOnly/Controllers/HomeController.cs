@@ -3,6 +3,12 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using ProjectForDemoOnly.Models;
 using ProjectForDemoOnly.Services.MyAnimeList;
+using System.Drawing.Printing;
+using System.Web.UI;
+using ProjectForDemoOnly.Models.Services.MyAnimeListModel;
+using System.Collections.Generic;
+using Microsoft.Ajax.Utilities;
+using System.Linq;
 
 namespace ProjectForDemoOnly.Controllers
 {
@@ -23,8 +29,11 @@ namespace ProjectForDemoOnly.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Top()
+        public async Task<ActionResult> Top(int? page)
         {
+
+            page = page == null? 1: page;
+
             // Init Service:
             services = AnimeService.InitService(Request);
 
@@ -32,8 +41,14 @@ namespace ProjectForDemoOnly.Controllers
             if (services == null) return PartialView("Error", errorView);
 
             // Get Service:
-                var topAni = await services.GetTopAnimeAsync("all", 1);
-                return View(topAni);
+            var topAni = await services.GetTopAnimeAsync("all", page);
+
+            if (!topAni.Any()) return RedirectToAction("Top");
+
+            ViewBag.PageNumber = page;
+            ViewBag.PageSize = 10;
+
+            return View(topAni);
         }
 
         [HttpGet]
