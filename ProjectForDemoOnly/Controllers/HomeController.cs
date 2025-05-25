@@ -1,14 +1,9 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using ProjectForDemoOnly.Models;
 using ProjectForDemoOnly.Services.MyAnimeList;
-using System.Drawing.Printing;
-using System.Web.UI;
-using ProjectForDemoOnly.Models.Services.MyAnimeListModel;
-using System.Collections.Generic;
-using Microsoft.Ajax.Utilities;
-using System.Linq;
 
 namespace ProjectForDemoOnly.Controllers
 {
@@ -29,10 +24,11 @@ namespace ProjectForDemoOnly.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Top(int? page)
+        public async Task<ActionResult> Top(int? page, string category)
         {
-
+            // process: page number and cate option
             page = page == null? 1: page;
+            category = category == null? CategoryOptions.all.ToString() : category;
 
             // Init Service:
             services = AnimeService.InitService(Request);
@@ -41,12 +37,15 @@ namespace ProjectForDemoOnly.Controllers
             if (services == null) return PartialView("Error", errorView);
 
             // Get Service:
-            var topAni = await services.GetTopAnimeAsync("all", page);
+            var topAni = await services.GetTopAnimeAsync(category, page);
 
+            // Handle processing after completing the list:
             if (!topAni.Any()) return RedirectToAction("Top");
 
+            // Return page number and size:
             ViewBag.PageNumber = page;
-            ViewBag.PageSize = 10;
+            ViewBag.Category = category;
+            ViewBag.PageSize = 10; // jsonServer Default
 
             return View(topAni);
         }

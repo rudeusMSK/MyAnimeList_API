@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using ProjectForDemoOnly.Models.Services;
 using ProjectForDemoOnly.Models.Services.MyAnimeListModel;
 
-
 namespace ProjectForDemoOnly.Services.MyAnimeList
 {
     public class JsonServerConnector : IMALServices
@@ -115,7 +114,7 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
         }
 
         // APIs:
-        // ========================== END ==========================
+        // ========================== END ============================
 
         // ========================== START ==========================
         // Anime TV SHOW
@@ -184,9 +183,9 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             var special = await SendRequestAsync<List<Special>>(endpoint, new HttpClient());
             return special;
         }
-        
-        // APIs:
-        // ========================== END ==========================
+
+        // ========================== Start ==========================
+        // Funtions:
 
         // Process Send Request:
         private async Task<T> SendRequestAsync<T>(string endpoint, HttpClient httpClient)
