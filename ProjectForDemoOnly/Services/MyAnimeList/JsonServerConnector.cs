@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using ProjectForDemoOnly.Models.Services;
 using ProjectForDemoOnly.Models.Services.MyAnimeListModel;
 
-
 namespace ProjectForDemoOnly.Services.MyAnimeList
 {
     public class JsonServerConnector : IMALServices
@@ -71,11 +70,15 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
         public async Task<List<MAL_TopAnime>> GetTopAnimeAsync(string Category, int? page) // Refactor param {int? top}
         {
             // page default:
-            // page = page?? 1;
+            page = page == null ? 1 : page;
+            int pageSize = 10;
+
+            int? start = (page - 1) * pageSize;
+            int? end = start + pageSize;
 
             //string format = "{0}{1}top/{2}?p={3}";
             string format = "{0}{1}/TopAnime?_start={2}&_end={3}";
-            string endpoint = string.Format(format, this.url, (int)JsonServerPorts.TopAni,0, 10);
+            string endpoint = string.Format(format, this.url, (int)JsonServerPorts.TopAni, start, end);
             // Send request url:
             var body = await SendRequestAsync<List<MAL_TopAnime>>(endpoint, new HttpClient());
             // process body respon ...
@@ -111,7 +114,7 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
         }
 
         // APIs:
-        // ========================== END ==========================
+        // ========================== END ============================
 
         // ========================== START ==========================
         // Anime TV SHOW
@@ -180,9 +183,9 @@ namespace ProjectForDemoOnly.Services.MyAnimeList
             var special = await SendRequestAsync<List<Special>>(endpoint, new HttpClient());
             return special;
         }
-        
-        // APIs:
-        // ========================== END ==========================
+
+        // ========================== Start ==========================
+        // Funtions:
 
         // Process Send Request:
         private async Task<T> SendRequestAsync<T>(string endpoint, HttpClient httpClient)

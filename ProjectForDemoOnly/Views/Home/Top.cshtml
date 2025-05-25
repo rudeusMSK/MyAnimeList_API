@@ -13,82 +13,144 @@ CSS: -->
 
 <!-- ========================================================
 HEADER: FILLTER -->
-<header class="py-5 text-center text-white">
-    <h1 class="display-4 fw-bold">Top Anime Series Rankings</h1>
+<header class="py-5 text-center">
+    <h1 class="display-4 fw-bold text-dark">Top Anime Series Rankings</h1>
     <p class="lead">Discover the Highest Rated Anime</p>
-    <div class="container mb-4 filter-bar">
-        <div class="row g-2 justify-content-center align-items-center">
-            <!-- Dropdown Category -->
-            <div class="col-md-4">
-                <select class="form-control" name="" id="" required>
-                    <option value="">-- Chọn --</option>
-                    <option value="@CategoryOptions.all">@CategoryOptions.all</option>
-                    <option value="">@CategoryOptions.bypopularity</option>
-                    <option value="">@CategoryOptions.upcoming</option>
-                    <option value="">@CategoryOptions.airing</option>
-                    <option value="">@CategoryOptions.ona</option>
-                    <option value="">@CategoryOptions.ova</option>
-                    <option value="">@CategoryOptions.tv</option>
-                    <option value="">@CategoryOptions.special</option>
-                    <option value="">@CategoryOptions.movie</option>
-                    <option value="">@CategoryOptions.favorite</option>
-                </select>
-            </div>
 
-            <!-- Input page -->
-            <div class="col-md-2">
-                <input type="number" name="page" class="form-control" min="1" value="@ViewBag.PageNumber" placeholder="Page" />
-            </div>
-
-            <!-- fillter button -->
-            <div class="col-md-2">
-                <button class="btn btn-outline-light w-100" type="submit">
-                    Filter
-                </button>
-            </div>
-        </div>
+    <!-- ========================================================
+    WANNING: -->
+    <div class="alert alert-warning w-75 mx-auto" role="alert">
+        <strong>Xin chào</strong> ! hiện tại JSON Server chưa được hỗ trợ filter cho thể loại (Anime Category) nhưng vẫn có thể dùng được khi chuyển qua Rappi á.
+        <br /> - cảm ơn vì đã đọc - ฅ^•ﻌ•^ฅ  -
     </div>
 
+    <!-- ========================================================
+    FILLTER FORM: -->
+    <form method="get" action="@Url.Action("Top")">
+        <div class="container mb-4 filter-bar">
+            <div class="row g-2 justify-content-center align-items-center">
+                <!-- Dropdown Category -->
+                <div class="col-md-4">
+                    <select class="form-control" name="category" required>
+                        <option value="all" @(ViewBag.Category == "all" ? "selected" : "")>All</option>
+                        <option value="bypopularity" @(ViewBag.Category == "bypopularity" ? "selected" : "")>By Popularity</option>
+                        <option value="upcoming" @(ViewBag.Category == "upcoming" ? "selected" : "")>Upcoming</option>
+                        <option value="airing" @(ViewBag.Category == "airing" ? "selected" : "")>Airing</option>
+                        <option value="ona" @(ViewBag.Category == "ona" ? "selected" : "")>ONA</option>
+                        <option value="ova" @(ViewBag.Category == "ova" ? "selected" : "")>OVA</option>
+                        <option value="tv" @(ViewBag.Category == "tv" ? "selected" : "")>TV</option>
+                        <option value="special" @(ViewBag.Category == "special" ? "selected" : "")>Special</option>
+                        <option value="movie" @(ViewBag.Category == "movie" ? "selected" : "")>Movie</option>
+                        <option value="favorite" @(ViewBag.Category == "favorite" ? "selected" : "")>Favorite</option>
+                    </select>
+                </div>
+
+                <!-- Input page -->
+                <div class="col-md-2">
+                    <input type="number" name="page" class="form-control" min="1" value="@ViewBag.PageNumber" placeholder="Page" />
+                </div>
+
+                <!-- Filter button -->
+                <div class="col-md-2">
+                    <button class="btn btn-outline-primary w-100" type="submit">
+                        Filter
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!-- ========================================================
+    PAGE LIST: -->
+    <div class="pagination justify-content-center d-flex align-items-center">
+        @if (ViewBag.PageNumber > 1)
+        {
+            <a href="@Url.Action("Top", new { page = ViewBag.PageNumber - 1, category = ViewBag.Category })" class="btn btn-outline-secondary">Trang trước</a>
+        }
+
+        <span class="mx-2">Trang @ViewBag.PageNumber</span>
+
+        <a href="@Url.Action("Top", new { page = ViewBag.PageNumber + 1, category = ViewBag.Category })" class="btn btn-outline-secondary">Trang sau</a>
+    </div>
+
+
+
 </header>
+
 
 <!-- ========================================================
 BODY: TOP 1-3, TOP 4... -->
 <main class="container py-4">
-
     <div class="container my-5">
         <!-- TOP 1-3 -->
         <div class="row justify-content-center top-ranking gx-4 gy-4">
-            @foreach (var anime in top3)
+            <!-- Rank 2: Bên trái -->
+            @{
+                var animeRank2 = top3.FirstOrDefault(a => a.rank == 2);
+                var badgeClass = "rank-1-badge";
+                var cardClass = "shadow-lg border-primary-subtle border-2";
+            }
+
+            @if (animeRank2 != null)
             {
-                string badgeClass = "";
-                string cardClass = "shadow-sm";
-
-                switch (anime.rank)
-                {
-                    case 1:
-                        badgeClass = "rank-2-badge";
-                        cardClass = "shadow-lg border-primary-subtle border-2";
-                        break;
-                    case 2:
-                        badgeClass = "rank-1-badge";
-                        cardClass = "shadow-lg border-danger-subtle border-2";
-                        break;
-                    case 3:
-                        badgeClass = "rank-3-badge";
-                        cardClass = "shadow-lg border-info-subtle border-2";
-                        break;
-                }
-
-                <div class="col-12 col-md-4">
+                <div class="col-12 col-md-3">
                     <div class="card h-100 anime-card @cardClass">
-                        <div class="rank-badge border-danger-subtle @badgeClass">@anime.rank</div>
-                        <div class="anime-img-wrapper">
-                            <img src="@anime.picture_url" class="anime-img" alt="@anime.title" />
+                        <div class="rank-badge @badgeClass">@animeRank2.rank</div>
+                        <div class="anime-img-wrapper d-flex justify-content-center align-items-center" style="height: 200px; overflow: hidden;">
+                            <img src="@animeRank2.picture_url" class="img-fluid" alt="@animeRank2.title" />
                         </div>
                         <div class="card-body d-flex flex-column">
-                            <h5 class="card-title text-center">@anime.title</h5>
-                            <p class="card-text text-center">Score: @anime.score • Type: @anime.type</p>
-                            <a href="@anime.myanimelist_url" target="_blank" class="btn btn-primary mt-auto mx-auto">View Details</a>
+                            <h5 class="card-title text-center text-dark">@animeRank2.title</h5>
+                            <p class="card-text text-center">Score: @animeRank2.score • Type: @animeRank2.type</p>
+                            <a href="@animeRank2.myanimelist_url" target="_blank" class="btn btn-primary mt-auto mx-auto">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- Rank 1: Ở giữa -->
+            @{
+                var animeRank1 = top3.FirstOrDefault(a => a.rank == 1);
+                badgeClass = "rank-2-badge";
+                cardClass = "shadow-lg border-danger-subtle border-2";
+            }
+
+            @if (animeRank1 != null)
+            {
+                <div class="col-12 col-md-3">
+                    <div class="card h-100 anime-card @cardClass">
+                        <div class="rank-badge @badgeClass">@animeRank1.rank</div>
+                        <div class="anime-img-wrapper d-flex justify-content-center align-items-center" style="height: 200px; overflow: hidden;">
+                            <img src="@animeRank1.picture_url" class="img-fluid" alt="@animeRank1.title" />
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title text-center text-dark">@animeRank1.title</h5>
+                            <p class="card-text text-center">Score: @animeRank1.score • Type: @animeRank1.type</p>
+                            <a href="@animeRank1.myanimelist_url" target="_blank" class="btn btn-primary mt-auto mx-auto">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- Rank 3: Bên phải -->
+            @{
+                var animeRank3 = top3.FirstOrDefault(a => a.rank == 3);
+                badgeClass = "rank-3-badge";
+                cardClass = "shadow-lg border-info-subtle border-2";
+            }
+
+            @if (animeRank3 != null)
+            {
+                <div class="col-12 col-md-3">
+                    <div class="card h-100 anime-card @cardClass">
+                        <div class="rank-badge @badgeClass">@animeRank3.rank</div>
+                        <div class="anime-img-wrapper d-flex justify-content-center align-items-center" style="height: 200px; overflow: hidden;">
+                            <img src="@animeRank3.picture_url" class="img-fluid" alt="@animeRank3.title" />
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title text-center text-dark">@animeRank3.title</h5>
+                            <p class="card-text text-center">Score: @animeRank3.score • Type: @animeRank3.type</p>
+                            <a href="@animeRank3.myanimelist_url" target="_blank" class="btn btn-primary mt-auto mx-auto">View Details</a>
                         </div>
                     </div>
                 </div>
@@ -101,14 +163,14 @@ BODY: TOP 1-3, TOP 4... -->
         <div class="row g-4">
             @foreach (var anime in rest)
             {
-                <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="col-sm-6 col-lg-3 col-12 col-md-3">
                     <div class="card h-100 anime-card shadow-sm">
                         <div class="rank-badge">@anime.rank</div>
-                        <div class="anime-img-wrapper">
+                        <div class="anime-img-wrapper d-flex justify-content-center align-items-center">
                             <img src="@anime.picture_url" class="anime-img" alt="@anime.title" />
                         </div>
                         <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">@anime.title</h5>
+                            <h5 class="card-title text-dark">@anime.title</h5>
                             <p class="card-text">Score: @anime.score • Type: @anime.type</p>
                             <a href="@anime.myanimelist_url" target="_blank" class="btn btn-sm btn-outline-primary mt-auto mx-auto">View</a>
                         </div>
@@ -117,4 +179,19 @@ BODY: TOP 1-3, TOP 4... -->
             }
         </div>
     </div>
+
+    <!-- ========================================================
+    PAGE LIST: -->
+    <div class="pagination justify-content-center d-flex align-items-center">
+        @if (ViewBag.PageNumber > 1)
+        {
+            <a href="@Url.Action("Top", new { page = ViewBag.PageNumber - 1, category = ViewBag.Category })" class="btn btn-outline-secondary">Trang trước</a>
+        }
+
+        <span class="mx-2">Trang @ViewBag.PageNumber</span>
+
+        <a href="@Url.Action("Top", new { page = ViewBag.PageNumber + 1, category = ViewBag.Category })" class="btn btn-outline-secondary">Trang sau</a>
+    </div>
+    <p></p>
+
 </main>
