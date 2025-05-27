@@ -7,35 +7,71 @@
 
 <div class="container py-4">
     <header class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="text-gradient">Winter 2024 Anime</h1>
+        <h1 class="position-absolute start-50 translate-middle-x text-info text-gradient">Seasonal: Winter - Year: 2024 Anime</h1>
         <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="darkModeToggle">
-            <label class="form-check-label" for="darkModeToggle">Dark Mode</label>
+            @*<input class="form-check-input" type="checkbox" id="darkModeToggle">
+                <label class="form-check-label" for="darkModeToggle">Dark Mode</label>*@
         </div>
     </header>
 
     <div class="row mb-4 search-section p-3 rounded">
-        <div class="col-md-6">
-            <input type="search" class="form-control custom-input" placeholder="Search anime...">
+
+        <form method="get" action="@Url.Action("")">
+            <div class="container mb-4 filter-bar">
+                <div class="row g-2 justify-content-center align-items-center">
+                    <!-- Dropdown Category -->
+                    <div class="col-md-4">
+                        <select class="form-control" name="category" required>
+                            <option value="" @(ViewBag.Category == "all" ? "selected" : "")>Seasonal</option>
+                            <option value="" @(ViewBag.Category == "" ? "selected" : "")>xuan</option>
+                            <option value="" @(ViewBag.Category == "" ? "selected" : "")>ha</option>
+                            <option value="" @(ViewBag.Category == "" ? "selected" : "")>thu</option>
+                            <option value="" @(ViewBag.Category == "" ? "selected" : "")>dong</option>
+                        </select>
+                    </div>
+
+                    <!-- Input page -->
+                    <div class="col-md-2">
+                        <input type="number" name="page" class="form-control" min="1" value="@ViewBag.year" placeholder="year" />
+                    </div>
+
+                    <!-- Filter button -->
+                    <div class="col-md-2">
+                        <button class="btn btn-outline-primary w-100" type="submit">
+                            Filter
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="input-group mb-3">
+            <input type="text" id="searchInput" class="form-control border-0 bg-transparent shadow-none" placeholder="Tìm anime..." aria-label="searchInput">
         </div>
-        <div class="col-md-3">
-            <select class="form-select custom-input">
-                <option>Sort by Release Date</option>
-                <option>Sort by Score</option>
-                <option>Sort by Popularity</option>
-            </select>
-        </div>
+        <div id="searchResults" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4 d-none border-opacity-100"></div>
     </div>
 
     <ul class="nav nav-tabs custom-tabs mb-4" role="tablist">
+
         <li class="nav-item">
             <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tv">TV Series</button>
         </li>
         <li class="nav-item">
-            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#movies">Movies</button>
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tvnew">TV New</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tvcon">TV Con</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#movies">Movie</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#special">special</button>
         </li>
         <li class="nav-item">
             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#ova">OVA</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#ona">ONA</button>
         </li>
     </ul>
 
@@ -48,20 +84,24 @@
                     {
                         <div class="col">
                             <div class="card h-100 anime-card glass-effect">
-                                @if (anime.fromType == "New")
-                                {
-                                    <div class="card-badge">New</div>
-                                }
-                                <img src="@anime.picture" class="card-img-top" alt="Anime Thumbnail">
+                                <div class="position-relative">
+                                    <img src="@anime.picture" class="card-img-top" alt="Anime Thumbnail">
+                                    @if (anime.fromType == "New")
+                                    {
+                                        <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-2 rounded-pill">
+                                            New
+                                        </span>
+                                    }
+                                </div>
                                 <div class="card-body">
-                                    <h5 class="card-title highlight-text">@anime.title</h5>
+                                    <h5 class="card-title highlight-text text-black">@anime.title</h5>
                                     <div class="mb-2">
                                         @foreach (var genre in anime.genres)
                                         {
-                                            <span class="badge custom-badge me-1">@genre</span>
+                                            <span class="badge custom-badge me-1 glass-effect  bg-warning rounded-pill">@genre</span>
                                         }
                                     </div>
-                                    <p class="card-text info-text">
+                                    <p class="card-text info-text text-black">
                                         <i class="bi bi-calendar"></i> @anime.releaseDate<br>
                                         <i class="bi bi-collection"></i> @anime.nbEp Episodes<br>
                                         <i class="bi bi-star-fill text-warning"></i> @anime.score
@@ -72,8 +112,279 @@
                     }
                 </div>
             }
-            </div>
-            
+        </div>
 
+        <div class="tab-pane fade" id="tvnew">
+            @if (Model != null && Model.TVNew != null)
+            {
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
+                    @foreach (var anime in Model.TVNew)
+                    {
+                        <div class="col">
+                            <div class="card h-100 anime-card glass-effect">
+                                <div class="position-relative">
+                                    <img src="@anime.picture" class="card-img-top" alt="Anime Thumbnail">
+                                    @if (anime.fromType == "New")
+                                    {
+                                        <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-2 rounded-pill">
+                                            New
+                                        </span>
+                                    }
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title highlight-text text-black">@anime.title</h5>
+                                    <div class="mb-2">
+                                        @foreach (var genre in anime.genres)
+                                        {
+                                            <span class="badge custom-badge me-1 glass-effect  bg-warning rounded-pill">@genre</span>
+                                        }
+                                    </div>
+                                    <p class="card-text info-text text-black">
+                                        <i class="bi bi-calendar"></i> @anime.releaseDate<br>
+                                        <i class="bi bi-collection"></i> @anime.nbEp Episodes<br>
+                                        <i class="bi bi-star-fill text-warning"></i> @anime.score
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="tab-pane fade" id="tvcon">
+            @if (Model != null && Model.TVCon != null)
+            {
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
+                    @foreach (var anime in Model.TVCon)
+                    {
+                        <div class="col">
+                            <div class="card h-100 anime-card glass-effect">
+                                <div class="position-relative">
+                                    <img src="@anime.picture" class="card-img-top" alt="Anime Thumbnail">
+                                    @if (anime.fromType == "New")
+                                    {
+                                        <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-2 rounded-pill">
+                                            New
+                                        </span>
+                                    }
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title highlight-text text-black">@anime.title</h5>
+                                    <div class="mb-2">
+                                        @foreach (var genre in anime.genres)
+                                        {
+                                            <span class="badge custom-badge me-1 glass-effect  bg-warning rounded-pill">@genre</span>
+                                        }
+                                    </div>
+                                    <p class="card-text info-text text-black">
+                                        <i class="bi bi-calendar"></i> @anime.releaseDate<br>
+                                        <i class="bi bi-collection"></i> @anime.nbEp Episodes<br>
+                                        <i class="bi bi-star-fill text-warning"></i> @anime.score
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="tab-pane fade" id="movies">
+            @if (Model != null && Model.Movies != null)
+            {
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
+                    @foreach (var anime in Model.Movies)
+                    {
+                        <div class="col">
+                            <div class="card h-100 anime-card glass-effect">
+                                <div class="position-relative">
+                                    <img src="@anime.picture" class="card-img-top" alt="Anime Thumbnail">
+                                    @if (anime.fromType == "New")
+                                    {
+                                        <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-2 rounded-pill">
+                                            New
+                                        </span>
+                                    }
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title highlight-text text-black">@anime.title</h5>
+                                    <div class="mb-2">
+                                        @foreach (var genre in anime.genres)
+                                        {
+                                            <span class="badge custom-badge me-1 glass-effect  bg-warning rounded-pill">@genre</span>
+                                        }
+                                    </div>
+                                    <p class="card-text info-text text-black">
+                                        <i class="bi bi-calendar"></i> @anime.releaseDate<br>
+                                        <i class="bi bi-collection"></i> @anime.nbEp Episodes<br>
+                                        <i class="bi bi-star-fill text-warning"></i> @anime.score
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="tab-pane fade" id="special">
+            @if (Model != null && Model.Specials != null)
+            {
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
+                    @foreach (var anime in Model.Specials)
+                    {
+                        <div class="col">
+                            <div class="card h-100 anime-card glass-effect">
+                                <div class="position-relative">
+                                    <img src="@anime.picture" class="card-img-top" alt="Anime Thumbnail">
+                                    @if (anime.fromType == "New")
+                                    {
+                                        <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-2 rounded-pill">
+                                            New
+                                        </span>
+                                    }
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title highlight-text text-black">@anime.title</h5>
+                                    <div class="mb-2">
+                                        @foreach (var genre in anime.genres)
+                                        {
+                                            <span class="badge custom-badge me-1 glass-effect  bg-warning rounded-pill">@genre</span>
+                                        }
+                                    </div>
+                                    <p class="card-text info-text text-black">
+                                        <i class="bi bi-calendar"></i> @anime.releaseDate<br>
+                                        <i class="bi bi-collection"></i> @anime.nbEp Episodes<br>
+                                        <i class="bi bi-star-fill text-warning"></i> @anime.score
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="tab-pane fade" id="ova">
+            @if (Model != null && Model.OVAs != null)
+            {
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
+                    @foreach (var anime in Model.OVAs)
+                    {
+                        <div class="col">
+                            <div class="card h-100 anime-card glass-effect">
+                                <div class="position-relative">
+                                    <img src="@anime.picture" class="card-img-top" alt="Anime Thumbnail">
+                                    @if (anime.fromType == "New")
+                                    {
+                                        <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-2 rounded-pill">
+                                            New
+                                        </span>
+                                    }
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title highlight-text text-black">@anime.title</h5>
+                                    <div class="mb-2">
+                                        @foreach (var genre in anime.genres)
+                                        {
+                                            <span class="badge custom-badge me-1 glass-effect  bg-warning rounded-pill">@genre</span>
+                                        }
+                                    </div>
+                                    <p class="card-text info-text text-black">
+                                        <i class="bi bi-calendar"></i> @anime.releaseDate<br>
+                                        <i class="bi bi-collection"></i> @anime.nbEp Episodes<br>
+                                        <i class="bi bi-star-fill text-warning"></i> @anime.score
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="tab-pane fade" id="ona">
+            @if (Model != null && Model.ONAs != null)
+            {
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
+                    @foreach (var anime in Model.ONAs)
+                    {
+                        <div class="col">
+                            <div class="card h-100 anime-card glass-effect">
+                                <div class="position-relative">
+                                    <img src="@anime.picture" class="card-img-top" alt="Anime Thumbnail">
+                                    @if (anime.fromType == "New")
+                                    {
+                                        <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-2 rounded-pill">
+                                            New
+                                        </span>
+                                    }
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title highlight-text text-black">@anime.title</h5>
+                                    <div class="mb-2">
+                                        @foreach (var genre in anime.genres)
+                                        {
+                                            <span class="badge custom-badge me-1 glass-effect  bg-warning rounded-pill">@genre</span>
+                                        }
+                                    </div>
+                                    <p class="card-text info-text text-black">
+                                        <i class="bi bi-calendar"></i> @anime.releaseDate<br>
+                                        <i class="bi bi-collection"></i> @anime.nbEp.ToString() Episodes<br>
+                                        <i class="bi bi-star-fill text-warning"></i> @anime.score
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
     </div>
 </div>
+
+<script>
+    const searchInput = document.getElementById("searchInput");
+    const searchResults = document.getElementById("searchResults");
+    const tabContent = document.querySelector(".tab-content");
+
+    searchInput.addEventListener("input", function () {
+        const query = this.value.toLowerCase().trim();
+
+        if (query === "") {
+            // Nếu rỗng thì ẩn kết quả tìm kiếm, hiện lại tab gốc
+            searchResults.classList.add("d-none");
+            tabContent.classList.remove("d-none");
+            return;
+        }
+
+        // Xóa kết quả cũ
+        searchResults.innerHTML = "";
+
+        // Lấy tất cả các card từ tất cả các tab (kể cả đang ẩn)
+        const allCards = document.querySelectorAll(".anime-card");
+
+        let hasResult = false;
+
+        allCards.forEach(card => {
+            const title = card.querySelector(".card-title")?.textContent.toLowerCase() || "";
+
+            if (title.includes(query)) {
+                // Clone thẻ card khớp kết quả
+                const cloneCol = card.closest(".col").cloneNode(true);
+                searchResults.appendChild(cloneCol);
+                hasResult = true;
+            }
+        });
+
+        // Hiện kết quả, ẩn tab
+        searchResults.classList.remove("d-none");
+        tabContent.classList.add("d-none");
+
+        if (!hasResult) {
+            searchResults.innerHTML = "<div class='col'><p>Không tìm thấy anime.</p></div>";
+        }
+    });
+</script>
+
